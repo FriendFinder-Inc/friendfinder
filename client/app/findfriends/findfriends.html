@@ -1,0 +1,76 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="ui stackable four column grid">
+  <!-- left side  -->
+  <div class="four wide column">
+    <div class='ui styled fluid accordion'>
+      filters
+      <div class="active title">
+        <i class="dropdown icon"></i>
+        gender: male
+      </div>
+      <div class="active content">
+        <p>there will be options to choose from here soon...</p>
+      </div>
+      <div class="active title">
+        <i class="dropdown icon"></i>
+        distance
+      </div>
+    </div>
+    <button class='fluid ui blue button' ng-click='find()'>find</button>
+  </div>
+  <!-- right side -->
+  <div class="twelve wide column">
+    <div class='ui grid'>
+      <div class='doubling two column row'>
+        <div class='column'>
+          <div class="ui items">
+            <!-- item1 -->
+              <div class="item" style='max-height: 100px;' ng-repeat='user in oddUsers'>
+                <div class="image">
+                  <img ng-src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=500&height=500&">
+                </div>
+                <div class="content">
+                  <a class="header">{{ user.name }}</a>
+                  <div class="meta">
+                    <span class="cinema">{{ user.facebook.location.name }}</span>
+                  </div>
+                  <div class="extra">
+                    <div class="ui horizontal label">more</div>
+                    <div class="ui horizontal label"><i class="globe icon"></i>info here</div>
+                  </div>
+                  <div class="description">
+                    This will eventually be a quick little introduction paragraph the users will create...
+                  </div>
+
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class='column'>
+          <div class="ui items">
+            <!-- item2 -->
+            <div class="item" style='max-height: 100px;' ng-repeat='user in evenUsers'>
+              <div class="image">
+                <img ng-src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=500&height=500&">
+              </div>
+              <div class="content">
+                <a class="header">{{ user.name }}</a>
+                <div class="meta">
+                  <span class="cinema">{{ user.facebook.location.name }}</span>
+                </div>
+                <div class="extra">
+                  <div class="ui horizontal label">icon</div>
+                  <div class="ui horizontal label"><i class="globe icon"></i>icon2</div>
+                </div>
+                <div class="description">
+                  placeholder
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
