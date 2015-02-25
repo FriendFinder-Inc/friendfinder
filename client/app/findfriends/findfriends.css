@@ -1,0 +1,9 @@
+.disabled.title {
+  cursor: default;
+  background-color: #dcddde !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.3 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
