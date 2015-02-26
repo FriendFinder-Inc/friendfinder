@@ -52,16 +52,45 @@ angular.module('friendfinderApp')
       // preserve order
       $scope.evenUsers = [];
       $scope.oddUsers = [];
-      $scope.filters = $scope.filterChoices.slice(0, 2);
 
-      User.find({'test':'filter'}, function(users){
+      var findFilters = {};
+      $scope.filters.map(function(filter){
+        for(var i in filter.options){
+          var key = filter.options[i].name;
+          var val = filter.options[i].value;
+          if(val === true){
+            findFilters['details.'+filter.key] ?
+              findFilters['details.'+filter.key].push(key) :
+              findFilters['details.'+filter.key] = [key];
+          }
+        }
+      });
+      User.find(findFilters, function(users){
         angular.forEach(users, function(user, index){
           index%2 ? $scope.evenUsers.push(user) : $scope.oddUsers.push(user);
         });
       });
     }
-    $scope.find();
 
+    // initial query
+    Auth.getCurrentUser()
+    .$promise.then(function(user){
+      $scope.filters = $scope.filterChoices.slice(0, 2);
+      for(var i in $scope.filters[0].options){
+        // set gender to be same as user's
+        for(var key in $scope.filters[0].options[i]){
+          var gender = $scope.filters[0].options[i][key];
+          if(gender === user.details.gender.value){
+            $scope.filters[0].options[i].value = true;
+          }
+        }
+        // set distance to 25 mi by default
+        $scope.filters[1].options[1].value = true;
+      }
+      $scope.find();
+    });
+
+    // initialize a list of just the filter names for display
     $scope.filterNames = [];
     angular.forEach($scope.filterChoices, function(filter){
       if(filter.key != 'gender' && filter.key != 'distance'){
@@ -91,6 +120,7 @@ angular.module('friendfinderApp')
           $scope.filters.splice(index, 1);
           $scope.filterNames.push(key);
           $scope.filterNames.sort();
+          //TODO: update filters model as well!
         }
       });
     };
