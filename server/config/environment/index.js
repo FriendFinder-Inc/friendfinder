@@ -31,8 +31,8 @@ var all = {
 
   // OrientDB connection options
   orientdb: {
-    serverhost: process.env.ORIENTDB_HOST,
-    serverport: process.env.ORIENTDB_PORT,
+    serverhost: process.env.ORIENTDB_SERVERHOST,
+    serverport: process.env.ORIENTDB_SERVERPORT,
     serveruser: process.env.ORIENTDB_SERVERUSER,
     serverpass: process.env.ORIENTDB_SERVERPASS,
     dbname:     process.env.ORIENTDB_DBNAME,
@@ -45,6 +45,12 @@ var all = {
     clientSecret: process.env.FACEBOOK_SECRET || 'secret',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
   },
+
+  cloudinary: {
+    cloudname: process.env.CLOUDINARY_CLOUDNAME,
+    apikey: process.env.CLOUDINARY_APIKEY,
+    apisecret: process.env.CLOUDINARY_APISECRET
+  }
 
 };
 

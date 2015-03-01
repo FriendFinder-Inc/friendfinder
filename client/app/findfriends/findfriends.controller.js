@@ -125,4 +125,14 @@ angular.module('friendfinderApp')
       });
     };
 
+    $scope.showModal = function(user){
+      //get fb profile pics
+      $('.ui.modal').modal('show');
+      $scope.fbPicsUrls = [];
+      for(var i = 0; i < 8; i++){
+        var img = $.cloudinary.image(user.facebook.id+'/'+i+'.jpg');
+        $scope.fbPicsUrls.push(img[0].src);
+      }
+    };
+
   });

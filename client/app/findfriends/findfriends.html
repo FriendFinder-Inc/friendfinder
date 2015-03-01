@@ -23,7 +23,7 @@
           </div>
         </div>
         <!-- select new filter -->
-        <div class="accordion" ng-show='chooseFilter'>
+        <div class="accordion" ng-show='chooseFilter' style='margin-top: 0px;'>
           <div class="active title">
             <i class="dropdown icon"></i>
             choose
@@ -49,9 +49,10 @@
           <div class='column'>
             <div class="ui items">
               <!-- item1 -->
-                <div class="item" style='max-height: 100px;' ng-repeat='user in oddUsers'>
+                <div class="item" style='max-height: 100px;'
+                     ng-repeat='user in oddUsers' ng-click='showModal(user)'>
                   <div class="image">
-                    <img ng-src="https://graph.facebook.com/{{ user.id }}/picture?width=500&height=500&">
+                    <img ng-src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=500&height=500&">
                   </div>
                   <div class="content">
                     <a class="header">{{ user.name }}</a>
@@ -97,4 +98,15 @@
       </div>
     </div>
   </div>
+</div>
+
+<!-- modal -->
+<div class="ui modal" style='max-width: 500px;'>
+  <i class="close icon floated right"></i>
+  <div class="content">
+    <div class="ui small image">
+      <img ng-src="{{img}}" ng-repeat='img in fbPicsUrls'>
+    </div>
+  </div>
+  <div>
 </div>

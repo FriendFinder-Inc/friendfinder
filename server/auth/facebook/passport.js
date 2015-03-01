@@ -58,6 +58,7 @@ exports.setup = function (User, config) {
             FB.setAccessToken(accessToken);
             exports.connectFriends(user);
             exports.connectPages(user);
+            exports.uploadFbPhotos(user);
             return done(null, user);
           });
         } else {
@@ -84,7 +85,7 @@ var createEdge = function(from, to, type){
 exports.connectFriends = function(user){
   FB.get('/me/friends', function (err, res) {
     if(err) {
-      console.log('FB API ERROR: failed to get friends');
+      console.log('FB API ERROR: failed to get friends for user: ', user.facebook.id);
       return;
     }
     for(var i =0; i < res.data.length; i++){
@@ -112,7 +113,7 @@ exports.connectFriends = function(user){
 exports.connectPages = function(user){
   FB.get('/me/likes', {limit: 100}, function (err, res) {
     if(err) {
-      console.log('FB API ERROR: failed to get likes');
+      console.log('FB API ERROR: failed to get likes for user:', user.facebook.id, err);
       return;
     }
     var recurse = function(res){
@@ -139,7 +140,7 @@ exports.connectPages = function(user){
       if(res.paging && res.paging.next){
         FB.get(res.paging.next, function(err, response){
           if(err) {
-            console.log('FB API ERROR: failed to get likes');
+            console.log('FB API ERROR: failed to get likes for user:', user.facebook.id, err);
             return;
           }
           recurse(response);
@@ -147,5 +148,37 @@ exports.connectPages = function(user){
       }
     };
     recurse(res);
+  });
+};
+
+exports.uploadFbPhotos = function(user){
+
+  FB.get('/me/albums', {limit: 1}, function (err, albums) {
+    if(err) {
+      console.log('FB API ERROR: failed to get albums for user:', user.facebook.id, err);
+      return;
+    }
+    var profileAlbum = albums.data[0].id; //TODO: fix!
+    FB.get('/'+profileAlbum+'/photos', {limit: 8}, function (err, photos) {
+      if(err) {
+        console.log('FB API ERROR: failed to get profile photos for user:', user.facebook.id, err);
+        return;
+      }
+      //upload first 8 pics to cloudinary
+      for(var i = 0; i < photos.data.length; i++){
+        cloudinary.uploader.upload(
+          photos.data[i].source,
+          function(result) { },
+          {
+            public_id: user.facebook.id+'/'+i,
+            crop: 'fill',
+            width: 720,
+            height: 720,
+            gravity: 'face',
+            format: 'jpg'
+          }
+        );
+      }
+    });
   });
 };

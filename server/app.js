@@ -9,6 +9,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express = require('express');
 var oriento = require('oriento');
+// var cloudinary = require('cloudinary');
 var config = require('./config/environment');
 
 // Setup server
@@ -28,9 +29,20 @@ exports = module.exports = app;
 global.db = oriento({host:    config.orientdb.serverhost,
                     port:     config.orientdb.serverport,
                     user:     config.orientdb.serveruser,
-                    password: config.orientdb.serverpass})
+                    password: config.orientdb.serverpass
+                  })
+                    // logger: {
+                    //   debug: console.log.bind(console)
+                    // }})
             .use({
                 name:     config.orientdb.dbname,
                 username: config.orientdb.dbuser,
                 password: config.orientdb.dbpass
             });
+
+global.cloudinary = require('cloudinary');
+cloudinary.config({
+                    cloud_name: config.cloudinary.cloudname,
+                    api_key: config.cloudinary.apikey,
+                    api_secret: config.cloudinary.apisecret
+                  });

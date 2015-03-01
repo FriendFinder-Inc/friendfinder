@@ -16,6 +16,10 @@
     <!-- build:css(client) app/vendor.css -->
       <!-- bower:css -->
       <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+      <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload.css" />
+      <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-ui.css" />
+      <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-noscript.css" />
+      <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-ui-noscript.css" />
       <!-- endbower -->
       <!-- TODO: clean up -->
       <!-- <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/menu.css" />
@@ -75,6 +79,25 @@
       ga('send', 'pageview');
     </script>
 
+    <!-- facebook api -->
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '204653352912352',
+          xfbml      : true,
+          version    : 'v2.2' //TODO
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
     <script src="bower_components/json3/lib/json3.min.js"></script>
@@ -88,8 +111,38 @@
       <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
       <script src="bower_components/lodash/dist/lodash.compat.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+      <script src="bower_components/blueimp-tmpl/js/tmpl.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-ios.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-orientation.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-meta.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-exif.js"></script>
+      <script src="bower_components/blueimp-load-image/js/load-image-exif-map.js"></script>
+      <script src="bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/cors/jquery.postmessage-transport.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/cors/jquery.xdr-transport.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-process.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-validate.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-image.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-audio.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-video.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-ui.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-jquery-ui.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-angular.js"></script>
+      <script src="bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+      <script src="bower_components/cloudinary/js/jquery.cloudinary.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+
+    <!-- cloudinary api -->
+    <!-- TODO: don't hardcode -->
+    <script>
+      (function(){
+        $.cloudinary.config({ cloud_name: 'hq2snaehp', api_key: '633439251491273'});
+      }());
+    </script>
 
     <!-- TODO -->
 
