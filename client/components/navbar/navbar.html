@@ -1,46 +1,44 @@
-<div class="ui page grid" ng-controller='NavbarCtrl'>
-    <div class="computer tablet only row">
-        <div class="ui inverted menu navbar">
-            <a href="" class="brand item">friendfinder</a>
-            <a href="" class="active item">find friends</a>
-            <a href="" class="item">find activities</a>
+<div id='navbar-container' ng-controller='NavbarCtrl'>
 
-            <div class="right menu">
-              <a class="ui dropdown item">user prefs
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  <div class="item">settings</div>
-                  <div class="item">logout</div>
-                </div>
-              </a>
-            </div>
+  <!-- desktop menu -->
+  <div id='desktop-menu' ng-show='!isMobile'>
+    <a href="#" id="desktop-logo"></a>
+    <div id='menu-item-container'>
+      <a href="#" class='menu-item'>find friends</a>
+      <a href="#" calss='menu-item'>find activities</a>
+
+      <i id='mail-icon' class='large mail icon'></i>
+      <img id='dropdown-image' class="ui circular image"
+          src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=60&height=60&">
+      <div id='dropdown-icon' class="ui accordion" style='float: right; padding-left: 30px; padding-top: 17px;'>
+        <div class="title">
+          <i class="dropdown icon"></i>
         </div>
+        <div class="content">
+          <a>bookmarks</a><br>
+          <a>settings</a><br>
+          <a>logout</a>
+        </div>
+      </div>
     </div>
-    <!-- mobile menu -->
-    <div class="mobile only narrow row">
-        <div class="ui inverted navbar menu">
-            <a href="" class="brand item">friendfinder</a>
-            <a href="" class="brand item">filters</a>
-            <div class="right menu open">
-                <a href="" class="menu item">
-                    <i class="reorder icon"></i>
-                </a>
-            </div>
-        </div>
-        <div class="ui vertical navbar menu">
-            <a href="" class="active item">find friends</a>
-            <a href="" class="item">find activities</a>
-            <div class="ui item">
-                <div class="text">Dropdown</div>
-                <div class="menu">
-                    <a class="item">Action</a>
-                    <a class="item">Another action</a>
-                    <a class="item">Something else here</a>
-                    <a class="ui aider"></a>
-                    <a class="item">Seperated link</a>
-                    <a class="item">One more seperated link</a>
-                  </div>
-            </div>
-        </div>
+  </div>
+
+  <!-- mobile menu -->
+  <div id='mobile-menu' ng-show='isMobile'>
+    <a href="#" id="mobile-logo"></a>
+    <div id='mobile-menu-dropdown' class="ui dropdown">
+      <i class="huge bars icon"></i>
+      <div class="menu">
+        <div class="header">Categories</div>
+        <div class="item">Clothing</div>
+        <div class="item">Home Goods</div>
+        <div class="item">Bedroom</div>
+        <div class="divider"></div>
+        <div class="header">Order</div>
+        <div class="item">Status</div>
+        <div class="item">Cancellations</div>
+      </div>
     </div>
+  </div>
+
 </div>

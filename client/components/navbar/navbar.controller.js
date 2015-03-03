@@ -3,26 +3,31 @@
 angular.module('friendfinderApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
 
-    $scope.isCollapsed = true;
-    $scope.isLoggedIn = Auth.isLoggedIn;
-    $scope.isAdmin = Auth.isAdmin;
-    $scope.getCurrentUser = Auth.getCurrentUser;
+    $scope.user = Auth.getCurrentUser();
+    $('.ui.dropdown').dropdown();
+    $('.ui.accordion').accordion();
+
+    if(window.innerWidth < 768){
+      $scope.isMobile = true;
+    } else {
+      $scope.isMobile = false;
+    }
+
+    // is this better than using media queries in css?
+    $(window).resize(function(){
+      $scope.$apply(function(){
+        if(window.innerWidth < 768){
+          $scope.isMobile = true;
+        } else {
+          $scope.isMobile = false;
+        }
+      });
+    });
 
     $scope.logout = function() {
       Auth.logout();
-      $location.path('/login');
+      $location.path('/');
     };
 
-    $(document).ready(function(){
-    	$('.right.menu.open').on("click",function(e){
-            e.preventDefault();
-    		$('.ui.vertical.menu').toggle();
-    	});
 
-    	$('.ui.dropdown').dropdown();
-    });
-
-    $scope.isActive = function(route) {
-      return route === $location.path();
-    };
   });

@@ -1,32 +1,92 @@
-*{
-	margin: 0;
-	padding: 0;
+#navbar-container {
+	/*background-color: blue;*/
+	height: 70px;
 }
 
-body{
-	font-family: 'Open Sans', sans-serif;
-	margin-bottom: 60px;
+#desktop-menu {
+	/*background-color: red;*/
+	text-align: center;
+	height: 70px;
 }
 
-.ui.navbar {
-	margin-top: 20px !important;
+#mobile-menu {
+	background-color: purple;
+	height: 70px;
 }
 
-.padding-reset{
-	padding: 0px !important;
+#desktop-logo{
+
+	float: left;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin-left: 70px;
+	margin-top: 20px;
+	width: 180px;
+	height: 50px;
+	background: url(../../assets/images/friendfinderLogo.svg);
+	display: block;
+
 }
 
-.ui.message{
-	padding: 40px !important;
+#mobile-logo{
+
+	float: left;
+	margin-left: 20px;
+	margin-top: 10px;
+	width: 50px;
+	height: 50px;
+	background: url(../../assets/images/friendfinderMobileLogo.svg);
+	display: block;
+
 }
 
-@media (max-width: 767px) {
-  	.ui.inverted.navbar{
-	}
+#menu-item-container{
+	margin-top: 30px;
 }
 
-.ui.vertical.menu{
-	margin-top: -15px !important;
-	width: 100%;
-	display: none;
+.menu-item {
+	margin: 20px;
+	padding-top: 20px;
+}
+
+#desktop-menu-dropdown {
+	float: right;
+	margin: 40px;
+}
+
+#mobile-menu-dropdown {
+	float: right;
+}
+
+#mail-icon{
+	float: right;
+	margin-right:150px;
+	margin-top: 13px;
+}
+
+#dropdown-image {
+	position: absolute;
+	padding: 5px;
+	top: 0;
+	right: 0;
+	margin-right:82px;
+	margin-top: 20px;
+	float: right;
+	width: 60px;
+	height: 60px;
+	float: left;'
+}
+
+#dropdown-icon{
+	position: absolute;
+	padding: 5px;
+	top: 0;
+	right: 0;
+	margin-right:50px;
+	margin-top: 20px;
+	float: right;
+	width: 60px;
+	height: 60px;
+	float: left;
 }
