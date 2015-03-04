@@ -28,5 +28,7 @@ angular.module('friendfinderApp')
       $location.path('/');
     };
 
+    $scope.showDropdown = false;
+
 
   });

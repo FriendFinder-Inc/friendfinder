@@ -26,12 +26,6 @@
     padding: 0.2em 0;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
-    }
-}
 
 body{
 	background: #f0f9ff; /* Old browsers */

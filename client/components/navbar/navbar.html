@@ -2,7 +2,32 @@
 
   <!-- desktop menu -->
   <div id='desktop-menu' ng-show='!isMobile'>
-    <a href="#" id="desktop-logo"></a>
+
+    <div id='left-section'>
+      <a href="#" id="desktop-logo"></a>
+    </div>
+
+    <div id='middle-section'>
+      <div id='link-container'>
+        <a href='/findfriends' class='menu-item'>find friends</a>
+        <a href='/findactivities' class='menu-item'>find activities</a>
+      <div>
+    </div>
+
+    <div id='right-section'>
+      <i id='mail-icon' class='large mail icon'></i>
+      <img id='dropdown-image' class="ui image"
+          src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=60&height=60">
+      <i id='dropdown-icon' class='large dropdown icon'
+                            ng-click='showDropdown = !showDropdown'></i>
+    </div>
+
+    <div id='dropdown' ng-show='showDropdown'>
+      hi
+    </div>
+
+
+    <!-- <a href="#" id="desktop-logo"></a>
     <div id='menu-item-container'>
       <a href="#" class='menu-item'>find friends</a>
       <a href="#" calss='menu-item'>find activities</a>
@@ -20,7 +45,7 @@
           <a>logout</a>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
   <!-- mobile menu -->

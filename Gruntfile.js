@@ -359,6 +359,12 @@ module.exports = function (grunt) {
             'package.json',
             'server/**/*'
           ]
+        }, {
+          expand: true,
+          flatten: true,
+          cwd: '<%= yeoman.client %>',
+          dest: '<%= yeoman.dist %>/public/app/assets/fonts',
+          src: 'bower_components/semantic-ui-icon/assets/fonts/*',
         }]
       },
       styles: {

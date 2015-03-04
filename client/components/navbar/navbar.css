@@ -1,12 +1,9 @@
 #navbar-container {
-	/*background-color: blue;*/
 	height: 70px;
 }
 
 #desktop-menu {
-	/*background-color: red;*/
-	text-align: center;
-	height: 70px;
+	height: 100%;
 }
 
 #mobile-menu {
@@ -15,22 +12,16 @@
 }
 
 #desktop-logo{
-
 	float: left;
-	position: absolute;
-	top: 0;
-	left: 0;
-	margin-left: 70px;
+	margin-left: 50px;
 	margin-top: 20px;
 	width: 180px;
 	height: 50px;
 	background: url(../../assets/images/friendfinderLogo.svg);
 	display: block;
-
 }
 
 #mobile-logo{
-
 	float: left;
 	margin-left: 20px;
 	margin-top: 10px;
@@ -38,43 +29,50 @@
 	height: 50px;
 	background: url(../../assets/images/friendfinderMobileLogo.svg);
 	display: block;
-
 }
 
-#menu-item-container{
-	margin-top: 30px;
+#left-section{
+	width: 250px;
+	height: 70px;
+	/*background-color:blue;*/
+	float: left;
+	position: absolute;
+}
+
+#middle-section{
+	/*background-color:red;*/
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+#right-section{
+	width: 250px;
+	height: 70px;
+	/*background-color:green;*/
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 8px;
+}
+
+#link-container{
+	padding-top: 30px;
 }
 
 .menu-item {
 	margin: 20px;
-	padding-top: 20px;
-}
-
-#desktop-menu-dropdown {
-	float: right;
-	margin: 40px;
-}
-
-#mobile-menu-dropdown {
-	float: right;
 }
 
 #mail-icon{
-	float: right;
-	margin-right:150px;
-	margin-top: 13px;
+	float: left;
+	padding-top: 18px;
 }
 
 #dropdown-image {
-	position: absolute;
-	padding: 5px;
-	top: 0;
-	right: 0;
-	margin-right:82px;
-	margin-top: 20px;
-	float: right;
 	width: 60px;
 	height: 60px;
+	padding-left: 30px;
 	float: left;'
 }
 
@@ -89,4 +87,15 @@
 	width: 60px;
 	height: 60px;
 	float: left;
+}
+
+#dropdown{
+	width: 150px;
+	height: 200px;
+	background-color: blue;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: 8px;
+	margin-top: 70px;
 }
