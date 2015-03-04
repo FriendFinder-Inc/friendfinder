@@ -58,6 +58,7 @@ module.exports = function (grunt) {
       injectJS: {
         files: [
           '<%= yeoman.client %>/{app,components}/**/*.js',
+          '<%= yeoman.client %>/{app,components}/*.js',
           '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
           '!<%= yeoman.client %>/{app,components}/**/*.mock.js',
           '!<%= yeoman.client %>/app/app.js'],
@@ -151,7 +152,6 @@ module.exports = function (grunt) {
             '.tmp',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
-            '!<%= yeoman.dist %>/.openshift',
             '!<%= yeoman.dist %>/Procfile'
           ]
         }]
@@ -377,15 +377,21 @@ module.exports = function (grunt) {
         connectCommits: false,
         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
       },
-      heroku: {
+      heroku_prod: {
         options: {
-          remote: 'heroku',
+          remote: 'git@heroku.com:friendfinder-io-prod.git',
           branch: 'master'
         }
       },
-      openshift: {
+      heroku_dev: {
         options: {
-          remote: 'openshift',
+          remote: 'git@heroku.com:friendfinder-io-dev.git',
+          branch: 'master'
+        }
+      },
+      heroku_test: {
+        options: {
+          remote: 'git@heroku.com:friendfinder-io-test.git',
           branch: 'master'
         }
       }

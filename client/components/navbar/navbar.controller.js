@@ -4,7 +4,6 @@ angular.module('friendfinderApp')
   .controller('NavbarCtrl', function ($scope, $location, Auth) {
 
     $scope.user = Auth.getCurrentUser();
-    $('.ui.dropdown').dropdown();
     $('.ui.accordion').accordion();
 
     if(window.innerWidth < 768){

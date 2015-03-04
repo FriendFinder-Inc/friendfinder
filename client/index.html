@@ -9,7 +9,7 @@
     <base href="/">
     <title></title>
     <!-- TODO -->
-    <meta name="description" content="todo content">
+    <meta name="description" content="Meet cool people. Do fun things.">
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -20,34 +20,24 @@
       <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-ui.css" />
       <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-noscript.css" />
       <link rel="stylesheet" href="bower_components/blueimp-file-upload/css/jquery.fileupload-ui-noscript.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-modal/modal.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-grid/grid.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-menu/menu.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-item/item.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-search/search.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-accordion/accordion.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-input/input.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-icon/icon.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-loader/loader.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-button/button.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-segment/segment.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-image/image.css" />
+      <link rel="stylesheet" href="bower_components/semantic-ui-transition/transition.css" />
       <!-- endbower -->
-      <!-- TODO: clean up -->
-      <!-- <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/menu.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/grid.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/modal.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/modal.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/item.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/transition.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/transition.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/site.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/site.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/search.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/search.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/input.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/loader.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/dropdown.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/dropdown.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/accordion.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/accordion.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/popup.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/components/popup.js" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.css" />
-      <link rel="stylesheet" href="bower_components/semantic-ui/dist/semantic.js" /> -->
-
 
     <!-- endbuild -->
     <!-- build:css({.tmp,client}) app/app.css -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.9.0/semantic.min.css">
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/admin/admin.css">
@@ -132,9 +122,10 @@
       <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-jquery-ui.js"></script>
       <script src="bower_components/blueimp-file-upload/js/jquery.fileupload-angular.js"></script>
       <script src="bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
-      <script src="bower_components/cloudinary/js/jquery.cloudinary.js"></script>
+      <script src="bower_components/cloudinary_js/js/jquery.cloudinary.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
+      <script src="bower_components/semantic-ui-accordion/accordion.min.js"></script>
 
     <!-- cloudinary api -->
     <!-- TODO: don't hardcode -->
@@ -144,26 +135,23 @@
       }());
     </script>
 
-    <!-- TODO -->
-
-        <!-- build:js({.tmp,client}) app/app.js -->
-        <script src="app/app.js"></script>
-          <!-- injector:js -->
-          <script src="app/account/account.js"></script>
-          <script src="app/account/settings/settings.controller.js"></script>
-          <script src="app/admin/admin.controller.js"></script>
-          <script src="app/admin/admin.js"></script>
-          <script src="app/findfriends/findfriends.controller.js"></script>
-          <script src="app/findfriends/findfriends.js"></script>
-          <script src="app/main/main.controller.js"></script>
-          <script src="app/main/main.js"></script>
-          <script src="components/auth/auth.service.js"></script>
-          <script src="components/auth/user.service.js"></script>
-          <script src="components/directives/profile-card/profile-card.js"></script>
-          <script src="components/navbar/navbar.controller.js"></script>
-          <!-- endinjector -->
-        <!-- endbuild -->
-        <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.9.0/semantic.min.js"></script>
+    <!-- build:js({.tmp,client}) app/app.js -->
+    <script src="app/app.js"></script>
+      <!-- injector:js -->
+      <script src="app/account/account.js"></script>
+      <script src="app/account/settings/settings.controller.js"></script>
+      <script src="app/admin/admin.controller.js"></script>
+      <script src="app/admin/admin.js"></script>
+      <script src="app/findfriends/findfriends.controller.js"></script>
+      <script src="app/findfriends/findfriends.js"></script>
+      <script src="app/main/main.controller.js"></script>
+      <script src="app/main/main.js"></script>
+      <script src="components/auth/auth.service.js"></script>
+      <script src="components/auth/user.service.js"></script>
+      <script src="components/directives/profile-card/profile-card.js"></script>
+      <script src="components/navbar/navbar.controller.js"></script>
+      <!-- endinjector -->
+    <!-- endbuild -->
 
 </body>
 </html>
