@@ -153,12 +153,13 @@ exports.connectPages = function(user){
 
 exports.uploadFbPhotos = function(user){
 
-  FB.get('/me/albums', {limit: 1}, function (err, albums) {
+  FB.get('/me/albums', {limit: 10}, function (err, albums) {
     if(err) {
       console.log('FB API ERROR: failed to get albums for user:', user.facebook.id, err);
       return;
     }
     var profileAlbum = albums.data[0].id; //TODO: fix!
+    console.log('ddd', albums.data)
     FB.get('/'+profileAlbum+'/photos', {limit: 8}, function (err, photos) {
       if(err) {
         console.log('FB API ERROR: failed to get profile photos for user:', user.facebook.id, err);

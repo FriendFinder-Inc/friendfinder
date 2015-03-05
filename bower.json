@@ -26,7 +26,9 @@
     "semantic-ui-segment": "~1.10.2",
     "semantic-ui-popup": "~1.10.2",
     "semantic-ui-image": "~1.10.4",
-    "semantic-ui-transition": "~1.10.4"
+    "semantic-ui-transition": "~1.10.4",
+    "semantic-ui-dimmer": "~1.10.2",
+    "moment": "~2.9.0"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

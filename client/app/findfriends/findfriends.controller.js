@@ -3,7 +3,21 @@
 angular.module('friendfinderApp')
   .controller('FindFriendsCtrl', function ($scope, $http, Auth, User) {
     $('.ui.accordion').accordion();
+    // initialize all modals
+    $('.ui.modal').modal({allowMultiple: true});
+    // open message modal on message button click
+    //TODO: why does profile modal dissapear after we select message area?
+    $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
     //$('.ui.checkbox').checkbox();
+
+    $('#send-message-btn').click(function(){
+      $scope.sendMessage();
+      $scope.closeModals();
+    });
+
+    $('#cancel-message-btn').click(function(){
+      $scope.closeModals();
+    });
 
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},
@@ -125,14 +139,34 @@ angular.module('friendfinderApp')
       });
     };
 
-    $scope.showModal = function(user){
+    $scope.showProfileModal = function(user){
       //get fb profile pics
-      $('.ui.modal').modal('show');
+      $('.ui.modal.profile').modal('show');
+      $scope.selectedUser = user;
       $scope.fbPicsUrls = [];
       for(var i = 0; i < 8; i++){
         var img = $.cloudinary.image(user.facebook.id+'/'+i+'.jpg');
         $scope.fbPicsUrls.push(img[0].src);
       }
+    };
+
+    $scope.bookmarkUser = function(user){
+      console.log('bookmarking', user.facebook.id)
+    };
+
+    $scope.sendMessage = function(){
+      var message = $('#message-text').val();
+      var user = $scope.selectedUser.facebook.id;
+      console.log('sending message', message, user);
+    };
+
+    $scope.birthdayToAge = function(birthday){
+      // moment.js is one of the best js libs ever!
+      return moment().diff(birthday, 'years');
+    };
+
+    $scope.closeModals = function(){
+      $('.ui.modal').modal('hide all');
     };
 
   });

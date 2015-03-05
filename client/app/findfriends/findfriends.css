@@ -7,3 +7,35 @@
   box-shadow: none !important;
   pointer-events: none;
 }
+
+#mutual-likes-container{
+  width: 300px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  /*overflow: auto;*/
+  height: 100px;
+  white-space:nowrap;
+}
+
+#mutual-likes-contents{
+  display: inline-block !important;
+  float:left !important;
+}
+
+#intro{
+  width: 100%;
+}
+
+#details{
+  width: 100%;
+}
+
+.details-key{
+  width: 30%;
+  float: left;
+}
+
+.details-value{
+  width:70%;
+  float: left;
+}

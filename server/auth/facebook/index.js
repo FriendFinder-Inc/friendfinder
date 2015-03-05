@@ -14,15 +14,10 @@ router
         		'user_location',
         		'user_birthday',
         		'user_likes',
-        		'user_interests',
         		'user_photos',
-        		'user_religion_politics',
-        		'user_relationships',
-        		'user_actions.fitness',
-        		'user_actions.music',
-        		'user_actions.news',
-        		'user_actions.video',
-        		'user_actions.books'],
+        		'user_hometown',
+        		'user_work_history',
+        		'user_education_history'],
     failureRedirect: '/',
     session: false
   }))
