@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindFriendsCtrl', function ($scope, $http, Auth, User) {
+  .controller('FindFriendsCtrl', function ($scope, $http, Auth, User, Message) {
     $('.ui.accordion').accordion();
     // initialize all modals
     $('.ui.modal').modal({allowMultiple: true});
@@ -170,7 +170,14 @@ angular.module('friendfinderApp')
     $scope.sendMessage = function(){
       var message = $('#message-text').val();
       var user = $scope.selectedUser.facebook.id;
-      console.log('sending message', message, user);
+      var data = { recipient: user, sender: $scope.currentUser.facebook.id,
+                    content: message, read: null};
+      Message.send(data).$promise.then(function(res){
+        // console.log('message successfully sent:', res);
+        Message.get({userId: $scope.currentUser.facebook.id}).$promise.then(function(messages){
+          console.log('got messages', messages);
+        });
+      });
     };
 
     $scope.birthdayToAge = function(birthday){
