@@ -89,6 +89,7 @@ angular.module('friendfinderApp')
     // initial query
     Auth.getCurrentUser()
     .$promise.then(function(user){
+      $scope.currentUser = user;
       $scope.filters = $scope.filterChoices.slice(0, 2);
       for(var i in $scope.filters[0].options){
         // set gender to be same as user's
@@ -140,18 +141,30 @@ angular.module('friendfinderApp')
     };
 
     $scope.showProfileModal = function(user){
-      //get fb profile pics
-      $('.ui.modal.profile').modal('show');
       $scope.selectedUser = user;
+      $('.ui.modal.profile').modal('show');
+      $scope.getFacebookPhotos(user);
+      $scope.getMutualInterests(user);
+    };
+
+    $scope.bookmarkUser = function(user){
+      console.log('bookmarking', user.facebook.id)
+    };
+
+    $scope.getMutualInterests = function(user){
+      var users = {
+        userA: $scope.currentUser.facebook.id,
+        userB: user.facebook.id
+      };
+      $scope.mutualInterests = User.mutualinterests(users);
+    };
+
+    $scope.getFacebookPhotos = function(user){
       $scope.fbPicsUrls = [];
       for(var i = 0; i < 8; i++){
         var img = $.cloudinary.image(user.facebook.id+'/'+i+'.jpg');
         $scope.fbPicsUrls.push(img[0].src);
       }
-    };
-
-    $scope.bookmarkUser = function(user){
-      console.log('bookmarking', user.facebook.id)
     };
 
     $scope.sendMessage = function(){

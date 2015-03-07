@@ -68,6 +68,15 @@ exports.find = function(req, res, next) {
   });
 };
 
+/**
+ * get mutual fb likes between 2 users
+ */
+exports.mutualInterests = function(req, res, next) {
+  User.mutualInterests(req.query.userA, req.query.userB, function(interests){
+    // res.json(interests);
+  });
+};
+
 
 /**
  * Get my info

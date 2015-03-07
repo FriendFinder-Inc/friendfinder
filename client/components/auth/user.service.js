@@ -25,6 +25,14 @@ angular.module('friendfinderApp')
           id: 'me',
           controller: 'find'
         }
+      },
+      mutualinterests: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller: 'mutualinterests'
+        }
       }
 	  });
   });

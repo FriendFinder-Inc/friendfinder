@@ -11,6 +11,7 @@ router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/me/find', auth.isAuthenticated(), controller.find);
+router.get('/me/mutualinterests', auth.isAuthenticated(), controller.mutualInterests);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', controller.create);
 

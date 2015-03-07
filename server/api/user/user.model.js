@@ -27,6 +27,13 @@ User.findOne = function(params, cb) {
   });
 };
 
+User.mutualInterests = function(userA, userB, cb) {
+  // db.query("select gremlin(g.V('@class','RegisteredUser').has('facebook.id', '10152591902047671').next())")
+  // .then(function (interests) {
+  //   cb(interests);
+  // });
+};
+
 // Query db for users that match the filters
 // also sort results
 User.findByFilters = function(params, cb) {

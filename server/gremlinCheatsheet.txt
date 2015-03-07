@@ -1,0 +1,7 @@
+// a running list of useful gremlin queries
+
+// select a user by facebook.id
+user = g.V('@class','RegisteredUser').has('facebook.id', '10152591902047671').next()
+
+// return # of records for a given class
+g.V('@class','Page').count()
