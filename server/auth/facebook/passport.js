@@ -28,7 +28,6 @@ exports.setup = function (User, config) {
               gender:             {value: profile.gender||'-', private: false},
               height:             {value: '-', private: false},
               job:                {value: '-', private: false},
-              'looking for':      {value: '-', private: false},
               orientation:        {value: '-', private: false},
               'personality type': {value: '-', private: false},
               politics:           {value: profile.political||'-', private: false},
@@ -38,6 +37,8 @@ exports.setup = function (User, config) {
             },
             email: profile.emails[0].value,
             facebook: profile._json,
+            fbAccessToken: accessToken, //TODO: logout? delete?
+            facebookid: profile.id,
             name: profile.displayName,
             preferences: {
               email: {

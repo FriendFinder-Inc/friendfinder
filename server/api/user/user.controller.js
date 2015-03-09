@@ -73,7 +73,7 @@ exports.find = function(req, res, next) {
  */
 exports.mutualInterests = function(req, res, next) {
   User.mutualInterests(req.query.userA, req.query.userB, function(interests){
-    // res.json(interests);
+    res.json(interests);
   });
 };
 
@@ -83,6 +83,10 @@ exports.mutualInterests = function(req, res, next) {
  */
 exports.me = function(req, res, next) {
   res.json(req.user);
+};
+
+exports.getFbAppToken = function(req, res, next){
+
 };
 
 /**

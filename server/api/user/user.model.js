@@ -4,13 +4,15 @@
 var User = function(params) {
   params = params || {};
   this.props = {};
-  this.props.details =     params.details;
-  this.props.email =       params.email;
-  this.props.facebook =    params.facebook;
-  this.props.name =        params.name;
-  this.props.preferences = params.preferences;
-  this.props.profile =     params.profile;
-  this.props.role =        params.role;
+  this.props.details =       params.details;
+  this.props.email =         params.email;
+  this.props.facebook =      params.facebook;
+  this.props.facebookid =    params.facebookid;
+  this.props.fbAccessToken = params.fbAccessToken;
+  this.props.name =          params.name;
+  this.props.preferences =   params.preferences;
+  this.props.profile =       params.profile;
+  this.props.role =          params.role;
 };
 
 User.prototype.create = function(cb) {
@@ -27,11 +29,45 @@ User.findOne = function(params, cb) {
   });
 };
 
+// TODO: gremlin refactor
 User.mutualInterests = function(userA, userB, cb) {
-  // db.query("select gremlin(g.V('@class','RegisteredUser').has('facebook.id', '10152591902047671').next())")
-  // .then(function (interests) {
-  //   cb(interests);
-  // });
+  var mutual = [];
+  var userALikes = "select out('likes') from RegisteredUser where facebook.id = "+userA;
+  var userBLikes = "select out('likes') from RegisteredUser where facebook.id = "+userB;
+  db.query(userALikes).then(function (interestsA) {
+    db.query(userBLikes).then(function (interestsB) {
+      var cluster = interestsA[0].out[0].cluster;
+      var apos = [];
+      var bpos = [];
+      for(var j = 0; j < interestsA[0].out.length; j++){
+        apos.push(interestsA[0].out[j].position);
+      }
+      for(var k = 0; k < interestsB[0].out.length; k++){
+        bpos.push(interestsB[0].out[k].position);
+      }
+      apos = apos.filter(function(n) {
+        return bpos.indexOf(n) != -1
+      });
+
+      var rids = [];
+      for(var m = 0; m < apos.length; m++){
+        var temp = '#'+cluster+':'+apos[m];
+        rids.push(temp);
+      }
+      var ridStr = '[';
+      for(var n = 0; n < rids.length; n++){
+        var tmp = n+1 < rids.length ? rids[n]+', ' : rids[n] + ']';
+        ridStr += tmp;
+      }
+
+      var query = "select from Page where @rid in "+ridStr;
+
+      db.query(query)
+      .then(function(mutual){
+        cb(mutual);
+      })
+    });
+  });
 };
 
 // Query db for users that match the filters
@@ -81,7 +117,7 @@ User.findByFilters = function(params, cb) {
   };
 
   var query = buildQuery();
-  //console.log('query', query)
+  // console.log('query', query)
   db.query(query)
   .then(function (users) {
     cb(users);

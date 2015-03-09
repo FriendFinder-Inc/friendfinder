@@ -152,11 +152,38 @@ angular.module('friendfinderApp')
     };
 
     $scope.getMutualInterests = function(user){
+      $scope.mutualInterests = [];
       var users = {
         userA: $scope.currentUser.facebook.id,
         userB: user.facebook.id
       };
-      $scope.mutualInterests = User.mutualinterests(users);
+      User.mutualinterests(users).$promise.then(function(mutual){
+        var token = {
+          access_token: $scope.currentUser.fbAccessToken
+        };
+        var len = 0;
+        angular.forEach(mutual, function(like){
+          FB.api('/'+like.id, token,function(res){
+            FB.api('/'+like.id+'/picture', token,function(img){
+              $scope.mutualInterests.push({
+                name: res.name,
+                link: res.link,
+                img: img.data.url
+              });
+              len++;
+              if(len === mutual.length){
+                var html = '';
+                angular.forEach($scope.mutualInterests, function(item){
+                  //TODO: add title on bottom
+                  html += "<a href="+item.link+" target='_blank'><img style='margin: 3px;' src="+item.img+" ></a>"
+                })
+                $('#mutual-likes-container').html(html);
+                console.log('hi', $scope.mutualInterests)
+              }
+            });
+          });
+        });
+      });
     };
 
     $scope.getFacebookPhotos = function(user){
@@ -173,8 +200,8 @@ angular.module('friendfinderApp')
       var data = { recipient: user, sender: $scope.currentUser.facebook.id,
                     content: message, read: null};
       Message.send(data).$promise.then(function(res){
-        // console.log('message successfully sent:', res);
         Message.get({userId: $scope.currentUser.facebook.id}).$promise.then(function(messages){
+          //TODO: retrieve messages
           console.log('got messages', messages);
         });
       });
