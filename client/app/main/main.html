@@ -1,5 +1,19 @@
+<script>
+  var response = prompt('please enter code:');
+  if(response != 'facebook-review-team'){
+    while(response != 'facebook-review-team'){
+      response = prompt('please enter code:');
+    }
+  }
+</script>
 
 <div style='text-align: center; margin-top:10%;'>
+  <div style='width: 300px; margin-left: 480px;'>
+  <h4>This site for facebook review purposes only. All features that do not illustrate
+  how we are using the extended facebook permissions, are either disabled, hidden,
+  or simply incomplete. (app is still in development) For any issues please email
+  admin@friendfinder.io  Thank you!</h4>
+  </div>
   <div class="circular ui icon blue large button blue-glow" ng-click='loginOauth()'>
     <i class="icon large facebook"></i>
   </div>
