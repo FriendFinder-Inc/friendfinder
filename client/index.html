@@ -129,28 +129,31 @@
       <script src="bower_components/moment/moment.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
-    
+
     <script src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.9.0/semantic.min.js"></script>
 
     <!-- cloudinary api -->
-    <!-- TODO: don't hardcode -->
     <script>
       (function(){
-        $.cloudinary.config({ cloud_name: 'hq2snaehp', api_key: '633439251491273'});
+        $.cloudinary.config({ cloud_name: 'hs7wc4dxs', api_key: '884134483255694'});
       }());
     </script>
 
     <!-- build:js({.tmp,client}) app/app.js -->
     <script src="app/app.js"></script>
       <!-- injector:js -->
-      <script src="app/account/account.js"></script>
-      <script src="app/account/settings/settings.controller.js"></script>
       <script src="app/admin/admin.controller.js"></script>
       <script src="app/admin/admin.js"></script>
       <script src="app/findfriends/findfriends.controller.js"></script>
       <script src="app/findfriends/findfriends.js"></script>
       <script src="app/main/main.controller.js"></script>
       <script src="app/main/main.js"></script>
+      <script src="app/settings/about/about.controller.js"></script>
+      <script src="app/settings/account/account.controller.js"></script>
+      <script src="app/settings/feedback/feedback.controller.js"></script>
+      <script src="app/settings/feedback/feedback.js"></script>
+      <script src="app/settings/settings.controller.js"></script>
+      <script src="app/settings/settings.js"></script>
       <script src="components/directives/profile-card/profile-card.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/services/auth.service.js"></script>

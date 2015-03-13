@@ -386,6 +386,7 @@ module.exports = function (grunt) {
         options: {
           remote: 'git@heroku.com:friendfinder-io-prod.git',
           branch: 'master'
+
         }
       },
       heroku_dev: {

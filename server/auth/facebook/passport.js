@@ -84,29 +84,63 @@ var createEdge = function(from, to, type){
 // TODO: before April 30th 2015 this will need to be refactored
 // as we will no longer have access to non registered users
 exports.connectFriends = function(user){
-  FB.get('/me/friends', function (err, res) {
+  FB.get('/me/friends', {limit: 100}, function (err, res) {
     if(err) {
       console.log('FB API ERROR: failed to get friends for user: ', user.facebook.id);
       return;
     }
-    for(var i =0; i < res.data.length; i++){
-      var friend = res.data[i];
-      (function(friend){
-        NrUser.findOne({id: friend.id}, function(foundFriend){
-          if(!foundFriend){
-            var newUser = new NrUser({
-              name: friend.name,
-              id: friend.id
-            });
-            newUser.create(function(createdFriend){
-              createEdge(user, createdFriend, 'friends');
-            });
-          } else {
-            createEdge(user, foundFriend, 'friends');
+    //console.log('ADDING FRIENDS', res.data.length, res)
+    var recurse = function(res){
+      for(var i =0; i < res.data.length; i++){
+        var friend = res.data[i];
+        (function(friend){
+          NrUser.findOne({id: friend.id}, function(foundFriend){
+            if(!foundFriend){
+              var newFriend = new NrUser({
+                name: friend.name,
+                id: friend.id
+              });
+              newFriend.create(function(createdFriend){
+                createEdge(user, createdFriend, 'friends');
+              });
+            } else{
+              createEdge(user, foundFriend, 'friends');
+            }
+          });
+        })(friend);
+      }
+      // keep asynchronously paging data
+      if(res.paging && res.paging.next){
+        FB.get(res.paging.next, function(err, response){
+          if(err) {
+            console.log('FB API ERROR: failed to get friends for user:', user.facebook.id, err);
+            return;
           }
+          recurse(response);
         });
-      })(friend);
-    }
+      }
+    };
+    recurse(res);
+    //
+    //
+    // for(var i =0; i < res.data.length; i++){
+    //   var friend = res.data[i];
+    //   (function(friend){
+    //     NrUser.findOne({id: friend.id}, function(foundFriend){
+    //       if(!foundFriend){
+    //         var newUser = new NrUser({
+    //           name: friend.name,
+    //           id: friend.id
+    //         });
+    //         newUser.create(function(createdFriend){
+    //           createEdge(user, createdFriend, 'friends');
+    //         });
+    //       } else {
+    //         createEdge(user, foundFriend, 'friends');
+    //       }
+    //     });
+    //   })(friend);
+    // }
   });
 };
 

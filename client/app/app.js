@@ -26,6 +26,7 @@ angular.module('friendfinderApp', [
       },
 
       // Intercept 401s and redirect you to login
+      //TODO
       responseError: function(response) {
         if(response.status === 401) {
           $location.path('/login');
@@ -41,6 +42,7 @@ angular.module('friendfinderApp', [
   })
 
   .run(function ($rootScope, $location, Auth) {
+    //TODO
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
