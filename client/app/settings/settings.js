@@ -18,6 +18,21 @@ angular.module('friendfinderApp')
         templateUrl: 'app/settings/feedback/feedback.html',
         controller: 'FeedbackCtrl'
       })
+      .state('settings.feedback.features', {
+        url: '/features',
+        templateUrl: 'app/settings/feedback/feedback.html',
+        controller: 'FeedbackCtrl'
+      })
+      .state('settings.feedback.bugs', {
+        url: '/bugs',
+        templateUrl: 'app/settings/feedback/feedback.html',
+        controller: 'FeedbackCtrl'
+      })
+      .state('settings.feedback.general', {
+        url: '/general',
+        templateUrl: 'app/settings/feedback/feedback.html',
+        controller: 'FeedbackCtrl'
+      })
       .state('settings.about', {
         url: '/about',
         templateUrl: 'app/settings/about/about.html',
@@ -27,11 +42,15 @@ angular.module('friendfinderApp')
         url: '/privacy',
         templateUrl: 'app/settings/about/aboutPrivacy.html',
         controller: 'AboutCtrl'
-        // authenticate: true
       })
       .state('settings.about.terms', {
         url: '/terms',
         templateUrl: 'app/settings/about/aboutTerms.html',
+        controller: 'AboutCtrl'
+      })
+      .state('settings.about.mission', {
+        url: '/mission',
+        templateUrl: 'app/settings/about/aboutMission.html',
         controller: 'AboutCtrl'
         // authenticate: true
       });

@@ -2,9 +2,10 @@
 
 angular.module('friendfinderApp')
   .controller('SettingsCtrl', function ($scope, User, Auth) {
-    $('.settings.container .menu .item')
+    $('.settings-container .menu .item')
       .tab({
-        context : '.center.aligned.segment'
+        context : '.settings-container',
+        // history: true
       })
     ;
   });

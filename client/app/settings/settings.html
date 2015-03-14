@@ -1,6 +1,54 @@
 <div ng-include="'../components/navbar/navbar.html'"></div>
 
-<div class='settings-container'>
-  <div ui-view>
+<div class='settings-container' style='margin: 10%; text-align: center;'>
+
+  <div class="ui pointing secondary menu">
+    <a class="active item" data-tab="account" ui-sref='settings.account'>account</a>
+    <a class="item" data-tab="feedback" ui-sref='settings.feedback.features'>feedback</a>
+    <a class="item" data-tab="about" ui-sref='settings.about.terms'>about</a>
   </div>
+  <div class="ui active tab" data-tab="account">
+    <div ui-view></div>
+    <!-- <div class="ui top attached tabular menu">
+      <a class="active item" data-tab="account/a">1A</a>
+      <a class="item" data-tab="account/b">1B</a>
+      <a class="item" data-tab="account/c">1C</a>
+    </div>
+    <div class="ui bottom attached active tab segment" data-tab="account/a">1A</div>
+    <div class="ui bottom attached tab segment" data-tab="account/b">1B</div>
+    <div class="ui bottom attached tab segment" data-tab="account/c">1C</div> -->
+  </div>
+  <div class="ui tab" data-tab="feedback">
+    <div class="ui top attached tabular menu">
+      <a class="item" data-tab="feedback/features" ui-sref='settings.feedback.features'>features</a>
+      <a class="item" data-tab="feedback/bugs" ui-sref='settings.feedback.bugs'>bugs</a>
+      <a class="item" data-tab="feedback/general" ui-sref='settings.feedback.general'>general</a>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="feedback/features">
+      <div ui-view></div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="feedback/bugs">
+      <div ui-view></div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="feedback/general">
+      <div ui-view></div>
+    </div>
+  </div>
+  <div class="ui tab" data-tab="about">
+    <div class="ui top attached tabular menu">
+      <a class="item" data-tab="about/terms" ui-sref='settings.about.terms'>terms</a>
+      <a class="item" data-tab="about/privacy" ui-sref='settings.about.privacy'>privacy</a>
+      <a class="item" data-tab="about/mission" ui-sref='settings.about.mission'>mission</a>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="about/terms">
+      <div ui-view></div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="about/privacy">
+      <div ui-view></div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="about/mission">
+      <div ui-view></div>
+    </div>
+  </div>
+
 </div>
