@@ -55,6 +55,19 @@
               </div>
             </div>
           </div>
+          <h5 class="ui top attached center aligned header">
+            interests
+          </h5>
+          <div class='ui content'>
+            <div id='intro' class='ui segment'>
+              <p>Create a comma separated list of things you like, so that other users
+              who share that interest can find you.</p><br>
+              <div class="ui input" id='dream-destination-area'>
+                <input type="text-area" ng-model='currentUser.profile.dreamDestination'
+                       placeholder="{{ currentUser.profile.dreamDestination }}">
+              </div>
+            </div>
+          </div>
 
         </div>
 
@@ -70,7 +83,15 @@
                   {{key}}
                 </div>
 
-                <div class="ui selection dropdown">
+                <select ng-model="currentUser.details[key]"
+                        ng-options="choice.value for choice in detailOptions[key] track by choice.value">
+                  <option value="">-</option>
+                </select>
+
+
+                <!-- TODO angular binding -->
+                <!-- <div id='dropdown-{{key}}' class="ui selection dropdown"
+                     ng-click='showDropdown(key)'>
                   <div class="default text">{{ value.value }}</div>
                   <div ng-show="key != 'hometown' &&
                                 key != 'employer' &&
@@ -81,12 +102,13 @@
                       <div class="item">Female</div>
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div ng-class='{grey: value.private, green: !value.private}'
                      class='ui button' ng-click='togglePrivacy(key, value.private)'>
                   {{ value.private ? 'hidden' : 'public' }}
                 </div>
+
               </div>
             </div>
           </div>
