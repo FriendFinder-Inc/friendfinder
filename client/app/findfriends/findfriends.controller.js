@@ -174,8 +174,8 @@ angular.module('friendfinderApp')
               if(len === mutual.length){
                 var html = '';
                 angular.forEach($scope.mutualInterests, function(item){
-                  //TODO: add title on bottom
-                  html += "<a href="+item.link+" target='_blank'><img style='margin: 3px;' src="+item.img+" ></a>"
+                  //TODO: flowtype.js
+                  html += "<div style='width:100px; float: left;'><a href="+item.link+" target='_blank'><img style='margin: 3px; width; 100px; height: 100px;' src="+item.img+" ></a><div style='float: left; width: 100%; overflow: hidden;'>"+item.name+"</div></div>"
                 })
                 $('#mutual-likes-container').html(html);
                 console.log('hi', $scope.mutualInterests)
