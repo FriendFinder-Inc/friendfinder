@@ -8,6 +8,8 @@ angular.module('friendfinderApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
+    .when('/settings', '/settings/account')
+    .when('/me', '/me/messages')
     .otherwise('/');
 
     $locationProvider.html5Mode(true);

@@ -6,6 +6,5 @@ angular.module('friendfinderApp')
       .tab({
         context : '.me-container',
         // history: true
-      })
-    ;
+      });
   });

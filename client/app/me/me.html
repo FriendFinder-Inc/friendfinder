@@ -3,20 +3,34 @@
 <div class='me-container' style='margin: 10%; text-align: center;'>
 
   <div class="ui pointing secondary menu">
-    <a class="active item" data-tab="profile" ui-sref='me.profile'>profile</a>
-    <a class="item" data-tab="messages" ui-sref='me.messages'>messages</a>
-    <a class="item" data-tab="bookmarks" ui-sref='me.bookmarks'>bookmarks</a>
+    <a class="active item" data-tab="messages" ui-sref='me.messages'>messages</a>
+    <a class="item" data-tab="bookmarks" ui-sref='me.bookmarks.users'>bookmarks</a>
+    <a class="item" data-tab="activities" ui-sref='me.activities'>activities</a>
+    <a class="item" data-tab="profile" ui-sref='me.profile'>profile</a>
   </div>
 
-  <div class="ui active tab" data-tab="profile">
-    <div ui-view></div>
-  </div>
-
-  <div class="ui tab" data-tab="messages">
+  <div class="ui active tab" data-tab="messages">
     <div ui-view></div>
   </div>
 
   <div class="ui tab" data-tab="bookmarks">
+    <div class="ui top attached tabular menu">
+      <a class="item" data-tab="bookmarks/users" ui-sref='me.bookmarks.users'>users</a>
+      <a class="item" data-tab="bookmarks/activities" ui-sref='me.bookmarks.activities'>activities</a>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="bookmarks/users">
+      <div ui-view></div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="bookmarks/activities">
+      <div ui-view></div>
+    </div>
+  </div>
+
+  <div class="ui tab" data-tab="activities">
+    <div ui-view></div>
+  </div>
+
+  <div class="ui tab" data-tab="profile">
     <div ui-view></div>
   </div>
 

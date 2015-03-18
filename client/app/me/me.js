@@ -22,6 +22,21 @@ angular.module('friendfinderApp')
         url: '/bookmarks',
         templateUrl: 'app/me/bookmarks/bookmarks.html',
         controller: 'BookmarksCtrl'
+      })
+      .state('me.bookmarks.users', {
+        url: '/users',
+        templateUrl: 'app/me/bookmarks/bookmarksUsers.html',
+        controller: 'BookmarksCtrl'
+      })
+      .state('me.bookmarks.activities', {
+        url: '/activities',
+        templateUrl: 'app/me/bookmarks/bookmarksActivities.html',
+        controller: 'BookmarksCtrl'
+      })
+      .state('me.activities', {
+        url: '/activities',
+        templateUrl: 'app/me/activities/activities.html',
+        controller: 'ActivitiesCtrl'
         // authenticate true TODO
       });
   });
