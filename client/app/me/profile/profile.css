@@ -6,10 +6,14 @@
   margin-bottom: 14px;
 }
 
-#intro-column {
+#intro-column{
   width: 100%;
 }
 
-.ui.input {
+.ui.input{
   width: 100%;
+}
+
+input.ng-dirty{
+  border: 1px solid red;
 }

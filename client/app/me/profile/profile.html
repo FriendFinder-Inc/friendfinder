@@ -7,6 +7,12 @@
       </div>
     </div>
 
+    <div ng-class='{green: modified, disabled: !modified}'
+         class='ui green button' style='margin-bottom: 16px;'
+         ng-click='updateProfile()'>
+      save changes
+    </div>
+
     <div class='ui two column grid'>
       <div class='doubling two column row'>
 
@@ -19,7 +25,8 @@
             <div id='intro' class='ui segment'>
               <p>Introduce yourself!</p><br>
               <div class="ui input" id='intro-area'>
-                <input type="text-area" placeholder="{{ currentUser.profile.intro }}">
+                <input type="text-area" ng-model='currentUser.profile.intro'
+                       placeholder="{{ currentUser.profile.intro }}">
               </div>
             </div>
           </div>
@@ -30,7 +37,8 @@
             <div id='intro' class='ui segment'>
               <p>What is your favorite way to spend the weekend?</p><br>
               <div class="ui input" id='ideal-weekend-area'>
-                <input type="text-area" placeholder="{{ currentUser.profile.idealWeekend }}">
+                <input type="text-area" ng-model='currentUser.profile.idealWeekend'
+                       placeholder="{{ currentUser.profile.idealWeekend }}">
               </div>
             </div>
           </div>
@@ -42,7 +50,8 @@
               <p>If you and another user won a 3 day trip to anywhere in the world,
               where would you suggest to go and why?</p><br>
               <div class="ui input" id='dream-destination-area'>
-                <input type="text-area" placeholder="{{ currentUser.profile.dreamDestination }}">
+                <input type="text-area" ng-model='currentUser.profile.dreamDestination'
+                       placeholder="{{ currentUser.profile.dreamDestination }}">
               </div>
             </div>
           </div>
@@ -55,18 +64,28 @@
           </h5>
           <div class='ui content'>
             <div id='details' class='ui segment'>
-              <div class="ui vertical segment" ng-repeat='(key, value) in currentUser.details'>
+              <div class="ui vertical segment"
+                   ng-repeat='(key, value) in currentUser.details'>
                 <div class='details-key'>
                   {{key}}
                 </div>
+
                 <div class="ui selection dropdown">
-                  <input type="hidden" name="{{key}}">
                   <div class="default text">{{ value.value }}</div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                    <div class="item" data-value="1">Male</div>
-                    <div class="item" data-value="0">Female</div>
+                  <div ng-show="key != 'hometown' &&
+                                key != 'employer' &&
+                                key != 'school'">
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                      <div class="item">Male</div>
+                      <div class="item">Female</div>
+                    </div>
                   </div>
+                </div>
+
+                <div ng-class='{grey: value.private, green: !value.private}'
+                     class='ui button' ng-click='togglePrivacy(key, value.private)'>
+                  {{ value.private ? 'hidden' : 'public' }}
                 </div>
               </div>
             </div>

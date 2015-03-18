@@ -66,7 +66,7 @@ function setTokenCookie(req, res) {
   var rid = '#'+req.user['@rid'].cluster+':'+req.user['@rid'].position;
   var token = signToken(rid, req.user.role);
   res.cookie('token', JSON.stringify(token));
-  res.redirect('/findfriends');
+  res.redirect('/me/profile');
 }
 
 exports.isAuthenticated = isAuthenticated;

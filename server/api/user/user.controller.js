@@ -10,19 +10,9 @@ var validationError = function(res, err) {
 };
 
 /**
- * Get list of users
- * restriction: 'admin'
- */
-exports.index = function(req, res) {
-  User.find({}, '-salt -hashedPassword', function (err, users) {
-    if(err) return res.send(500, err);
-    res.json(200, users);
-  });
-};
-
-/**
  * Creates a new user
  */
+ //TODO
 exports.create = function (req, res, next) {
   var newUser = new User(req.body);
   newUser.provider = 'local';
@@ -43,7 +33,7 @@ exports.show = function (req, res, next) {
   User.findById(userId, function (err, user) {
     if (err) return next(err);
     if (!user) return res.send(401);
-    res.json(user.profile);
+    res.json(user);
   });
 };
 
@@ -51,6 +41,7 @@ exports.show = function (req, res, next) {
  * Deletes a user
  * restriction: 'admin'
  */
+ //TODO
 exports.destroy = function(req, res) {
   User.findByIdAndRemove(req.params.id, function(err, user) {
     if(err) return res.send(500, err);
@@ -65,6 +56,16 @@ exports.destroy = function(req, res) {
 exports.find = function(req, res, next) {
   User.findByFilters(req.query, function(users){
     res.json(users);
+  });
+};
+
+/**
+ * Change properties on user object
+ */
+exports.update = function(req, res, next) {
+  var user = new User(req.user);
+  user.update(req.user['@rid'], req.body, function(user){
+    res.send(200);
   });
 };
 
@@ -85,13 +86,9 @@ exports.me = function(req, res, next) {
   res.json(req.user);
 };
 
-exports.getFbAppToken = function(req, res, next){
-
-};
-
 /**
  * Authentication callback
  */
 exports.authCallback = function(req, res, next) {
-  res.redirect('/');
+  res.redirect('/findfriends');
 };

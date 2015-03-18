@@ -66,9 +66,9 @@ exports.setup = function (User, config) {
                 }
               },
               profile: {
-                intro: "",
-                idealWeekend: "",
-                dreamDestination: ""
+                intro: "intro test",
+                idealWeekend: "ideal test",
+                dreamDestination: "dream test"
               },
               role: 'free'
             });

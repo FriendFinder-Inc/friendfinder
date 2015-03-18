@@ -33,6 +33,20 @@ User.findOne = function(params, cb) {
   });
 };
 
+User.prototype.update = function(rid, params, cb) {
+  var data = {};
+  var key = params.value;
+  data[key] = params.newVal;
+  db.update(rid).put(params.key, data).scalar()
+  .then(function (total) {
+    //console.log('updated', total, 'records');
+  });
+};
+
+User.prototype.delete = function(cb) {
+
+};
+
 // TODO: gremlin refactor
 User.mutualInterests = function(userA, userB, cb) {
 

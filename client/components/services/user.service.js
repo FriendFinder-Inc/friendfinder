@@ -6,16 +6,17 @@ angular.module('friendfinderApp')
       id: '@rid'
     },
     {
-      changePassword: {
-        method: 'PUT',
-        params: {
-          controller:'password'
-        }
-      },
       get: {
         method: 'GET',
         params: {
           id:'me'
+        }
+      },
+      update: {
+        method: 'PUT',
+        params: {
+          id: 'me',
+          controller:'update'
         }
       },
       find: {
