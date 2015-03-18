@@ -52,6 +52,6 @@ angular.module('friendfinderApp')
         url: '/mission',
         templateUrl: 'app/settings/about/aboutMission.html',
         controller: 'AboutCtrl'
-        // authenticate: true
+        // authenticate: true TODO
       });
   });

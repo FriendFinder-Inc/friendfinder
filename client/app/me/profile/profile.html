@@ -1,0 +1,79 @@
+<div class="container">
+  <div class='ui segment'>
+
+    <div id='photos-container'>
+      <div class="ui small image" ng-repeat='img in fbPicsUrls' style='width: 250px;'>
+        <img ng-src="{{img}}">
+      </div>
+    </div>
+
+    <div class='ui two column grid'>
+      <div class='doubling two column row'>
+
+        <div class='column' id='intro-column'>
+
+          <h5 class="ui top attached center aligned header">
+            intro
+          </h5>
+          <div class='ui content'>
+            <div id='intro' class='ui segment'>
+              <p>Introduce yourself!</p><br>
+              <div class="ui input" id='intro-area'>
+                <input type="text-area" placeholder="{{ currentUser.profile.intro }}">
+              </div>
+            </div>
+          </div>
+          <h5 class="ui top attached center aligned header">
+            ideal weekend
+          </h5>
+          <div class='ui content'>
+            <div id='intro' class='ui segment'>
+              <p>What is your favorite way to spend the weekend?</p><br>
+              <div class="ui input" id='ideal-weekend-area'>
+                <input type="text-area" placeholder="{{ currentUser.profile.idealWeekend }}">
+              </div>
+            </div>
+          </div>
+          <h5 class="ui top attached center aligned header">
+            dream destination
+          </h5>
+          <div class='ui content'>
+            <div id='intro' class='ui segment'>
+              <p>If you and another user won a 3 day trip to anywhere in the world,
+              where would you suggest to go and why?</p><br>
+              <div class="ui input" id='dream-destination-area'>
+                <input type="text-area" placeholder="{{ currentUser.profile.dreamDestination }}">
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class='column' id='details-column'>
+          <h5 class="ui top attached center aligned header">
+            details
+          </h5>
+          <div class='ui content'>
+            <div id='details' class='ui segment'>
+              <div class="ui vertical segment" ng-repeat='(key, value) in currentUser.details'>
+                <div class='details-key'>
+                  {{key}}
+                </div>
+                <div class="ui selection dropdown">
+                  <input type="hidden" name="{{key}}">
+                  <div class="default text">{{ value.value }}</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item" data-value="1">Male</div>
+                    <div class="item" data-value="0">Female</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,6 @@ var User = function(params) {
   this.props = {};
   this.props.details =       params.details;
   this.props.email =         params.email;
-  // this.props.facebook =      params.facebook;
   this.props.location =      params.location;
   this.props.birthday =      params.birthday;
   this.props.hometown =      params.hometown;

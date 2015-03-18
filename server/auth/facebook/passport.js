@@ -30,15 +30,18 @@ exports.setup = function (User, config) {
                 drinks:             {value: '-', private: false},
                 drugs:              {value: '-', private: false},
                 education:          {value: '-', private: false},
+                employer:           {value: profile._json.work[0].employer.name, private: false},
                 ethnicity:          {value: '-', private: false},
                 gender:             {value: profile.gender||'-', private: false},
                 height:             {value: '-', private: false},
+                hometown:           {value: profile._json.hometown.name, private: false},
                 job:                {value: '-', private: false},
                 orientation:        {value: '-', private: false},
-                'personality type': {value: '-', private: false},
+                personality:        {value: '-', private: false},
                 politics:           {value: profile.political||'-', private: false},
                 relationship:       {value: profile.relationship_status||'-', private: false},
                 religion:           {value: profile.religion||'-', private: false},
+                school:             {value: profile._json.education[profile._json.education.length-1].school.name, private: false},
                 smokes:             {value: '-', private: false}
               },
               name: profile._json.name,
@@ -51,9 +54,6 @@ exports.setup = function (User, config) {
               birthday: new Date(profile._json.birthday.split('/')[2],
                                  profile._json.birthday.split('/')[0]-1,
                                  profile._json.birthday.split('/')[1]),
-              hometown: profile._json.hometown.name,
-              school: profile._json.education[profile._json.education.length-1].school.name,
-              employer: profile._json.work[0].employer.name,
               fbAccessToken: accessToken, //TODO: logout? delete?
               facebookId: profile.id,
               preferences: {
@@ -66,8 +66,9 @@ exports.setup = function (User, config) {
                 }
               },
               profile: {
-                intro: 'intro',
-                answer: 'I would want to see the pyramids!'
+                intro: "",
+                idealWeekend: "",
+                dreamDestination: ""
               },
               role: 'free'
             });
