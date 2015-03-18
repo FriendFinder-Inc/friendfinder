@@ -52,13 +52,13 @@
               <div class="item" style='max-height: 100px;'
                    ng-repeat='user in oddUsers' ng-click='showProfileModal(user)'>
                 <div class="image">
-                  <img ng-src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=500&height=500">
+                  <img ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                 </div>
                 <div class="content">
-                  {{ birthdayToAge(user.facebook.birthday) }} ,
+                  {{ birthdayToAge(user.birthday) }} ,
                   <a class="header">{{ user.name.split(' ')[0] }}</a>
                   <div class="meta">
-                    <span>{{ user.facebook.location.name }}</span>
+                    <span>{{ user.location.name }}</span>
                   </div>
                   <div class="extra">
                     <div class="ui horizontal label">more</div>
@@ -67,7 +67,6 @@
                   <div class="description">
                     This will eventually be a quick little introduction paragraph the users will create...
                   </div>
-
                 </div>
               </div>
             </div>
@@ -78,13 +77,13 @@
               <div class="item" style='max-height: 100px;'
                    ng-repeat='user in evenUsers' ng-click='showProfileModal(user)'>
                 <div class="image">
-                  <img ng-src="https://graph.facebook.com/{{ user.facebook.id }}/picture?width=500&height=500">
+                  <img ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                 </div>
                 <div class="content">
-                  {{ birthdayToAge(user.facebook.birthday) }} ,
+                  {{ birthdayToAge(user.birthday) }} ,
                   <a class="header">{{ user.name.split(' ')[0] }}</a>
                   <div class="meta">
-                    <span>{{ user.facebook.location.name }}</span>
+                    <span>{{ user.location.name }}</span>
                   </div>
                   <div class="extra">
                     <div class="ui horizontal label">more</div>
@@ -108,7 +107,7 @@
   <i class="close icon floated right"></i>
   <div class="content">
     <div class="ui small image">
-      <img ng-src="{{img}}" ng-repeat='img in fbPicsUrls'>
+      <img ng-src="{{img}}" ng-repeat='img in fbPicsUrls' style='margin-bottom: 10px;'>
     </div>
   </div>
   <h5 class="ui top attached center aligned header">
@@ -116,10 +115,6 @@
   </h5>
   <div class='ui attached content'>
     <div  id='mutual-likes-container'>
-      <!-- <div id='mutual-likes-contents' class="ui small image">
-        {{ mutualInterests }}
-        <img ng-src="{{like.img}}" ng-repeat='like in mutualInterests'>
-      </div> -->
     </div>
   </div>
   <h5 class="ui top attached center aligned header">
@@ -128,6 +123,15 @@
   <div class='ui content'>
     <div id='intro' class='ui segment'>
       this will be a short intro the user will create...
+    </div>
+  </div>
+  <h5 class="ui top attached center aligned header">
+  dream destination
+  </h5>
+  <div class='ui content'>
+    <div id='intro' class='ui segment'>
+      If you and another user won a 3 day trip to anywhere in the world,
+      where would you suggest to go and why?
     </div>
   </div>
   <h5 class="ui top attached center aligned header">
@@ -140,7 +144,7 @@
           hometown
         </div>
         <div class='details-value'>
-          {{selectedUser.facebook.hometown.name}}
+          {{selectedUser.hometown}}
         </div>
       </div>
       <div class="ui vertical segment">
@@ -148,7 +152,7 @@
           education
         </div>
         <div class='details-value'>
-          {{selectedUser.facebook.education[selectedUser.facebook.education.length-1].school.name}}
+          {{selectedUser.school}}
         </div>
       </div>
       <div class="ui vertical segment">
@@ -156,7 +160,7 @@
           work
         </div>
         <div class='details-value'>
-          {{selectedUser.facebook.work[0].employer.name}}
+          {{selectedUser.employer}}
         </div>
       </div>
       <!-- repeat for details -->

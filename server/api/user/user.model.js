@@ -6,8 +6,13 @@ var User = function(params) {
   this.props = {};
   this.props.details =       params.details;
   this.props.email =         params.email;
-  this.props.facebook =      params.facebook;
-  this.props.facebookid =    params.facebookid;
+  // this.props.facebook =      params.facebook;
+  this.props.location =      params.location;
+  this.props.birthday =      params.birthday;
+  this.props.hometown =      params.hometown;
+  this.props.school =        params.school;
+  this.props.employer =      params.employer;
+  this.props.facebookId =    params.facebookId;
   this.props.fbAccessToken = params.fbAccessToken;
   this.props.name =          params.name;
   this.props.preferences =   params.preferences;
@@ -31,9 +36,18 @@ User.findOne = function(params, cb) {
 
 // TODO: gremlin refactor
 User.mutualInterests = function(userA, userB, cb) {
+
+  // var query = "select expand( intersect( $likesA, $likesB ) )"+
+  //             " let $likesA = ( select out('likes') from RegisteredUser where facebookId = "+userA+" ),"+
+  //             " let $likesB = ( select out('likes') from RegisteredUser where facebookId = "+userB+" )";
+  //
+  // db.query(query).then(function (mutual) {
+  //   console.log('mutual', mutual)
+  // });
+
   var mutual = [];
-  var userALikes = "select out('likes') from RegisteredUser where facebook.id = "+userA;
-  var userBLikes = "select out('likes') from RegisteredUser where facebook.id = "+userB;
+  var userALikes = "select out('likes') from RegisteredUser where facebookId = "+userA;
+  var userBLikes = "select out('likes') from RegisteredUser where facebookId = "+userB;
   db.query(userALikes).then(function (interestsA) {
     db.query(userBLikes).then(function (interestsB) {
       var cluster = interestsA[0].out[0].cluster;

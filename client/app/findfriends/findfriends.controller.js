@@ -148,14 +148,14 @@ angular.module('friendfinderApp')
     };
 
     $scope.bookmarkUser = function(user){
-      console.log('bookmarking', user.facebook.id)
+      console.log('bookmarking', user.facebookId)
     };
 
     $scope.getMutualInterests = function(user){
       $scope.mutualInterests = [];
       var users = {
-        userA: $scope.currentUser.facebook.id,
-        userB: user.facebook.id
+        userA: $scope.currentUser.facebookId,
+        userB: user.facebookId
       };
       User.mutualinterests(users).$promise.then(function(mutual){
         var token = {
@@ -189,18 +189,18 @@ angular.module('friendfinderApp')
     $scope.getFacebookPhotos = function(user){
       $scope.fbPicsUrls = [];
       for(var i = 0; i < 8; i++){
-        var img = $.cloudinary.image(user.facebook.id+'/'+i+'.jpg');
+        var img = $.cloudinary.image(user.facebookId+'/'+i+'.jpg');
         $scope.fbPicsUrls.push(img[0].src);
       }
     };
 
     $scope.sendMessage = function(){
       var message = $('#message-text').val();
-      var user = $scope.selectedUser.facebook.id;
-      var data = { recipient: user, sender: $scope.currentUser.facebook.id,
+      var user = $scope.selectedUser.facebookId;
+      var data = { recipient: user, sender: $scope.currentUser.facebookId,
                     content: message, read: null};
       Message.send(data).$promise.then(function(res){
-        Message.get({userId: $scope.currentUser.facebook.id}).$promise.then(function(messages){
+        Message.get({userId: $scope.currentUser.facebookId}).$promise.then(function(messages){
           //TODO: retrieve messages
           console.log('got messages', messages);
         });
