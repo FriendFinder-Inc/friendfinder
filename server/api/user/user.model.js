@@ -27,6 +27,11 @@ var createEdge = function(fromRid, toRid, type, cb){
   .one()
   .then(function (edge) {
     cb(edge);
+  })
+  .catch(function(err){
+    var msg = 'ORIENTDB ERROR: failed to create edge, '+err.message;
+    console.log(msg)
+    cb(msg)
   });
 };
 
@@ -45,7 +50,6 @@ User.findOne = function(params, cb) {
 };
 
 User.bookmark = function(fromRid, toRid, cb) {
-  // TODO handle duplicates
   createEdge(fromRid, toRid, 'bookmarked', cb);
 };
 

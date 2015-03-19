@@ -73,7 +73,7 @@ exports.update = function(req, res, next) {
  * Bookmark a user or activity
  */
 exports.bookmark = function(req, res, next) {
-  User.bookmark(req.user['@rid'], req.body.rid, function(user){
+  User.bookmark(req.user['@rid'], req.body.rid, function(res){
     res.send(200);
   });
 };
