@@ -34,16 +34,19 @@ Message.prototype.create = function(cb) {
 //TODO refactor optimize?
 Message.prototype.send = function(cb) {
   var self = this;
-  var query = "select from Message where ( to = "+self.props.to+" and from = "+self.props.from+" ) or"+
+  var query = "select from Message where ( to = "+self.props.to+" and from = "+self.props.from+" ) or "+
                                         "( from = "+self.props.to+" and to = "+self.props.from+" )";
+  console.log('f query', query)
   db.query(query)
   .then(function (chatHead) {
     db.insert().into('Message').set(self.props).one()
     .then(function(message){
       if(!chatHead.length){ // first contact
+        console.log('first contact')
         createEdge(self.props.from, message['@rid'], 'sent');
         createEdge(message['@rid'], self.props.to, 'received');
       } else {
+        console.log('adding to thread')
         db.query("traverse out('next') from "+chatHead[0]['@rid']).then(function(last){
           //TODO how to return just one record?
           last = last[last.length-1]
@@ -70,22 +73,30 @@ Message.findByFilters = function(params, cb) {
   });
 };
 
+//TODO: refactor queries
 Message.getAll = function(rid, cb) {
   rid = '#'+rid.cluster +':'+rid.position;
   var query = "select expand( out ) from ("+
-                  "select out('sent') in('received') from "+rid+" )";
-  db.query(query)
-  .then(function (chatHeads) {
-    var threads = [];
-    for(var i = 0; i < chatHeads.length; i++){
-      var query = "traverse out('next') from "+chatHeads[i]['@rid'];
-      db.query(query).then(function(thread){
-        threads.push(thread);
-        if(i === chatHeads.length){
-          cb(threads);
-        }
-      });
-    }
+                  "select out('sent') from "+rid+" )";
+  db.query(query).then(function (chatHeadsOut) {
+    var query = "select expand( in ) from ("+
+                    "select in('received') from "+rid+" )";
+    db.query(query).then(function(chatHeadsIn){
+      var chatHeads = chatHeadsOut.concat(chatHeadsIn);
+      var threads = [];
+      var getThread = function(i, query){
+        db.query(query).then(function(thread){
+          threads.push(thread);
+          if(i === chatHeads.length-1){
+            cb(threads);
+          }
+        });
+      };
+      for(var i = 0; i < chatHeads.length; i++){
+        var query = "traverse out('next') from "+chatHeads[i]['@rid'];
+        getThread(i, query);
+      }
+    });
   });
 };
 

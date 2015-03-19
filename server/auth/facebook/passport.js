@@ -18,74 +18,112 @@ exports.setup = function (User, config) {
       },
       function(user) {
         if (!user) {
-          // google geocode API
-          geocoder.geocode(profile._json.location.name, function (err, data) {
-            if(err){ console.log('GEOCODE ERROR: failed to get latlong for user: ', facebookId, err);}
-            var lat = data.results[0].geometry.location.lat;
-            var long = data.results[0].geometry.location.lng;
-            user = new User({
-              details:{
-                cliche:             {value: '-', private: false},
-                diet:               {value: '-', private: false},
-                drinks:             {value: '-', private: false},
-                drugs:              {value: '-', private: false},
-                education:          {value: '-', private: false},
-                employer:           {value: profile._json.work[0].employer.name, private: false},
-                ethnicity:          {value: '-', private: false},
-                gender:             {value: profile.gender||'-', private: false},
-                height:             {value: '-', private: false},
-                hometown:           {value: profile._json.hometown.name, private: false},
-                job:                {value: '-', private: false},
-                orientation:        {value: '-', private: false},
-                personality:        {value: '-', private: false},
-                politics:           {value: profile.political||'-', private: false},
-                relationship:       {value: profile.relationship_status||'-', private: false},
-                religion:           {value: profile.religion||'-', private: false},
-                school:             {value: profile._json.education[profile._json.education.length-1].school.name, private: false},
-                smokes:             {value: '-', private: false}
-              },
-              name: profile._json.name,
-              email: profile.emails[0].value,
-              location: {
-                name: profile._json.location.name,
-                lat: lat,
-                long: long
-              },
-              birthday: new Date(profile._json.birthday.split('/')[2],
-                                 profile._json.birthday.split('/')[0]-1,
-                                 profile._json.birthday.split('/')[1]),
-              fbAccessToken: accessToken, //TODO: logout? delete?
-              facebookId: profile.id,
-              preferences: {
-                email: {
-                  whenMessaged: true,
-                  weeklyMatch: true
-                },
-                privacy: {
-                  hiddenFromFriends: false
-                }
-              },
-              profile: {
-                intro: "intro test",
-                idealWeekend: "ideal test",
-                dreamDestination: "dream test"
-              },
-              role: 'free'
+          var fbData = {};
+          // optional data
+          try{
+            fbData.location = {
+              name: profile._json.location.name,
+              lat: null,
+              long: null
+            };
+          } catch(err) {
+            fbData.location = {
+              name: null,
+              lat: null,
+              long: null
+            };
+          }
+          try{fbData.employer = profile._json.work[0].employer.name;} catch(err) {fbData.employer = '-';}
+          try{fbData.hometown = profile._json.hometown.name;} catch(err) {fbData.hometown = '-';}
+          try{fbData.school   = profile._json.education[profile._json.education.length-1].school.name;} catch(err) {fbData.school = '-';}
+          // nonoptional data
+          fbData.gender = profile.gender;
+          fbData.name = profile._json.name;
+          fbData.id = profile.id;
+          fbData.email = profile.emails[0].value;
+          fbData.accessToken = accessToken;
+          fbData.birthday = new Date(profile._json.birthday.split('/')[2],
+                                     profile._json.birthday.split('/')[0]-1,
+                                     profile._json.birthday.split('/')[1]);
+
+          if(fbData.location.name){
+            // google geocode API
+            geocoder.geocode(location, function (err, data) {
+              if(err){
+                console.log('GEOCODE ERROR: failed to get latlong for user: ', profile.id, err);
+              }
+              else {
+                fbData.location = {
+                  name: fbData.location,
+                  lat: data.results[0].geometry.location.lat,
+                  long: data.results[0].geometry.location.lng
+                };
+              }
+              newUser(fbData, done);
             });
-            user.create(function(user) {
-              FB.setAccessToken(accessToken);
-              exports.connectFriends(user);
-              exports.connectPages(user);
-              exports.uploadFbPhotos(user);
-              return done(null, user);
-            });
-          });
+          } else {
+            newUser(fbData, done);
+          }
         } else {
           return done(null, user);
         }
       });
     }
   ));
+};
+
+var newUser = function(fbData, cb){
+  user = new User({
+    details:{
+      cliche:             {value: '-', private: false},
+      diet:               {value: '-', private: false},
+      drinks:             {value: '-', private: false},
+      drugs:              {value: '-', private: false},
+      education:          {value: '-', private: false},
+      employer:           {value: fbData.employer, private: false},
+      ethnicity:          {value: '-', private: false},
+      gender:             {value: fbData.gender||'-', private: false},
+      height:             {value: '-', private: false},
+      hometown:           {value: fbData.hometown, private: false},
+      job:                {value: '-', private: false},
+      orientation:        {value: '-', private: false},
+      personality:        {value: '-', private: false},
+      politics:           {value: '-', private: false},
+      relationship:       {value: '-', private: false},
+      religion:           {value: '-', private: false},
+      school:             {value: fbData.school, private: false},
+      smokes:             {value: '-', private: false}
+    },
+    name: fbData.name,
+    email: fbData.email,
+    location: fbData.location,
+    birthday: fbData.birthday,
+    fbAccessToken: fbData.accessToken, //TODO: logout? delete?
+    facebookId: fbData.id,
+    preferences: {
+      email: {
+        whenMessaged: true,
+        weeklyMatch: true
+      },
+      privacy: {
+        hiddenFromFriends: false
+      }
+    },
+    profile: {
+      intro: "intro test",
+      idealWeekend: "ideal test",
+      dreamDestination: "dream test"
+    },
+    role: 'free',
+    views: 0
+  });
+  user.create(function(user) {
+    FB.setAccessToken(fbData.accessToken);
+    exports.connectFriends(user);
+    exports.connectPages(user);
+    exports.uploadFbPhotos(user);
+    return cb(null, user);
+  });
 };
 
 var createEdge = function(from, to, type){
@@ -194,6 +232,10 @@ exports.uploadFbPhotos = function(user){
       if(albums.data[i].name === 'Profile Pictures'){
         var profileAlbum = albums.data[i].id;
       }
+    }
+    if(!profileAlbum){
+      console.log("FB API ERROR: no 'Profile Pictures' album exists for user:", user.facebookId);
+      return;
     }
     FB.get('/'+profileAlbum+'/photos', {limit: 8}, function (err, photos) {
       if(err) {

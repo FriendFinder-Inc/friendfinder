@@ -2,7 +2,7 @@
 
 angular.module('friendfinderApp')
   .controller('MessagesCtrl', function ($scope, User, Auth, Message) {
-    $('.menu .item')
+    $('.messages-item')
       .tab({
         context : '#chat-heads',
         // history: true
@@ -23,6 +23,7 @@ angular.module('friendfinderApp')
         angular.forEach(thread, function(message){
           if(message.to != to){
             active = true;
+            //TODO for loop optimize
           }
         })
         if(!active){
@@ -34,7 +35,33 @@ angular.module('friendfinderApp')
     });
 
     $scope.showThread = function(thread){
-      console.log('st', thread);
       $scope.selectedThread = thread;
+    };
+
+    $scope.sendMessage = function(){
+      var message = $('#response-text-area').val();
+
+      // extract info from first message in thread
+      var firstMessage = $scope.selectedThread[0];
+      var toRid = (firstMessage.to === $scope.currentUser['@rid'] ? firstMessage.from :
+                                                                    firstMessage.to);
+      var toFbId = (firstMessage.toFacebookId === $scope.currentUser.facebookId ? firstMessage.fromFacebookId :
+                                                                                  firstMessage.toFacebookId);
+
+      var data =  {
+                    to: toRid,
+                    from: $scope.currentUser['@rid'],
+                    timeSent: new Date(),
+                    timeRead: null,
+                    content: message,
+                    toFacebookId: toFbId,
+                    fromFacebookId: $scope.currentUser.facebookId
+                  };
+
+      Message.send(data).$promise.then(function(res){
+        Message.get({userId: $scope.currentUser.facebookId}).$promise.then(function(messages){
+          console.log('got messages', messages);
+        });
+      });
     }
   });

@@ -20,15 +20,14 @@
 }
 
 .message{
-  float: right;
-  width: 80%;
+  margin-left: 60px;
+  margin-bottom: 15px;
 }
 
 .them-bubble
 {
   position: relative;
-  width: 250px;
-  height: 100px;
+  min-height: 50px;
   padding: 0px;
   background: blue;
   -webkit-border-radius: 4px;
@@ -54,8 +53,7 @@
 .me-bubble
 {
   position: relative;
-  width: 250px;
-  height: 100px;
+  min-height: 60px;
   padding: 0px;
   background: blue;
   -webkit-border-radius: 4px;
