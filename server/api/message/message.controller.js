@@ -5,21 +5,8 @@ var Message = require('./message.model');
 
 // get all messages for a user
 exports.all = function(req, res) {
-  Message.getAll(req.query.userId, function(messages){
-  });
-};
-
-// get all sent messages for a user
-exports.sent = function(req, res) {
-  Message.getSent(req.query.userId, function(messages){
-    console.log('wow', messages)
-  });
-};
-
-// get all received messages for a user
-exports.received = function(req, res) {
-  Message.getReceived(req.query.userId, function(messages){
-    console.log('wow', messages)
+  Message.getAll(req.user['@rid'], function(threads){
+    res.json(threads);
   });
 };
 

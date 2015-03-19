@@ -196,9 +196,16 @@ angular.module('friendfinderApp')
 
     $scope.sendMessage = function(){
       var message = $('#message-text').val();
-      var user = $scope.selectedUser.facebookId;
-      var data = { recipient: user, sender: $scope.currentUser.facebookId,
-                    content: message, read: null};
+      var data =  {
+                    to: $scope.selectedUser['@rid'],
+                    from: $scope.currentUser['@rid'],
+                    timeSent: new Date(),
+                    timeRead: null,
+                    content: message,
+                    toFacebookId: $scope.selectedUser.facebookId,
+                    fromFacebookId: $scope.currentUser.facebookId
+                  };
+
       Message.send(data).$promise.then(function(res){
         Message.get({userId: $scope.currentUser.facebookId}).$promise.then(function(messages){
           //TODO: retrieve messages

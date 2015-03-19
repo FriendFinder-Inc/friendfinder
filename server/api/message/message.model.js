@@ -4,16 +4,17 @@
 var Message = function(params) {
   params = params || {};
   this.props = {};
-  this.props.sender =     params.sender;
-  this.props.recipient =  params.recipient;
-  this.props.read =       params.read;
-  this.props.content =    params.content;
+  this.props.to =               params.to;
+  this.props.toFacebookId =     params.toFacebookId;
+  this.props.from =             params.from;
+  this.props.fromFacebookId =   params.fromFacebookId;
+  this.props.timeSent =         params.timeSent;
+  this.props.timeRead =         params.timeRead;
+  this.props.content =          params.content;
 };
 
 // utility function
-var createEdge = function(from, to, type){
-  var fromRid = '#'+from['@rid'].cluster+':'+from['@rid'].position;
-  var toRid = '#'+to['@rid'].cluster+':'+to['@rid'].position;
+var createEdge = function(fromRid, toRid, type){
   db.create('EDGE', type)
   .from(fromRid)
   .to(toRid)
@@ -29,20 +30,30 @@ Message.prototype.create = function(cb) {
   });
 };
 
+
+//TODO refactor optimize?
 Message.prototype.send = function(cb) {
   var self = this;
-  db.select().from('RegisteredUser').where({'facebook.id': self.props.sender}).one()
-  .then(function(sender){
-    db.select().from('RegisteredUser').where({'facebook.id': self.props.recipient}).one()
-    .then(function(recipient){
-      db.insert().into('Message').set(self.props).one()
-      .then(function (message) {
-        createEdge(sender, message, 'sent');
-        createEdge(recipient, message, 'received');
-        cb(message);
-      });
-    });
-  });
+  var query = "select from Message where ( to = "+self.props.to+" and from = "+self.props.from+" ) or"+
+                                        "( from = "+self.props.to+" and to = "+self.props.from+" )";
+  db.query(query)
+  .then(function (chatHead) {
+    db.insert().into('Message').set(self.props).one()
+    .then(function(message){
+      if(!chatHead.length){ // first contact
+        createEdge(self.props.from, message['@rid'], 'sent');
+        createEdge(message['@rid'], self.props.to, 'received');
+      } else {
+        db.query("traverse out('next') from "+chatHead[0]['@rid']).then(function(last){
+          //TODO how to return just one record?
+          last = last[last.length-1]
+          createEdge(last['@rid'], message['@rid'], 'next');
+          createEdge(message['@rid'], last['@rid'], 'previous');
+        });
+      }
+      cb(message);
+    }); // end message insert
+  }); // end chatHead query
 };
 
 Message.findOne = function(params, cb) {
@@ -59,24 +70,22 @@ Message.findByFilters = function(params, cb) {
   });
 };
 
-Message.getAll = function(userId, cb) {
-  db.query('').all()
-  .then(function (messages) {
-    cb(messages);
-  });
-};
-
-Message.getSent = function(userId, cb) {
-  db.query("select gremlin(it.out('sent')) from RegisteredUser where 'facebook.id' = "+userId).all()
-  .then(function (messages) {
-    cb(messages);
-  });
-};
-
-Message.getReceived = function(userId, cb) {
-  db.query("select gremlin(it.out('received')) from RegisteredUser where 'facebook.id' = "+userId).all()
-  .then(function (messages) {
-    cb(messages);
+Message.getAll = function(rid, cb) {
+  rid = '#'+rid.cluster +':'+rid.position;
+  var query = "select expand( out ) from ("+
+                  "select out('sent') in('received') from "+rid+" )";
+  db.query(query)
+  .then(function (chatHeads) {
+    var threads = [];
+    for(var i = 0; i < chatHeads.length; i++){
+      var query = "traverse out('next') from "+chatHeads[i]['@rid'];
+      db.query(query).then(function(thread){
+        threads.push(thread);
+        if(i === chatHeads.length){
+          cb(threads);
+        }
+      });
+    }
   });
 };
 
