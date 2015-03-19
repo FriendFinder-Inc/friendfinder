@@ -70,6 +70,24 @@ exports.update = function(req, res, next) {
 };
 
 /**
+ * Bookmark a user or activity
+ */
+exports.bookmark = function(req, res, next) {
+  User.bookmark(req.user['@rid'], req.body.rid, function(user){
+    res.send(200);
+  });
+};
+
+/**
+ * Get all bookmarks for user
+ */
+exports.getBookmarks = function(req, res, next) {
+  User.getAllBookmarks(req.user['@rid'], function(bookmarks){
+    res.json(bookmarks);
+  });
+};
+
+/**
  * get mutual fb likes between 2 users
  */
 exports.mutualInterests = function(req, res, next) {

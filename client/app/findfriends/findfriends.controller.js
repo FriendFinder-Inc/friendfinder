@@ -148,7 +148,15 @@ angular.module('friendfinderApp')
     };
 
     $scope.bookmarkUser = function(user){
-      console.log('bookmarking', user.facebookId)
+      console.log('bookmarking', user['@rid'])
+      var data = {
+        rid: user['@rid']
+      };
+      User.bookmark(data).$promise.then(function(bookmarks){
+        User.bookmarks().$promise.then(function(all){
+          console.log('a', all)
+        })
+      });
     };
 
     $scope.getMutualInterests = function(user){

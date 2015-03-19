@@ -19,6 +19,17 @@ var User = function(params) {
   this.props.role =          params.role;
 };
 
+// utility function
+var createEdge = function(fromRid, toRid, type, cb){
+  db.create('EDGE', type)
+  .from(fromRid)
+  .to(toRid)
+  .one()
+  .then(function (edge) {
+    cb(edge);
+  });
+};
+
 User.prototype.create = function(cb) {
   db.insert().into('RegisteredUser').set(this.props).one()
   .then(function (user) {
@@ -30,6 +41,18 @@ User.findOne = function(params, cb) {
   db.select().from('RegisteredUser').where(params).one()
   .then(function (user) {
     cb(user);
+  });
+};
+
+User.bookmark = function(fromRid, toRid, cb) {
+  // TODO handle duplicates
+  createEdge(fromRid, toRid, 'bookmarked', cb);
+};
+
+User.getAllBookmarks = function(rid, cb) {
+  db.query("select expand( out ) from ( select out('bookmarked') from "+rid+" )")
+  .then(function (bookmarks) {
+    cb(bookmarks);
   });
 };
 

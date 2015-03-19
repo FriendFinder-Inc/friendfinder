@@ -27,6 +27,21 @@ angular.module('friendfinderApp')
           controller: 'find'
         }
       },
+      bookmark: {
+        method: 'POST',
+        params: {
+          id: 'me',
+          controller: 'bookmark'
+        }
+      },
+      bookmarks: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller: 'bookmarks'
+        }
+      },
       mutualinterests: {
         method: 'GET',
         isArray: true,
