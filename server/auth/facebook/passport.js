@@ -4,7 +4,6 @@ var User = require('../../api/user/user.model');
 var NrUser = require('../../api/nr-user/nruser.model');
 var Page = require('../../api/page/page.model');
 var FB = require('fbgraph');
-var geocoder = require('geocoder');
 
 exports.setup = function (User, config) {
   passport.use(new FacebookStrategy({
@@ -47,16 +46,15 @@ exports.setup = function (User, config) {
                                      profile._json.birthday.split('/')[1]);
 
           if(fbData.location.name){
-            // google geocode API
-            geocoder.geocode(location, function (err, data) {
+            FB.get('/'+profile._json.location.id, function (err, res) {
               if(err){
-                console.log('GEOCODE ERROR: failed to get latlong for user: ', profile.id, err);
+                console.log('FB API ERROR: failed to get lat/long for user: ', profile.id, err);
               }
               else {
                 fbData.location = {
-                  name: fbData.location,
-                  lat: data.results[0].geometry.location.lat,
-                  long: data.results[0].geometry.location.lng
+                  name: fbData.location.name,
+                  lat: res.location.latitude,
+                  long: res.location.longitude
                 };
               }
               newUser(fbData, done);
