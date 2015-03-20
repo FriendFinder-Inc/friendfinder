@@ -60,13 +60,14 @@ User.getAllBookmarks = function(rid, cb) {
   });
 };
 
-User.prototype.update = function(rid, params, cb) {
-  var data = {};
-  var key = params.value;
-  data[key] = params.newVal;
-  db.update(rid).put(params.key, data).scalar()
+User.update = function(rid, params, cb) {
+  db.update(rid).set({
+    details: params.details,
+    profile: params.profile
+  })
+  .scalar()
   .then(function (total) {
-    //console.log('updated', total, 'records');
+    cb(total);
   });
 };
 

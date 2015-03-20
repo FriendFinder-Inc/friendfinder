@@ -63,8 +63,7 @@ exports.find = function(req, res, next) {
  * Change properties on user object
  */
 exports.update = function(req, res, next) {
-  var user = new User(req.user);
-  user.update(req.user['@rid'], req.body, function(user){
+  User.update(req.user['@rid'], req.body, function(totalMod){
     res.send(200);
   });
 };

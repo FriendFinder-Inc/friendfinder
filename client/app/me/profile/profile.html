@@ -9,7 +9,7 @@
 
     <div ng-class='{green: modified, disabled: !modified}'
          class='ui green button' style='margin-bottom: 16px;'
-         ng-click='updateProfile()'>
+         ng-click='saveChanges()'>
       save changes
     </div>
 
@@ -83,9 +83,8 @@
                   {{key}}
                 </div>
 
-                <select ng-model="currentUser.details[key]"
-                        ng-options="choice.value for choice in detailOptions[key] track by choice.value">
-                  <option value="">-</option>
+                <select ng-model="currentUser.details[key].value"
+                        ng-options="choice for choice in detailOptions[key] track by choice">
                 </select>
 
 
@@ -105,7 +104,8 @@
                 </div> -->
 
                 <div ng-class='{grey: value.private, green: !value.private}'
-                     class='ui button' ng-click='togglePrivacy(key, value.private)'>
+                     class='ui button' ng-click='togglePrivacy(key, value.private)'
+                     ng-model='value.private'>
                   {{ value.private ? 'hidden' : 'public' }}
                 </div>
 

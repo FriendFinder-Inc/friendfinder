@@ -28,6 +28,10 @@ module.exports = function(app) {
   app.use(methodOverride());
   app.use(cookieParser());
   app.use(passport.initialize());
+  //TODO: sessions never timeout...
+  //http://stackoverflow.com/questions/15016551/node-js-express-passport-cookie-expiration
+  //http://stackoverflow.com/questions/20387554/how-to-keep-alive-an-nodejs-passport-session
+  app.use(passport.session());
   if ('production' === env) {
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
