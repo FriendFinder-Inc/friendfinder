@@ -3,12 +3,12 @@
 <div class='settings-container' style='margin: 10%; text-align: center;'>
 
   <div class="ui pointing secondary menu">
-    <a class="active item" data-tab="account" ui-sref='settings.account'>account</a>
+    <a class="item" data-tab="account" ui-sref='settings.account'>account</a>
     <a class="item" data-tab="feedback" ui-sref='settings.feedback.features'>feedback</a>
     <a class="item" data-tab="about" ui-sref='settings.about.terms'>about</a>
   </div>
 
-  <div class="ui active tab" data-tab="account">
+  <div class="ui tab" data-tab="account">
     <ng-include src="'app/settings/account/account.html'"></ng-include>
   </div>
 
@@ -18,7 +18,7 @@
       <a class="item" data-tab="feedback/bugs" ui-sref='settings.feedback.bugs'>bugs</a>
       <a class="item" data-tab="feedback/general" ui-sref='settings.feedback.general'>general</a>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="feedback/features">
+    <div class="ui bottom attached active tab segment" data-tab="feedback/features">
       <ng-include src="'app/settings/feedback/feedbackFeatures.html'"></ng-include>
     </div>
     <div class="ui bottom attached tab segment" data-tab="feedback/bugs">
@@ -35,7 +35,7 @@
       <a class="item" data-tab="about/privacy" ui-sref='settings.about.privacy'>privacy</a>
       <a class="item" data-tab="about/mission" ui-sref='settings.about.mission'>mission</a>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="about/terms">
+    <div class="ui bottom attached active tab segment" data-tab="about/terms">
       <ng-include src="'app/settings/about/aboutTerms.html'"></ng-include>
     </div>
     <div class="ui bottom attached tab segment" data-tab="about/privacy">
