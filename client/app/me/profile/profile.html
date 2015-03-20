@@ -7,7 +7,10 @@
       </div>
     </div>
 
-    <div ng-class='{green: modified, disabled: !modified}'
+    <div ng-class='{green: profileModified ||
+                           tagsModified,
+                    disabled: !(profileModified ||
+                                tagsModified)}'
          class='ui green button' style='margin-bottom: 16px;'
          ng-click='saveChanges()'>
       save changes
@@ -56,15 +59,18 @@
             </div>
           </div>
           <h5 class="ui top attached center aligned header">
-            interests
+            tags
           </h5>
           <div class='ui content'>
             <div id='intro' class='ui segment'>
               <p>Create a comma separated list of things you like, so that other users
               who share that interest can find you.</p><br>
-              <div class="ui input" id='dream-destination-area'>
-                <input type="text-area" ng-model='currentUser.profile.dreamDestination'
-                       placeholder="{{ currentUser.profile.dreamDestination }}">
+              <div class="ui input" id='tag-list-area'>
+                <input type="text-area" ng-model='tagList' ng-list
+                       placeholder="{{ tagList.toString() }}">
+              </div>
+              <div id='tag-container' class=''>
+                <span class="ui tag label" ng-repeat='tag in tagList | orderBy'>{{ tag }}</span>
               </div>
             </div>
           </div>
