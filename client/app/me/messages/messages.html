@@ -1,65 +1,67 @@
-<div class='ui segment'>
-  <div class='ui stackable grid'>
+<div class='container' ng-controller='MessagesCtrl'>
+  <div class='ui segment'>
+    <div class='ui stackable grid'>
 
-    <div class="four wide column" id='chat-heads'>
-      <div class="ui pointing secondary menu">
-          <a class="active item messages-item" data-tab="active">active</a>
-          <a class="item messages-item" data-tab="inactive">inactive</a>
-      </div>
+      <div class="four wide column" id='chat-heads'>
+        <div class="ui pointing secondary menu">
+            <a class="active item messages-item" data-tab="active">active</a>
+            <a class="item messages-item" data-tab="inactive">inactive</a>
+        </div>
 
-      <div class="ui active tab segment" data-tab="active">
-        <div class="item" style='max-height: 100px;'
-             ng-repeat='thread in activeThreads' ng-click='showThread(thread)'>
-          <div class="ui circular image">
-            <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ thread[0].fromFacebookId === currentUser.facebookId ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
-          </div>
-          <div class="content">
-            {{ thread[0].content }}
+        <div class="ui active tab segment" data-tab="active">
+          <div class="item" style='max-height: 100px;'
+               ng-repeat='thread in activeThreads' ng-click='showThread(thread)'>
+            <div class="ui circular image">
+              <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ thread[0].fromFacebookId === currentUser.facebookId ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
+            </div>
+            <div class="content">
+              {{ thread[0].content }}
+            </div>
           </div>
         </div>
-      </div>
-      <div class="ui tab segment" data-tab="inactive">
-        <div class="item" style='max-height: 100px;'
-             ng-repeat='thread in inactiveThreads' ng-click='showThread(thread)'>
-          <div class=" ui circular image">
-            <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ thread[0].fromFacebookId === currentUser.facebookId ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
-          </div>
-          <div class="content">
-            {{ thread[0].content }}
+        <div class="ui tab segment" data-tab="inactive">
+          <div class="item" style='max-height: 100px;'
+               ng-repeat='thread in inactiveThreads' ng-click='showThread(thread)'>
+            <div class=" ui circular image">
+              <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ thread[0].fromFacebookId === currentUser.facebookId ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
+            </div>
+            <div class="content">
+              {{ thread[0].content }}
+            </div>
           </div>
         </div>
+
+      </div>
+
+      <div class="twelve wide column">
+
+        <div class='ui center aligned message' ng-show='selectedThread.length === 0'>
+          please select a thread
+        </div>
+
+        <!-- message bubble -->
+        <div class='message-row' ng-repeat='message in selectedThread'>
+          <div class=" ui circular image" ng-show='message.fromFaceBookId != currentUser.facebookId'>
+            <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ message.fromFacebookId }}/picture?width=60&height=60">
+          </div>
+          <div class=" ui circular image" ng-show='message.fromFaceBookId === currentUser.facebookId'>
+          </div>
+          <div ng-class="message.fromFaceBookId === $currentUser.facebookId ? 'me-bubble' : 'them-bubble'" class='message'>
+            {{ message.content }}
+          </div>
+        </div>
+
+        <div id='response-container' ng-show='true'>
+          <div class='ui input'>
+            <input id='response-text-area' type="text-area" placeholder="...">
+          </div>
+          <div class='ui green button' ng-click='sendMessage()'>
+            send
+          </div>
+        </div>
+
       </div>
 
     </div>
-
-    <div class="twelve wide column">
-
-      <div class='ui center aligned message' ng-show='selectedThread.length === 0'>
-        please select a thread
-      </div>
-
-      <!-- message bubble -->
-      <div class='message-row' ng-repeat='message in selectedThread'>
-        <div class=" ui circular image" ng-show='message.fromFaceBookId != currentUser.facebookId'>
-          <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ message.fromFacebookId }}/picture?width=60&height=60">
-        </div>
-        <div class=" ui circular image" ng-show='message.fromFaceBookId === currentUser.facebookId'>
-        </div>
-        <div ng-class="message.fromFaceBookId === $currentUser.facebookId ? 'me-bubble' : 'them-bubble'" class='message'>
-          {{ message.content }}
-        </div>
-      </div>
-
-      <div id='response-container' ng-show='true'>
-        <div class='ui input'>
-          <input id='response-text-area' type="text-area" placeholder="...">
-        </div>
-        <div class='ui green button' ng-click='sendMessage()'>
-          send
-        </div>
-      </div>
-
-    </div>
-
   </div>
 </div>
