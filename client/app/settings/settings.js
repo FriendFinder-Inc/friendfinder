@@ -9,49 +9,31 @@ angular.module('friendfinderApp')
         controller: 'SettingsCtrl'
       })
       .state('settings.account', {
-        url: '/account',
-        templateUrl: 'app/settings/account/account.html',
-        controller: 'AccountCtrl'
+        url: '/account'
       })
       .state('settings.feedback', {
-        url: '/feedback',
-        templateUrl: 'app/settings/feedback/feedback.html',
-        controller: 'FeedbackCtrl'
+        url: '/feedback'
       })
       .state('settings.feedback.features', {
-        url: '/features',
-        templateUrl: 'app/settings/feedback/feedback.html',
-        controller: 'FeedbackCtrl'
+        url: '/features'
       })
       .state('settings.feedback.bugs', {
-        url: '/bugs',
-        templateUrl: 'app/settings/feedback/feedback.html',
-        controller: 'FeedbackCtrl'
+        url: '/bugs'
       })
       .state('settings.feedback.general', {
-        url: '/general',
-        templateUrl: 'app/settings/feedback/feedback.html',
-        controller: 'FeedbackCtrl'
+        url: '/general'
       })
       .state('settings.about', {
-        url: '/about',
-        templateUrl: 'app/settings/about/about.html',
-        controller: 'AboutCtrl'
+        url: '/about'
       })
       .state('settings.about.privacy', {
-        url: '/privacy',
-        templateUrl: 'app/settings/about/aboutPrivacy.html',
-        controller: 'AboutCtrl'
+        url: '/privacy'
       })
       .state('settings.about.terms', {
-        url: '/terms',
-        templateUrl: 'app/settings/about/aboutTerms.html',
-        controller: 'AboutCtrl'
+        url: '/terms'
       })
       .state('settings.about.mission', {
-        url: '/mission',
-        templateUrl: 'app/settings/about/aboutMission.html',
-        controller: 'AboutCtrl'
+        url: '/mission'
         // authenticate: true TODO
       });
   });
