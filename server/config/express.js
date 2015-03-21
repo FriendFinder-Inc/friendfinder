@@ -14,6 +14,7 @@ var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var path = require('path');
 var config = require('./environment');
+var session = require('express-session');
 var passport = require('passport');
 
 module.exports = function(app) {
@@ -27,6 +28,9 @@ module.exports = function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
+  app.use(session({
+    secret: config.secrets.session
+  }));
   app.use(passport.initialize());
   //TODO: sessions never timeout...
   //http://stackoverflow.com/questions/15016551/node-js-express-passport-cookie-expiration

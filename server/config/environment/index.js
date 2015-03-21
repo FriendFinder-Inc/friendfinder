@@ -46,6 +46,12 @@ var all = {
     callbackURL:  (process.env.DOMAIN || '') + '/auth/facebook/callback'
   },
 
+  meetup: {
+    clientID:     process.env.MEETUP_ID || 'id',
+    clientSecret: process.env.MEETUP_SECRET || 'secret',
+    callbackURL:  (process.env.DOMAIN || '') + '/auth/meetup/callback'
+  },
+
   cloudinary: {
     cloudname: process.env.CLOUDINARY_CLOUDNAME,
     apikey: process.env.CLOUDINARY_APIKEY,

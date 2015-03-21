@@ -10,16 +10,21 @@ var Tag = function(params) {
 
 // utility function
 var createEdge = function(fromRid, toRid, type, cb){
-  db.create('EDGE', type)
-  .from(fromRid)
-  .to(toRid)
-  .one()
-  .then(function (edge) {
-  })
-  .catch(function(err){
-    var msg = 'ORIENTDB ERROR: failed to create edge, '+err.message;
-    console.log(msg)
-    cb(msg)
+  // don't create duplicate edges ever (even with index constraint)
+  db.query("select from tagged where in ="+toRid+" and out = "+fromRid).then(function(edge){
+    if(!edge.length){
+      db.create('EDGE', type)
+      .from(fromRid)
+      .to(toRid)
+      .one()
+      .then(function (edge) {
+      })
+      .catch(function(err){
+        var msg = 'ORIENTDB ERROR: failed to create edge, '+err.message;
+        console.log(msg)
+        cb(msg)
+      });
+    }
   });
 };
 
@@ -41,6 +46,8 @@ var deleteEdge = function(fromRid, toRid, type, cb){
 
 Tag.prototype.getOrCreate = function(cb) {
   var self = this;
+  // just make all tags lowercase for simplicity
+  self.props.name = self.props.name.toLowerCase();
   Tag.findOne({name: this.props.name}, function(tag){
     if(!tag){
       db.insert().into('Tag').set(self.props).one()
@@ -56,6 +63,7 @@ Tag.prototype.getOrCreate = function(cb) {
 Tag.update = function(userRid, params, cb) {
   var count = 0; // closure variable so we know when to return
   var tags = params.add.concat(params.remove);
+
 
   // add tags to user (create the tag if it doesn't exist)
   for(var i = 0; i < params.add.length; i++){

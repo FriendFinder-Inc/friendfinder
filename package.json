@@ -22,6 +22,7 @@
     "oriento": "^1.1.3",
     "passport": "~0.2.0",
     "passport-facebook": "latest",
+    "passport-meetup": "^0.1.2",
     "serve-favicon": "~2.0.1"
   },
   "devDependencies": {

@@ -6,6 +6,16 @@ var Page = require('../../api/page/page.model');
 var FB = require('fbgraph');
 
 exports.setup = function (User, config) {
+  
+  passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  passport.deserializeUser(function(user, done) {
+    User.findOne({facebookId: user.facebookId}, function(user){
+      done(null, user);
+    });
+  });
+
   passport.use(new FacebookStrategy({
       clientID: config.facebook.clientID,
       clientSecret: config.facebook.clientSecret,

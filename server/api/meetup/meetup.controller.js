@@ -1,53 +1,37 @@
 'use strict';
 
 var _ = require('lodash');
-var Meetup = require('./meetup.model');
+var Meetup = require('./Meetup.model');
 
-// Get list of meetups
-exports.index = function(req, res) {
-  Meetup.find(function (err, meetups) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, meetups);
+
+// Creates a new Meetup in the DB.
+exports.getAll = function(req, res) {
+  Meetup.getUserMeetups(req.user['@rid'], function(Meetups){
+    res.json(Meetups);
   });
 };
 
-// Get a single meetup
-exports.show = function(req, res) {
-  Meetup.findById(req.params.id, function (err, meetup) {
-    if(err) { return handleError(res, err); }
-    if(!meetup) { return res.send(404); }
-    return res.json(meetup);
-  });
-};
-
-// Creates a new meetup in the DB.
+// Creates a new Meetup in the DB.
 exports.create = function(req, res) {
-  Meetup.create(req.body, function(err, meetup) {
+  Meetup.create(req.body, function(err, Meetup) {
     if(err) { return handleError(res, err); }
-    return res.json(201, meetup);
+    return res.json(201, Meetup);
   });
 };
 
-// Updates an existing meetup in the DB.
+// Updates an existing Meetup in the DB.
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Meetup.findById(req.params.id, function (err, meetup) {
-    if (err) { return handleError(res, err); }
-    if(!meetup) { return res.send(404); }
-    var updated = _.merge(meetup, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, meetup);
-    });
+  Meetup.update(req.user['@rid'], req.body, function(result){
+    res.send(200);
   });
 };
 
-// Deletes a meetup from the DB.
+// Deletes a Meetup from the DB.
 exports.destroy = function(req, res) {
-  Meetup.findById(req.params.id, function (err, meetup) {
+  Meetup.findById(req.params.id, function (err, Meetup) {
     if(err) { return handleError(res, err); }
-    if(!meetup) { return res.send(404); }
-    meetup.remove(function(err) {
+    if(!Meetup) { return res.send(404); }
+    Meetup.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.send(204);
     });

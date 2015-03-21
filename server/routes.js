@@ -12,7 +12,6 @@ module.exports = function(app) {
   app.use('/api/tags', require('./api/tag'));
   app.use('/api/pages', require('./api/page'));
   app.use('/api/activities', require('./api/activity'));
-  app.use('/api/dates', require('./api/date'));
   app.use('/api/meetups', require('./api/meetup'));
   app.use('/api/messages', require('./api/message'));
   app.use('/api/users', require('./api/user'));

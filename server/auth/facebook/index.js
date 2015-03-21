@@ -19,12 +19,12 @@ router
         		'user_work_history',
         		'user_education_history'],
     failureRedirect: '/',
-    session: false
+    session: true
   }))
 
   .get('/callback', passport.authenticate('facebook', {
     failureRedirect: '/',
-    session: false
+    session: true
   }), auth.setTokenCookie);
 
 module.exports = router;
