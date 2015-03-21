@@ -16,6 +16,7 @@ angular.module('friendfinderApp')
 
     Message.get().$promise.then(function(threads){
       angular.forEach(threads, function(thread){
+        thread = thread.toJSON();
 
         // separate threads into active and inactive
         var active = false;
@@ -63,5 +64,14 @@ angular.module('friendfinderApp')
           console.log('got messages', messages);
         });
       });
-    }
+    };
+
+    $scope.myMessage = function(fbId){
+      return fbId === $scope.currentUser.facebookId;
+    };
+
+    $scope.threadIsSelected = function(){
+      return Object.keys($scope.selectedThread).length;
+    };
+
   });

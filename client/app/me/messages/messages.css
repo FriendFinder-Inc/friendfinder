@@ -10,9 +10,10 @@
   margin: 6px;
 }*/
 
-/*.item{
-  height: 60px;
-}*/
+.item.chat-head{
+  width: 100%;
+  float: left;
+}
 
 .profile-pic{
   width: 60px;
@@ -20,7 +21,7 @@
 }
 
 .message{
-  margin-left: 60px;
+  margin-left: 80px;
   margin-bottom: 15px;
 }
 
@@ -28,8 +29,8 @@
 {
   position: relative;
   min-height: 50px;
-  padding: 0px;
-  background: blue;
+  padding: 10px;
+  background: lightgrey;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -42,7 +43,7 @@
   border-style: solid;
   color: blue;
   border-width: 15px 15px 15px 0;
-  border-color: transparent blue;
+  border-color: transparent lightgrey;
   display: block;
   width: 0;
   z-index: 1;
@@ -54,8 +55,8 @@
 {
   position: relative;
   min-height: 60px;
-  padding: 0px;
-  background: blue;
+  padding: 10px;
+  background: skyblue;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -67,7 +68,7 @@
   position: absolute;
   border-style: solid;
   border-width: 15px 0 15px 15px;
-  border-color: transparent blue;
+  border-color: transparent skyblue;
   display: block;
   width: 0;
   z-index: 1;
