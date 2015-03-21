@@ -1,7 +1,19 @@
 <div class="container" ng-controller='AccountCtrl'>
   <div class='ui segment'>
-    <div class='ui red button' ng-click="meetupAuth()">
+
+    <div class='ui red button' ng-click="meetupAuth()"
+          ng-show='!currentUser.meetupId'>
       link meetup.com account
     </div>
+
+    <div class='ui red button' ng-click="meetupAuth()"
+          ng-show='currentUser.meetupId'>
+      sync meetup.com account
+    </div>
+
+    <div class='ui blue button' ng-click="facebookSync()">
+      sync facebook account
+    </div>
+
   </div>
 </div>

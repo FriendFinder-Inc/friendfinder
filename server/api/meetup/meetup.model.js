@@ -12,7 +12,7 @@ var Meetup = function(params) {
 // utility function
 var createEdge = function(fromRid, toRid, type, cb){
   // don't create duplicate edges ever (even with index constraint)
-  db.query("select from Meetup where in ="+toRid+" and out = "+fromRid).then(function(edge){
+  db.query("select from member where in ="+toRid+" and out = "+fromRid).then(function(edge){
     if(!edge.length){
       db.create('EDGE', type)
       .from(fromRid)
@@ -40,8 +40,8 @@ var deleteEdge = function(fromRid, toRid, type, cb){
   })
   .catch(function(err){
     var msg = 'ORIENTDB ERROR: failed to delete edge, '+err.message;
-    console.log(msg)
-    cb(msg)
+    console.log(msg);
+    cb(msg);
   });
 };
 
@@ -54,9 +54,9 @@ Meetup.prototype.getOrCreate = function(cb) {
         cb(Meetup);
       });
     } else { // Meetup already existed
-      cb(Meetup)
+      cb(Meetup);
     }
-  })
+  });
 };
 
 Meetup.addGroups = function(userRid, groups, cb) {
@@ -81,7 +81,7 @@ Meetup.addGroups = function(userRid, groups, cb) {
 };
 
 Meetup.getUserMeetups = function(rid, cb) {
-  var query = "select expand( out ) from ( select out('Meetupged') from "+rid+" )";
+  var query = "select expand( out ) from ( select out('member') from "+rid+" )";
   db.query(query).then(function (Meetups) {
     cb(Meetups);
   });
@@ -96,7 +96,6 @@ Meetup.findOne = function(params, cb) {
 };
 
 Meetup.findByFilters = function(params, cb) {
-  console.log('in fbf', params)
   // db.select().from('Meetup').where(params).all()
   // .then(function (Meetups) {
   //   cb(Meetups);

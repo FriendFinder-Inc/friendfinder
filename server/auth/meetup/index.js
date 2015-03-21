@@ -7,10 +7,8 @@ var auth = require('../auth.service');
 var router = express.Router();
 
 router
-  .get('/', function(req, res, next){
-    // TODO: is this the best way to do this?
-    // https://groups.google.com/forum/#!topic/passportjs/6Pqc6oKDBnk
-    req.session.rid = req.query.rid;
+  .get('/', auth.isAuthenticated(), function(req, res, next){
+    req.session.rid = req.user['@rid']
     passport.authenticate('meetup',
     {
       scope: [],
@@ -18,7 +16,6 @@ router
       session: false,
     })(req, res, next);
   })
-
   .get('/callback', passport.authenticate('meetup',
     {
       failureRedirect: '/settings/account',

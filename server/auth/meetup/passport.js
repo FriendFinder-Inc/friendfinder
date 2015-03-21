@@ -52,7 +52,7 @@ exports.setup = function (User, config) {
         // help user's not only find people in their same meetup groups,
         // but people in meetup groups of similar categories :)
         newTags = newTags.concat(Object.keys(categories));
-        exports.sendMeetupData(rid, newTags, groups, done);
+        exports.sendMeetupData(rid, meetupId, newTags, groups, done);
       })
     });
     req.end();
@@ -63,17 +63,19 @@ exports.setup = function (User, config) {
   }));
 };
 
-exports.sendMeetupData = function(rid, newTags, groups, done){
-  // rebuild rid using #cluster:position
-  rid = '#'+rid.split('_')[0]+':'+rid.split('_')[1];
-
-  Meetup.addGroups(rid, groups, function(res){
-    Tag.update(rid, {
-        add: newTags,
-        remove: []
-      }, function(res){
-        done(null, res);
+exports.sendMeetupData = function(rid, meetupId, newTags, groups, done){
+  db
+  .update(rid)
+  .set({'meetupId': meetupId})
+  .scalar()
+  .then(function (total) {
+    Meetup.addGroups(rid, groups, function(res){
+      Tag.update(rid, {
+          add: newTags,
+          remove: []
+        }, function(res){
+          done(null, res);
+      });
     });
   });
-
 };
