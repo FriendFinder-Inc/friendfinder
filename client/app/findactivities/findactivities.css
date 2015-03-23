@@ -1,0 +1,39 @@
+.disabled.title {
+  cursor: default;
+  background-color: #dcddde !important;
+  color: rgba(0, 0, 0, 0.4) !important;
+  opacity: 0.3 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  pointer-events: none;
+}
+
+#mutual-likes-container{
+  width: 450px;
+  text-align: center;
+  overflow: auto;
+  white-space:nowrap;
+}
+
+#mutual-likes-contents{
+  display: inline-block !important;
+  float:left !important;
+}
+
+#intro{
+  width: 100%;
+}
+
+#details{
+  width: 100%;
+}
+
+.details-key{
+  width: 30%;
+  float: left;
+}
+
+.details-value{
+  width:70%;
+  float: left;
+}

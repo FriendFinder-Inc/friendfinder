@@ -37,6 +37,9 @@
       <link rel="stylesheet" href="bower_components/semantic-ui-image/image.css" />
       <link rel="stylesheet" href="bower_components/semantic-ui-transition/transition.css" />
       <link rel="stylesheet" href="bower_components/semantic-ui-dimmer/dimmer.css" />
+      <link rel="stylesheet" href="bower_components/pickadate/lib/themes/default.css" />
+      <link rel="stylesheet" href="bower_components/pickadate/lib/themes/default.date.css" />
+      <link rel="stylesheet" href="bower_components/pickadate/lib/themes/default.time.css" />
       <!-- endbower -->
 
     <!-- endbuild -->
@@ -44,6 +47,7 @@
     <link rel="stylesheet" href="app/app.css">
       <!-- injector:css -->
       <link rel="stylesheet" href="app/app.css">
+      <link rel="stylesheet" href="app/findactivities/findactivities.css">
       <link rel="stylesheet" href="app/findfriends/findfriends.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/me/activities/activities.css">
@@ -63,6 +67,9 @@
 
     <!-- Add your site or application content here -->
     <div ui-view=""></div>
+
+    <!-- google places api -->
+    <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 
     <!-- Google Analytics -->
     <script>
@@ -130,6 +137,10 @@
       <script src="bower_components/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
       <script src="bower_components/cloudinary_js/js/jquery.cloudinary.js"></script>
       <script src="bower_components/moment/moment.js"></script>
+      <script src="bower_components/geocomplete/jquery.geocomplete.js"></script>
+      <script src="bower_components/pickadate/lib/picker.js"></script>
+      <script src="bower_components/pickadate/lib/picker.date.js"></script>
+      <script src="bower_components/pickadate/lib/picker.time.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -145,6 +156,8 @@
     <!-- build:js({.tmp,client}) app/app.js -->
     <script src="app/app.js"></script>
       <!-- injector:js -->
+      <script src="app/findactivities/findactivities.controller.js"></script>
+      <script src="app/findactivities/findactivities.js"></script>
       <script src="app/findfriends/findfriends.controller.js"></script>
       <script src="app/findfriends/findfriends.js"></script>
       <script src="app/main/main.controller.js"></script>

@@ -1,7 +1,7 @@
 'use strict';
 
 var _ = require('lodash');
-var Meetup = require('./Meetup.model');
+var Meetup = require('./meetup.model');
 
 
 // Creates a new Meetup in the DB.

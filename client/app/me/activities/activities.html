@@ -1,5 +1,82 @@
 <div class="container" ng-controller='ActivitiesCtrl'>
   <div class='ui segment'>
-    activities
+    <div class='ui green button' ng-click='showModal()'>
+      create new
+    </div>
+  </div>
+</div>
+
+<div class="ui small modal" ng-controller='ActivitiesCtrl'>
+  <i class="close icon"></i>
+  <div class="header">
+    create a new activity
+  </div>
+
+  <div class="container">
+
+  <div class="ui form segment" ng-controller="RegisterController">
+    <div class="ui inverted dimmer" ng-class="{true: 'active', false: 'disabled'}[loading]">
+      <div class="ui text loader">creating activity</div>
+    </div>
+
+    <div class="field">
+      <label for="title">title</label>
+      <div class="ui icon input">
+        <input id="title" type="text" ng-model="activity.title">
+        <i class="asterisk red icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label for="description">description</label>
+      <div class="ui icon input">
+        <input id="description" type="text" ng-model="activity.description">
+        <i class="asterisk red icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label for="location">location</label>
+      <div class="ui icon input">
+        <input id="location" type="text" ng-model="activity.location">
+        <i class="asterisk red icon"></i>
+      </div>
+    </div>
+    <div class="field">
+      <div id='radio-container'>
+        <label for="isEvent">Is this an event?</label>
+        <div class="ui icon input">
+          no<input id="isEvent" type="radio" ng-model="activity.isEvent" value="false">
+          yes<input id="isNotEvent" type="radio" ng-model="activity.isEvent" value="true">
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="date">date</label>
+      <div class="ui icon input">
+        <input id="date" type="text" ng-model="activity.date">
+        <i class="asterisk red icon" ng-show="activity.isEvent === 'true'"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label for="url">URL</label>
+      <div class="ui icon input">
+        <input id="url" type="text" ng-model="activity.url">
+        <i class="asterisk red icon" ng-show="activity.isEvent === 'true'"></i>
+      </div>
+    </div>
+    <div class="field">
+      <label for="img">image URL</label>
+      <div class="ui icon input">
+        <input id="img" type="text" placeholder='optional but recommended' ng-model="activity.img">
+      </div>
+    </div>
+    <div class="field">
+      <label for="tags">tags</label>
+      <div class="ui icon input">
+        <input id="tags" type="text" placeholder='one or more' ng-list ng-model="activity.tags">
+        <i class="asterisk red icon"></i>
+      </div>
+    </div>
+
+    <button class="ui fluid green  button" ng-click="create()">create</button>
   </div>
 </div>
