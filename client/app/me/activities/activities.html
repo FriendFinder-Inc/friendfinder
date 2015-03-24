@@ -23,21 +23,30 @@
       <label for="title">title</label>
       <div class="ui icon input">
         <input id="title" type="text" ng-model="activity.title">
-        <i class="asterisk red icon"></i>
+        <i class="asterisk red icon" ng-show='!activity.title'></i>
       </div>
     </div>
     <div class="field">
       <label for="description">description</label>
       <div class="ui icon input">
         <input id="description" type="text" ng-model="activity.description">
-        <i class="asterisk red icon"></i>
+        <i class="asterisk red icon" ng-show='!activity.description'></i>
       </div>
     </div>
+    {{ activity }}
     <div class="field">
       <label for="location">location</label>
       <div class="ui icon input">
-        <input id="location" type="text" ng-model="activity.location">
-        <i class="asterisk red icon"></i>
+        <input id='location-input' type="text" ng-model="locationInput" autocomplete='off'>
+        <input id="location" ng-show='false' ng-model='activity.location'>
+        <i class="asterisk red icon" ng-show='!locationInput'></i>
+      </div>
+      <div class="ui fluid search selection dropdown" style='border: 0px; padding: 0px;'>
+        <div class="menu">
+          <div class="item" ng-repeat='place in suggestions' ng-click='setLocation(place)'>
+            {{place.description}}
+          </div>
+        </div>
       </div>
     </div>
     <div class="field">
@@ -53,14 +62,14 @@
       <label for="date">date</label>
       <div class="ui icon input">
         <input id="date" type="text" ng-model="activity.date">
-        <i class="asterisk red icon" ng-show="activity.isEvent === 'true'"></i>
+        <i id="date-asterisk" class="asterisk red icon"></i>
       </div>
     </div>
     <div class="field">
       <label for="url">URL</label>
       <div class="ui icon input">
         <input id="url" type="text" ng-model="activity.url">
-        <i class="asterisk red icon" ng-show="activity.isEvent === 'true'"></i>
+        <i class="asterisk red icon" ng-show="activity.isEvent === 'true' && !activity.url"></i>
       </div>
     </div>
     <div class="field">
@@ -72,8 +81,8 @@
     <div class="field">
       <label for="tags">tags</label>
       <div class="ui icon input">
-        <input id="tags" type="text" placeholder='one or more' ng-list ng-model="activity.tags">
-        <i class="asterisk red icon"></i>
+        <input id="tags" type="text" placeholder='comma separated' ng-list ng-model="activity.tags">
+        <i class="asterisk red icon" ng-show='!activity.tags.length'></i>
       </div>
     </div>
 

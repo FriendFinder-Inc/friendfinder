@@ -1,59 +1,114 @@
 'use strict';
 
-var _ = require('lodash');
 var Activity = require('./activity.model');
+var passport = require('passport');
+var config = require('../../config/environment');
+var jwt = require('jsonwebtoken');
 
-// Get list of activitys
-exports.index = function(req, res) {
-  Activity.find(function (err, activitys) {
-    if(err) { return handleError(res, err); }
-    return res.json(200, activitys);
+var validationError = function(res, err) {
+  return res.json(422, err);
+};
+
+exports.autoComplete = function (req, res, next) {
+  Activity.autoComplete(req.query.input, function(suggestions){
+    res.json(suggestions);
   });
 };
 
-// Get a single activity
-exports.show = function(req, res) {
-  Activity.findById(req.params.id, function (err, activity) {
-    if(err) { return handleError(res, err); }
-    if(!activity) { return res.send(404); }
-    return res.json(activity);
+/**
+ * Creates a new Activity
+ */
+exports.create = function (req, res, next) {
+  req.body.data.creator = req.user['@rid'];
+  req.body.data.creatorfbId = req.user.facebookId;
+  var newActivity = new Activity(req.body.data);
+  newActivity.create(function(activity){
+    res.json(activity)
   });
 };
 
-// Creates a new activity in the DB.
-exports.create = function(req, res) {
-  Activity.create(req.body, function(err, activity) {
-    if(err) { return handleError(res, err); }
-    return res.json(201, activity);
+/**
+ * Get a single Activity
+ */
+exports.show = function (req, res, next) {
+  var ActivityId = req.params.id;
+
+  Activity.findById(ActivityId, function (err, Activity) {
+    if (err) return next(err);
+    if (!Activity) return res.send(401);
+    res.json(Activity);
   });
 };
 
-// Updates an existing activity in the DB.
-exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
-  Activity.findById(req.params.id, function (err, activity) {
-    if (err) { return handleError(res, err); }
-    if(!activity) { return res.send(404); }
-    var updated = _.merge(activity, req.body);
-    updated.save(function (err) {
-      if (err) { return handleError(res, err); }
-      return res.json(200, activity);
-    });
-  });
-};
-
-// Deletes a activity from the DB.
+/**
+ * Deletes a Activity
+ * restriction: 'admin'
+ */
+ //TODO
 exports.destroy = function(req, res) {
-  Activity.findById(req.params.id, function (err, activity) {
-    if(err) { return handleError(res, err); }
-    if(!activity) { return res.send(404); }
-    activity.remove(function(err) {
-      if(err) { return handleError(res, err); }
-      return res.send(204);
-    });
+  Activity.findByIdAndRemove(req.params.id, function(err, Activity) {
+    if(err) return res.send(500, err);
+    return res.send(204);
   });
 };
 
-function handleError(res, err) {
-  return res.send(500, err);
-}
+
+/**
+ * Most important method of the website!
+ */
+exports.find = function(req, res, next) {
+  Activity.findByFilters(req.query, function(Activitys){
+    res.json(Activitys);
+  });
+};
+
+/**
+ * Change properties on Activity object
+ */
+exports.update = function(req, res, next) {
+  Activity.update(req.Activity['@rid'], req.body, function(totalMod){
+    res.send(200);
+  });
+};
+
+/**
+ * Bookmark a Activity or activity
+ */
+exports.bookmark = function(req, res, next) {
+  Activity.bookmark(req.Activity['@rid'], req.body.rid, function(res){
+    res.send(200);
+  });
+};
+
+/**
+ * Get all bookmarks for Activity
+ */
+exports.getBookmarks = function(req, res, next) {
+  Activity.getAllBookmarks(req.Activity['@rid'], function(bookmarks){
+    res.json(bookmarks);
+  });
+};
+
+/**
+ * get mutual fb likes between 2 Activitys
+ */
+exports.mutualInterests = function(req, res, next) {
+  Activity.mutualInterests(req.query.ActivityA, req.query.ActivityB, function(interests){
+    res.json(interests);
+  });
+};
+
+
+/**
+ * Get my info
+ */
+exports.me = function(req, res, next) {
+  res.json(req.Activity);
+};
+
+/**
+ * Authentication callback
+ */
+exports.authCallback = function(req, res, next) {
+  res.redirect('/findfriends');
+};

@@ -56,6 +56,10 @@ var all = {
     cloudname: process.env.CLOUDINARY_CLOUDNAME,
     apikey: process.env.CLOUDINARY_APIKEY,
     apisecret: process.env.CLOUDINARY_APISECRET
+  },
+
+  google: {
+    apiKey: process.env.GOOGLE_KEY,
   }
 
 };
