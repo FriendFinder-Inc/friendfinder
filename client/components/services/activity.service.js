@@ -6,15 +6,6 @@ angular.module('friendfinderApp')
       id: '@rid'
     },
     {
-      get: {
-        method: 'GET',
-        params: {
-          id:'me'
-        }
-      },
-      create: {
-        method: 'POST'
-      },
       autocomplete: {
         method: 'GET',
         isArray: true,
@@ -22,8 +13,27 @@ angular.module('friendfinderApp')
           id: 'autocomplete'
         }
       },
+      get: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id:'me'
+        }
+      },
+      create: {
+        method: 'POST'
+      },
+      delete: {
+        method: 'POST',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller:'delete'
+        }
+      },
       update: {
         method: 'PUT',
+        isArray: true,
         params: {
           id: 'me',
           controller:'update'
@@ -35,13 +45,6 @@ angular.module('friendfinderApp')
         params: {
           id: 'me',
           controller: 'find'
-        }
-      },
-      bookmark: {
-        method: 'POST',
-        params: {
-          id: 'me',
-          controller: 'bookmark'
         }
       }
 	  });

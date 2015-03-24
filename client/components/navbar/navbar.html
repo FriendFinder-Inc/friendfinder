@@ -1,7 +1,7 @@
 <div id='navbar-container' ng-controller='NavbarCtrl'>
 
   <!-- desktop menu -->
-  <div id='desktop-menu' ng-show='!isMobile'>
+  <div id='desktop-menu' ng-show='!isMobile()'>
 
     <div id='left-section'>
       <a href="/findfriends" id="desktop-logo"></a>
@@ -40,7 +40,7 @@
   </div>
 
   <!-- mobile menu -->
-  <div id='mobile-menu' ng-show='isMobile'>
+  <div id='mobile-menu' ng-show='isMobile()'>
     <a href="/findfriends" id="mobile-logo"></a>
     <i id='mobile-dropdown-icon' class='huge bars icon'
                           ng-click='showDropdown = !showDropdown' style='float: right;'></i>

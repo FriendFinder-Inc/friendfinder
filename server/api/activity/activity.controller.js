@@ -20,7 +20,7 @@ exports.autoComplete = function (req, res, next) {
  */
 exports.create = function (req, res, next) {
   req.body.data.creator = req.user['@rid'];
-  req.body.data.creatorfbId = req.user.facebookId;
+  req.body.data.creatorFbId = req.user.facebookId;
   var newActivity = new Activity(req.body.data);
   newActivity.create(function(activity){
     res.json(activity)
@@ -30,26 +30,25 @@ exports.create = function (req, res, next) {
 /**
  * Get a single Activity
  */
-exports.show = function (req, res, next) {
-  var ActivityId = req.params.id;
-
-  Activity.findById(ActivityId, function (err, Activity) {
-    if (err) return next(err);
-    if (!Activity) return res.send(401);
-    res.json(Activity);
+exports.getAll = function (req, res, next) {
+  Activity.getAll(req.user['@rid'], function (activities) {
+    if (!activities) return res.send(401);
+    res.json(activities);
   });
 };
 
 /**
  * Deletes a Activity
- * restriction: 'admin'
  */
- //TODO
-exports.destroy = function(req, res) {
-  Activity.findByIdAndRemove(req.params.id, function(err, Activity) {
-    if(err) return res.send(500, err);
-    return res.send(204);
-  });
+exports.delete = function(req, res) {
+  // can only delete our own activities
+  if(req.body.owner != req.user['@rid']){
+    res.send(401);
+  } else {
+    Activity.delete(req.body.rid, function(result) {
+      return res.json(result);
+    });
+  }
 };
 
 

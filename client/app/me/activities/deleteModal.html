@@ -1,0 +1,10 @@
+<!-- delete modal -->
+<div class="ui small delete modal" ng-controller='DeleteModalCtrl'>
+  <i class="close icon"></i>
+  <div class="header">
+    deleting activity
+  </div>
+  are you sure you want to delete {{ selectedActivity.title }} ?
+  <button class="ui fluid red  button" ng-click="delete()">delete</button>
+  <button class="ui fluid grey  button" ng-click="hideModal()">cancel</button>
+</div>

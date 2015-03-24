@@ -1,146 +1,43 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('ActivitiesCtrl', function ($scope, User, Auth, Activity) {
+  .controller('ActivitiesCtrl', function ($scope, $window, User, Auth, Activity) {
+
+    Activity.get().$promise.then(function(activities){
+      $scope.activities = activities;
+      console.log(activities.length)
+    });
 
     $('.ui.modal').modal();
 
-    $scope.showModal = function(){
-      $('.ui.modal').modal('show');
-    };
     $scope.hideModal = function(){
       $('.ui.modal').modal('hide');
     };
+    $scope.showCreate = function(){
+      $('.ui.create.modal').modal('show');
+    };
+    $scope.showEdit = function(activity){
+      $scope.selectedActivity = activity;
+      $('.ui.edit.modal').modal('show');
+    };
+    $scope.showDelete = function(activity){
+      $scope.selectedActivity = activity;
+      $('.ui.delete.modal').modal('show');
+    };
 
-    $scope.RegisterController = function($scope, $element) {
-
-      $scope.loading = false;
-      $scope.showDateAsterisk = false;
-      $scope.activity = {};
-      $scope.activity.isEvent = "false";
-
-      $('.ui.dropdown').dropdown();
-
-      $scope.setLocation = function(place){
-        $scope.activity.location = place.place_id;
-        $('#location-input').val(place.description);
-      };
-
-      $('#location-input').on('keyup', function(){
-        $scope.activity.location = undefined;
-        if($('#location-input').val().length > 1){
-          $('.ui.dropdown').dropdown('show');
-          var input = $('#location-input').val();
-          Activity.autocomplete({input: input}).$promise.then(function(suggestions){
-            $scope.suggestions = suggestions;
-            $scope.suggestions.push({description: 'TODO google logo'});
-          });
-        } else{
-          $('.ui.dropdown').dropdown('hide');
-        }
+    $scope.removeActivity = function(rid){
+      $scope.activities = $scope.activities.filter(function(item){
+        return item['@rid'] != rid;
       });
+    };
 
-      // pickadate is breaking angular binding for some reason
-      $scope.$watchGroup(['activity.date', 'activity.isEvent'], function(){
-        var date = $('#date').val();
-        if($scope.activity.isEvent === 'true' && !date){
-          $('#date-asterisk').show();
-        } else {
-          $('#date-asterisk').hide();
-        }
-      });
+    $scope.addActivity = function(item){
+      $scope.activities.push(item);
+    };
 
-      var registrationForm = $($element);
-      var today = new Date();
-      $('#date').pickadate({min: today});
 
-      $scope.isInvalid = function() {
-        return !registrationForm.form('validate form');
-      };
-
-      $scope.create = function () {
-        var validations = {
-          title: {
-            identifier: 'title',
-            rules: [{
-              type: 'empty',
-              prompt: 'enter a title'
-            }]
-          },
-          description: {
-            identifier: 'description',
-            rules: [{
-              type: 'empty',
-              prompt: 'enter a description'
-            }]
-          },
-          location: {
-            identifier: 'location',
-            rules: [{
-              type: 'empty',
-              prompt: 'choose a location from the dropdown'
-            }]
-          },
-          tags: {
-            identifier: 'tags',
-            rules: [{
-              type: 'empty',
-              prompt: 'you must add at least one tag'
-            }]
-          }
-        };
-        if($scope.activity.isEvent === 'true'){
-          validations.date = {
-            identifier: 'date',
-            rules: [{
-              type: 'empty',
-              prompt: 'choose a date'
-            }]
-          };
-          validations.url = {
-            identifier: 'url',
-            rules: [{
-              type: 'url',
-              prompt: 'not a valid URL'
-            }]
-          };
-        }
-        if($scope.activity.img){
-          validations.img = {
-            identifier: 'img',
-            rules: [{
-              type: 'url',
-              prompt: 'not a valid URL'
-            }]
-          };
-        }
-
-        (function ($) {
-          $('.ui.form').form(validations, {on: 'blur', inline: 'true'});
-        }(jQuery));
-
-        var self = this;
-        if (this.isInvalid()) {
-          return;
-        }
-        this.loading = true;
-
-        var activity = {
-          title: $scope.activity.title,
-          description: $scope.activity.description,
-          location: $scope.activity.location,
-          tags: $scope.activity.tags,
-          isEvent: $scope.activity.isEvent,
-          date: $scope.activity.date,
-          url: $scope.activity.url,
-          img: $scope.activity.img
-        };
-        Activity.create({data: activity}).$promise.then(function(res){
-          self.loading = false;
-          $('.ui.modal').modal('hide');
-        });
-
-      };
+    $scope.isMobile = function(){
+      return $window.isMobile;
     };
 
   });

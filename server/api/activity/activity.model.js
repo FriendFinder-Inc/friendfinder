@@ -33,7 +33,7 @@ var Activity = function(params) {
   this.props.isEvent =     params.isEvent;
   this.props.created =     new Date();
   this.props.creator =     params.creator;
-  this.props.creatorfbId = params.creatorfbId;
+  this.props.creatorFbId = params.creatorFbId;
   this.props.views =       0;
   // optional props
   if(params.date) { this.props.date = new Date(params.date); }
@@ -119,10 +119,10 @@ Activity.bookmark = function(fromRid, toRid, cb) {
   createEdge(fromRid, toRid, 'bookmarked', cb);
 };
 
-Activity.getAllBookmarks = function(rid, cb) {
-  db.query("select expand( out ) from ( select out('bookmarked') from "+rid+" )")
-  .then(function (bookmarks) {
-    cb(bookmarks);
+Activity.getAll = function(rid, cb) {
+  db.query("select expand( out ) from ( select out('created') from "+rid+" )")
+  .then(function (activities) {
+    cb(activities);
   });
 };
 
@@ -137,57 +137,11 @@ Activity.update = function(rid, params, cb) {
   });
 };
 
-Activity.prototype.delete = function(cb) {
-
-};
-
-// TODO: gremlin refactor
-Activity.mutualInterests = function(ActivityA, ActivityB, cb) {
-
-  // var query = "select expand( intersect( $likesA, $likesB ) )"+
-  //             " let $likesA = ( select out('likes') from RegisteredActivity where facebookId = "+ActivityA+" ),"+
-  //             " let $likesB = ( select out('likes') from RegisteredActivity where facebookId = "+ActivityB+" )";
-  //
-  // db.query(query).then(function (mutual) {
-  //   console.log('mutual', mutual)
-  // });
-
-  var mutual = [];
-  var ActivityALikes = "select out('likes') from RegisteredActivity where facebookId = "+ActivityA;
-  var ActivityBLikes = "select out('likes') from RegisteredActivity where facebookId = "+ActivityB;
-  db.query(ActivityALikes).then(function (interestsA) {
-    db.query(ActivityBLikes).then(function (interestsB) {
-      var cluster = interestsA[0].out[0].cluster;
-      var apos = [];
-      var bpos = [];
-      for(var j = 0; j < interestsA[0].out.length; j++){
-        apos.push(interestsA[0].out[j].position);
-      }
-      for(var k = 0; k < interestsB[0].out.length; k++){
-        bpos.push(interestsB[0].out[k].position);
-      }
-      apos = apos.filter(function(n) {
-        return bpos.indexOf(n) != -1
-      });
-
-      var rids = [];
-      for(var m = 0; m < apos.length; m++){
-        var temp = '#'+cluster+':'+apos[m];
-        rids.push(temp);
-      }
-      var ridStr = '[';
-      for(var n = 0; n < rids.length; n++){
-        var tmp = n+1 < rids.length ? rids[n]+', ' : rids[n] + ']';
-        ridStr += tmp;
-      }
-
-      var query = "select from Page where @rid in "+ridStr;
-
-      db.query(query)
-      .then(function(mutual){
-        cb(mutual);
-      })
-    });
+Activity.delete = function(rid, cb) {
+  db.query("delete vertex "+rid)
+  .then(function (res) {
+    console.log('d', res)
+    cb(res);
   });
 };
 
