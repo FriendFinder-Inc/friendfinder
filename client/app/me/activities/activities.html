@@ -5,56 +5,53 @@
     </div>
 
     <div class='ui grid'>
-      <div class='doubling two column row'>
+      <div class='doubling two column row' ng-repeat='activity in activities' ng-if='$even'>
         <div class='column'>
-          <div class="ui items">
-            <!-- item1 -->
-            <div class="item" style='max-height: 100px;' ng-if='$even'
-                 ng-repeat='activity in activities' ng-click='showActivityModal(activity)'>
-              <div class="image">
-                <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
+          <!-- r1-c1 -->
+          <div class="item" style='max-height: 100px;'
+               ng-click='showActivityModal(activity)'>
+            <div class="image">
+              <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
+            </div>
+            <div class="content">
+              <a class="header">{{ activity.title }}</a>
+              <div class="meta">
+                <span>{{ activity.location.title }}</span>
               </div>
-              <div class="content">
-                <a class="header">{{ activity.title }}</a>
-                <div class="meta">
-                  <span>{{ activity.location.name }}</span>
-                </div>
-                <div class="ui buttons">
-                  <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
-                  <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
-                </div>
-                <div class="description">
-                  This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
-                </div>
+              <div class="ui buttons">
+                <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
+                <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
+              </div>
+              <div class="description">
+                This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
               </div>
             </div>
           </div>
         </div>
         <div class='column'>
-          <div class="ui items">
-            <!-- item1 -->
-            <div class="item" style='max-height: 100px;' ng-if='$odd'
-                 ng-repeat='activity in activities' ng-click='showActivityModal(activity)'>
-              <div class="image">
-                <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
+          <!-- r1-c2 -->
+          <div class="item" style='max-height: 100px;'
+               ng-click='showActivityModal(activity)'>
+            <div class="image">
+              <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
+            </div>
+            <div class="content">
+              <a class="header">{{ activities[$index+1].title }}</a>
+              <div class="meta">
+                <span>{{ activity.location.name }}</span>
               </div>
-              <div class="content">
-                <a class="header">{{ activity.title }}</a>
-                <div class="meta">
-                  <span>{{ activity.location.name }}</span>
-                </div>
-                <div class="ui buttons">
-                  <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
-                  <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
-                </div>
-                <div class="description">
-                  This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
-                </div>
+              <div class="ui buttons">
+                <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
+                <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
+              </div>
+              <div class="description">
+                This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
               </div>
             </div>
           </div>
         </div>
       </div>
+
     </div>
 
   </div>

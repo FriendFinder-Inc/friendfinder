@@ -5,7 +5,6 @@ angular.module('friendfinderApp')
 
     Activity.get().$promise.then(function(activities){
       $scope.activities = activities;
-      console.log(activities.length)
     });
 
     $('.ui.modal').modal();
@@ -34,7 +33,6 @@ angular.module('friendfinderApp')
     $scope.addActivity = function(item){
       $scope.activities.push(item);
     };
-
 
     $scope.isMobile = function(){
       return $window.isMobile;
