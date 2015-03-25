@@ -11,7 +11,7 @@ var Tag = function(params) {
 // utility function
 var createEdge = function(fromRid, toRid, type, cb){
   // don't create duplicate edges ever (even with index constraint)
-  db.query("select from tagged where in ="+toRid+" and out = "+fromRid).then(function(edge){
+  db.query("select from likes where in ="+toRid+" and out = "+fromRid+" and @class = 'Tag'").then(function(edge){
     if(!edge.length){
       db.create('EDGE', type)
       .from(fromRid)
@@ -72,7 +72,7 @@ Tag.update = function(fromRid, params, cb) {
       created: new Date()
     });
     newTag.getOrCreate(function(tag){
-      createEdge(fromRid, tag['@rid'], 'tagged', cb);
+      createEdge(fromRid, tag['@rid'], 'likes', cb);
       count++;
       if(count === tags.length){
         cb('success');
@@ -82,8 +82,8 @@ Tag.update = function(fromRid, params, cb) {
 
   // remove tags from user (and delete tag if no other user has it)
   var removeEdge = function(tagRid){
-    deleteEdge(fromRid, tagRid, 'tagged', function(res){
-      var query = "select expand( in ) ( select in('tagged') from "+tagRid+" )";
+    deleteEdge(fromRid, tagRid, 'likes', function(res){
+      var query = "select expand( in ) ( select in('likes') from "+tagRid+" )";
       db.query(query).then(function(users){
         if(!users.length){
           // tag has no edges, delete it (save storage space)
@@ -109,7 +109,7 @@ Tag.update = function(fromRid, params, cb) {
 };
 
 Tag.getUserTags = function(rid, cb) {
-  var query = "select expand( out ) from ( select out('tagged') from "+rid+" )";
+  var query = "select from ( select expand( out ) from ( select out('likes') from "+rid+" ) ) where @class = 'Tag'";
   db.query(query).then(function (tags) {
     cb(tags);
   });
@@ -131,30 +131,10 @@ Tag.findByFilters = function(params, cb) {
   // });
 };
 
-Tag.getAll = function(rid, cb) {
-  rid = '#'+rid.cluster +':'+rid.position;
-  var query = "select expand( out ) from ("+
-                  "select out('sent') from "+rid+" )";
-  db.query(query).then(function (chatHeadsOut) {
-    var query = "select expand( in ) from ("+
-                    "select in('received') from "+rid+" )";
-    db.query(query).then(function(chatHeadsIn){
-      var chatHeads = chatHeadsOut.concat(chatHeadsIn);
-      var threads = [];
-      var getThread = function(i, query){
-        db.query(query).then(function(thread){
-          threads.push(thread);
-          if(i === chatHeads.length-1){
-            cb(threads);
-          }
-        });
-      };
-      for(var i = 0; i < chatHeads.length; i++){
-        var query = "traverse out('next') from "+chatHeads[i]['@rid'];
-        getThread(i, query);
-      }
-    });
-  });
-};
+Tag.getMutualFriends = function(params, cb){
+  // SELECT expand(rids) FROM (SELECT intersect(out('friends').@rid) as rids FROM [#12:77, #12:79])
+}
+
+
 
 module.exports = Tag;
