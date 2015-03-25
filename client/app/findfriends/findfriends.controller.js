@@ -1,14 +1,17 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindFriendsCtrl', function ($scope, $http, Auth, User, Message) {
-    $('.ui.accordion').accordion();
-    // initialize all modals
-    $('.ui.modal').modal({allowMultiple: true});
-    // open message modal on message button click
-    //TODO: why does profile modal dissapear after we select message area?
-    $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
-    //$('.ui.checkbox').checkbox();
+  .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Message) {
+
+    $scope.linkModal = function() {
+      $('.ui.modal').modal({allowMultiple: true});
+      //TODO: why does profile modal dissapear after we select message area?
+      $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
+    };
+
+    $scope.linkAccordion = function(){
+      $('.ui.accordion').accordion();
+    };
 
     $('#send-message-btn').click(function(){
       $scope.sendMessage();
@@ -19,13 +22,21 @@ angular.module('friendfinderApp')
       $scope.closeModals();
     });
 
+    $scope.tags = {};
+    $scope.tags.list = [];
+    $scope.showTags = true;
+
+    $scope.orderby = [{'key':'orderby', 'options':['-', 'distance', 'last online',
+                      'shared interests', 'mutual friends',
+                      'degrees of separation']}];
+
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},
       {'key':'distance',         'options':['5mi', '25mi', '100mi', 'anywhere']},
-      {'key':'-ORDER BY',        'options':[ 'distance', 'last online']}, //'mutual interests', 'degrees of seperation']},
       {'key':'orientation',      'options':['hetero', 'homo', 'bi', 'other']},
-      {'key':'last online',      'options':['time1', 'time2']},
+      {'key':'last online',      'options':['online now', 'past week', 'past month']},
       {'key':'smokes',           'options':['never', 'occassionally', 'often']},
+      {'key':'meetup.com',       'options':['member of same group(s)']},
       {'key':'drinks',           'options':['never', 'occassionally', 'often']},
       {'key':'drugs',            'options':['never', 'occassionally', 'often']},
       {'key':'education',        'options':['some highschool', 'highschool', 'some college', 'associates',
@@ -36,10 +47,10 @@ angular.module('friendfinderApp')
         'agnostic', 'spiritual but not religious', 'other']},
       {'key':'politics',         'options':['republican', 'democrat', 'independent', 'libertarian', 'other']},
       {'key':'relationship',     'options':['single', 'not single']},
-      {'key':'height',           'options':["<5'0''", "5'0''", "5'1''", "5'2''", "5'3''", "5'4''", "5'5''",
-        "5'6''", "5'7''", "5'8''", "5'9''", "5'10''", "5'11''", "6'0''", "6'1''", "6'2''", "6'3''", ">6'4''"]},
+      // {'key':'height',           'options':["<5'0''", "5'0''", "5'1''", "5'2''", "5'3''", "5'4''", "5'5''",
+      //   "5'6''", "5'7''", "5'8''", "5'9''", "5'10''", "5'11''", "6'0''", "6'1''", "6'2''", "6'3''", ">6'4''"]},
       {'key':'cliche',           'options':['hipster', 'yuppie']},
-      {'key':'ethnicity',        'options':['white', 'black', 'hispanic/latin', 'asian', 'indian', 'eastern',
+      {'key':'ethnicity',        'options':['white', 'black', 'hispanic/latin', 'asian', 'indian', 'middle eastern',
         'native american', 'pacific islander', 'other']},
       {'key':'personality type', 'options':['INTJ', 'INTP', 'INFJ', 'INFP',
                                             'ISFJ', 'ISFP', 'ISTJ', 'ISTP']}];
@@ -47,30 +58,69 @@ angular.module('friendfinderApp')
     angular.forEach($scope.filterChoices, function(filter){
       var options = [];
       for(var i = 0; i < filter.options.length; i++){
-        var temp = {name: filter.options[i], value: false};
+        var temp = {key: filter.options[i], value: false};
         options.push(temp);
       }
       filter.options = options;
       filter.value = null;
     });
 
-    // poor man's 2 way data binding...TODO
-    // can't use ng-model with semantic ui checkboxes
-    $scope.toggleOption = function(filter, option){
-      $('.ui.checkbox.'+filter+'.'+option).checkbox('toggle');
+    angular.forEach($scope.orderby, function(option){
+      var options = [];
+      for(var i = 0; i < option.options.length; i++){
+        var temp = {key: option.options[i], value: false};
+        options.push(temp);
+      }
+      option.options = options;
+      option.value = null;
+    });
+    $scope.orderby[0]['options'][0].value = true;
+
+    $scope.getOrderby = function(){
+      var option = $scope.orderby[0]['options'].filter(function(item){
+        return item.value;
+      });
+      return option[0].key;
+    };
+
+    $scope.getFilterStr = function(options){
+      var list = [];
+      options.map(function(item){
+        if(item.value){
+          list.push(item.key);
+        }
+      });
+      return list.toString();
+    };
+
+    // semantic breaks angular binding on checkbox inputs, this should make you
+    // appreciate how awesome+convenient angular is!
+    $scope.checkboxClicked = function(obj, key, option){
+      for(var i in $scope[obj]){
+        if($scope[obj][i].key === key){
+          for(var j in $scope[obj][i]){
+            if($scope[obj][i][j] === key){
+              for(var k in $scope[obj][i].options){
+                if($scope[obj][i].options[k].key === option){
+                  $scope[obj][i].options[k].value = !$scope[obj][i].options[k].value;
+                }
+                // options that are mutually exclusive
+                else if (key === 'distance' || key === 'orderby' || key === 'last online'){
+                  $scope[obj][i].options[k].value = false;
+                }
+              }
+            }
+          }
+        }
+      }
     };
 
     $scope.find = function(){
-      // split into two arrays for easy two column layout
-      // TODO: on mobile the columns should interleave to
-      // preserve order
-      $scope.evenUsers = [];
-      $scope.oddUsers = [];
 
       var findFilters = {};
       $scope.filters.map(function(filter){
         for(var i in filter.options){
-          var key = filter.options[i].name;
+          var key = filter.options[i].key;
           var val = filter.options[i].value;
           if(val === true){
             findFilters['details.'+filter.key] ?
@@ -79,10 +129,11 @@ angular.module('friendfinderApp')
           }
         }
       });
+      if($scope.tags.list.length){
+        findFilters['tags'] = $scope.tags.list.toString();
+      }
       User.find(findFilters, function(users){
-        angular.forEach(users, function(user, index){
-          index%2 ? $scope.evenUsers.push(user) : $scope.oddUsers.push(user);
-        });
+        $scope.users = users;
       });
     }
 
@@ -90,17 +141,10 @@ angular.module('friendfinderApp')
     Auth.getCurrentUser()
     .$promise.then(function(user){
       $scope.currentUser = user;
-      $scope.filters = $scope.filterChoices.slice(0, 2);
+      $scope.filters = [$scope.filterChoices[1]];
       for(var i in $scope.filters[0].options){
-        // set gender to be same as user's
-        for(var key in $scope.filters[0].options[i]){
-          var gender = $scope.filters[0].options[i][key];
-          if(gender === user.details.gender.value){
-            $scope.filters[0].options[i].value = true;
-          }
-        }
         // set distance to 25 mi by default
-        $scope.filters[1].options[1].value = true;
+        $scope.filters[0].options[1].value = true;
       }
       $scope.find();
     });
@@ -108,7 +152,7 @@ angular.module('friendfinderApp')
     // initialize a list of just the filter names for display
     $scope.filterNames = [];
     angular.forEach($scope.filterChoices, function(filter){
-      if(filter.key != 'gender' && filter.key != 'distance'){
+      if(filter.key != 'distance' ){
         $scope.filterNames.push(filter.key);
       }
     });
@@ -116,7 +160,24 @@ angular.module('friendfinderApp')
 
     $scope.chooseFilter = false;
 
+    $scope.showChoices = function(){
+      $scope.chooseFilter = !$scope.chooseFilter
+      $('.ui.accordion').accordion('close others');
+    };
+
+    $scope.hideTags = function(){
+      $scope.showTags = false;
+      $scope.filterNames.push('tags');
+    };
+
     $scope.addFilter = function(name){
+      if(name === 'tags'){
+        $scope.showTags = true;
+        var index = $scope.filterNames.indexOf(name);
+        $scope.filterNames.splice(index, 1);
+        $scope.chooseFilter = !$scope.chooseFilter;
+        return;
+      }
       angular.forEach($scope.filterChoices, function(filter){
         if(filter.key === name){
           $scope.filters.push(filter);
@@ -124,8 +185,6 @@ angular.module('friendfinderApp')
           $scope.filterNames.splice(index, 1);
         }
       });
-      // TODO: close others while choosing
-      //$('.ui.accordion').accordion('close others');
       $scope.chooseFilter = !$scope.chooseFilter;
     };
 
@@ -145,17 +204,17 @@ angular.module('friendfinderApp')
       $('.ui.modal.profile').modal('show');
       $scope.getFacebookPhotos(user);
       $scope.getMutualInterests(user);
+      // get meetup TODO
+      // get shortest path
     };
 
     $scope.bookmarkUser = function(user){
-      console.log('bookmarking', user['@rid'])
       var data = {
         rid: user['@rid']
       };
       User.bookmark(data).$promise.then(function(bookmarks){
-        User.bookmarks().$promise.then(function(all){
-          console.log('a', all)
-        })
+        // User.bookmarks().$promise.then(function(all){
+        // });
       });
     };
 
@@ -229,6 +288,10 @@ angular.module('friendfinderApp')
 
     $scope.closeModals = function(){
       $('.ui.modal').modal('hide all');
+    };
+
+    $scope.isMobile = function(){
+      return $window.isMobile;
     };
 
   });

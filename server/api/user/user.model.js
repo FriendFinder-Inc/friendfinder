@@ -129,9 +129,12 @@ User.mutualInterests = function(userA, userB, cb) {
 // also sort results
 User.findByFilters = function(params, cb) {
   var buildQuery = function(){
-    var query = 'select * from RegisteredUser where ';
+    var query = 'select * from RegisteredUser  ';
     var num = 0;
     for(var key in params){
+      if(key === 'tags'){
+        continue;
+      }
       var values = params[key];
       var filter = key.split('.')[1];
       var subquery = '';
@@ -172,7 +175,7 @@ User.findByFilters = function(params, cb) {
   };
 
   var query = buildQuery();
-  // console.log('query', query)
+  console.log('query', query)
   db.query(query)
   .then(function (users) {
     cb(users);

@@ -2,55 +2,19 @@
 
 <div class='ui center aligned basic segment'>
   <div class="ui stackable grid">
-    <!-- left side  -->
-    <div class="four wide column">
-      <div class='ui styled fluid accordion'>
-        <div ng-class='{disabled: chooseFilter}' class="title" ng-repeat-start='filter in filters'>
-          <i class="dropdown icon"></i>
-          {{ filter.key }} : {{ filter.value }}
-          <i class="ui large close icon link icon" style='float:right;'
-             ng-click='removeFilter(filter.key)'></i>
-        </div>
-        <div class="content" ng-repeat-end>
-          <div class="ui form">
-            <div class="grouped fields">
-              <div class="field" ng-repeat='option in filter.options'>
-                <input type="checkbox" ng-model='option.value'
-                      ng-click='filter.value = filter.value ? filter.value+", "+option.name : option.name'>
-                <label>{{ option.name }}</label>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- select new filter -->
-        <div class="accordion" ng-show='chooseFilter' style='margin-top: 0px;'>
-          <div class="active title">
-            <i class="dropdown icon"></i>
-            choose
-            <i class="ui right floated large close icon link icon" style='float:right;'
-               ng-click='chooseFilter = !chooseFilter'></i>
-          </div>
-          <div class="active content">
-            <button class='fluid ui button' ng-repeat='name in filterNames' ng-click='addFilter(name)'>{{ name }}</button>
-          </div>
-        </div>
-      </div>
-      <button ng-class='{disabled: chooseFilter}' class='fluid ui red button' ng-click='chooseFilter = !chooseFilter'>
-        <i class='ui center aligned add circle icon'></i>
-      </button>
-      <button ng-class='{disabled: chooseFilter}' class='fluid ui blue button' ng-click='find()'>
-        <span>find</span>
-      </button>
+
+    <div class="four wide column" ng-show="!isMobile()">
+      <ng-include src="'app/findfriends/filterAccordion.html'" onload="linkAccordion()"></ng-include>
     </div>
+
     <!-- right side -->
     <div class="twelve wide column">
       <div class='ui grid'>
-        <div class='doubling two column row'>
+        <div class='doubling two column row' ng-repeat='user in users' ng-if='$even'>
           <div class='column'>
             <div class="ui items">
-              <!-- item1 -->
-              <div class="item" style='max-height: 100px;'
-                   ng-repeat='user in oddUsers' ng-click='showProfileModal(user)'>
+              <!-- left item -->
+              <div class="item" style='max-height: 100px;' ng-click='showProfileModal(user)'>
                 <div class="image">
                   <img ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                 </div>
@@ -73,17 +37,16 @@
           </div>
           <div class='column'>
             <div class="ui items">
-              <!-- item2 -->
-              <div class="item" style='max-height: 100px;'
-                   ng-repeat='user in evenUsers' ng-click='showProfileModal(user)'>
+              <!-- right item -->
+              <div class="item" style='max-height: 100px;' ng-click='showProfileModal(users[$index+1])' ng-show='users[$index+1].facebookId'>
                 <div class="image">
-                  <img ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
+                  <img ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
                 </div>
                 <div class="content">
-                  {{ birthdayToAge(user.birthday) }} ,
-                  <a class="header">{{ user.name.split(' ')[0] }}</a>
+                  {{ birthdayToAge(users[$index+1].birthday) }} ,
+                  <a class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
                   <div class="meta">
-                    <span>{{ user.location.name }}</span>
+                    <span>{{ users[$index+1].location.name }}</span>
                   </div>
                   <div class="extra">
                     <div class="ui horizontal label">more</div>
@@ -96,102 +59,18 @@
               </div>
             </div>
           </div>
+
         </div>
       </div>
-    </div>
+    </div> <!-- end right side -->
+
   </div>
 </div>
 
-<!-- profile modal -->
-<div class="ui modal profile" style='max-width: 500px;'>
-  <i class="close icon floated right"></i>
-  <div class="content">
-    <div class="ui small image">
-      <img ng-src="{{img}}" ng-repeat='img in fbPicsUrls' style='margin-bottom: 10px;'>
-    </div>
-  </div>
-  <h5 class="ui top attached center aligned header">
-  mutual interests
-  </h5>
-  <div class='ui attached content'>
-    <div  id='mutual-likes-container'>
-    </div>
-  </div>
-  <h5 class="ui top attached center aligned header">
-  intro
-  </h5>
-  <div class='ui content'>
-    <div id='intro' class='ui segment'>
-      this will be a short intro the user will create...
-    </div>
-  </div>
-  <h5 class="ui top attached center aligned header">
-  dream destination
-  </h5>
-  <div class='ui content'>
-    <div id='intro' class='ui segment'>
-      If you and another user won a 3 day trip to anywhere in the world,
-      where would you suggest to go and why?
-    </div>
-  </div>
-  <h5 class="ui top attached center aligned header">
-  details
-  </h5>
-  <div class='ui content'>
-    <div id='details' class='ui segment'>
-      <div class="ui vertical segment">
-        <div class='details-key'>
-          hometown
-        </div>
-        <div class='details-value'>
-          {{selectedUser.hometown}}
-        </div>
-      </div>
-      <div class="ui vertical segment">
-        <div class='details-key'>
-          education
-        </div>
-        <div class='details-value'>
-          {{selectedUser.school}}
-        </div>
-      </div>
-      <div class="ui vertical segment">
-        <div class='details-key'>
-          work
-        </div>
-        <div class='details-value'>
-          {{selectedUser.employer}}
-        </div>
-      </div>
-      <!-- repeat for details -->
-      <div class="ui vertical segment" ng-repeat='(key, value) in selectedUser.details'>
-        <div class='details-key'>
-          {{key}}
-        </div>
-        <div class='details-value'>
-          {{value.value}}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class='ui content'>
-    <div id='intro' class='ui center aligned segment'>
-      <div class="ui red button message">
-        message
-      </div>
-      <div class="ui green button" ng-click='bookmarkUser(selectedUser)'>
-        bookmark
-      </div>
-      <div class="ui grey button" ng-click="closeModals()">
-        close
-      </div>
-    </div>
-  </div>
-  <div>
-</div>
+<ng-include src="'app/findfriends/profileModal.html'" onload="linkModal()"></ng-include>
 
 <!-- message modal -->
-<div class="ui modal message" style='max-width: 500px; text-align: center;'>
+<div class="ui small modal message" style='text-align: center;'>
 
   <textarea id='message-text' placeholder='enter message...' rows="10" cols="50"></textarea>
 
