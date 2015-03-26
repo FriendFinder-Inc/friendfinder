@@ -3,6 +3,8 @@
 angular.module('friendfinderApp')
   .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Message) {
 
+    $scope.showFilterAccordion = true;
+
     $scope.linkModal = function() {
       $('.ui.modal').modal({allowMultiple: true});
       //TODO: why does profile modal dissapear after we select message area?
@@ -298,7 +300,20 @@ angular.module('friendfinderApp')
     };
 
     $scope.isMobile = function(){
+      if($window.isMobile){
+        $scope.showFilterAccordion = false;
+      } else {
+        $scope.showFilterAccordion = true;
+      }
       return $window.isMobile;
+    };
+
+    $scope.scrollTop = function(){
+      $('#grid-container').scrollTop(0);
+    };
+
+    $scope.toggleFilterAccordion = function(){
+      $scope.showFilterAccordion = !$scope.showFilterAccordion;
     };
 
   });
