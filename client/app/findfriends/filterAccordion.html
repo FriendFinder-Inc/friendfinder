@@ -1,7 +1,7 @@
-<div class='ui center aligned top attached header'>
+<div class='ui center aligned top attached blue header'>
   filters
 </div>
-<div class='ui styled fluid accordion'>
+<div class='ui styled fluid accordion filter-accordion'>
   <div ng-class='{disabled: chooseFilter}' class="title" ng-repeat-start='filter in $parent.filters'>
     <i class="dropdown icon"></i>
     {{ filter.key }} : {{ getFilterStr(filter.options) }}

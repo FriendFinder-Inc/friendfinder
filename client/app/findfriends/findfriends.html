@@ -3,7 +3,7 @@
 <div class='ui center aligned basic segment'>
   <div class="ui stackable grid">
 
-    <div class="four wide column" ng-show="!isMobile()">
+    <div class="four wide column filter-accordion" ng-show="!isMobile()">
       <ng-include src="'app/findfriends/filterAccordion.html'" onload="linkAccordion()"></ng-include>
     </div>
 
@@ -12,48 +12,56 @@
       <div class='ui grid'>
         <div class='doubling two column row' ng-repeat='user in users' ng-if='$even'>
           <div class='column'>
-            <div class="ui items">
+            <div class="ui cards">
               <!-- left item -->
-              <div class="item" style='max-height: 100px;' ng-click='showProfileModal(user)'>
-                <div class="image">
-                  <img ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
-                </div>
-                <div class="content">
-                  {{ birthdayToAge(user.birthday) }} ,
-                  <a class="header">{{ user.name.split(' ')[0] }}</a>
-                  <div class="meta">
-                    <span>{{ user.location.name }}</span>
+              <div class="card profile-card">
+                <div class='container'>
+                  <div class='left'>
+                    <div class="image" ng-click='showProfileModal(user)'>
+                      <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
+                    </div>
                   </div>
-                  <div class="extra">
-                    <div class="ui horizontal label">more</div>
-                    <div class="ui horizontal label"><i class="globe icon"></i>info</div>
-                  </div>
-                  <div class="description">
-                    This will eventually be a quick little introduction paragraph the users will create...
+                  <div class='right'>
+                    <div class="content card-content">
+                      {{ birthdayToAge(user.birthday) }} ,
+                      <a class="header">{{ user.name.split(' ')[0] }}</a>
+                      <div class="meta">
+                        <span>{{ user.location.name || 'unknown location' }}</span>
+                      </div>
+                      <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
+                      <div class="mini ui red button">1000mi</div>
+                      <div class="description intro">
+                        This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class='column'>
-            <div class="ui items">
+            <div class="ui cards">
               <!-- right item -->
-              <div class="item" style='max-height: 100px;' ng-click='showProfileModal(users[$index+1])' ng-show='users[$index+1].facebookId'>
-                <div class="image">
-                  <img ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
-                </div>
-                <div class="content">
-                  {{ birthdayToAge(users[$index+1].birthday) }} ,
-                  <a class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
-                  <div class="meta">
-                    <span>{{ users[$index+1].location.name }}</span>
+              <div class="card profile-card" ng-click='showProfileModal(users[$index+1])'>
+                <div class='container'>
+                  <div class='left'>
+                    <div class="image">
+                      <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                    </div>
                   </div>
-                  <div class="extra">
-                    <div class="ui horizontal label">more</div>
-                    <div class="ui horizontal label"><i class="globe icon"></i>info</div>
-                  </div>
-                  <div class="description">
-                    This will eventually be a quick little introduction paragraph the users will create...
+                  <div class='right'>
+                    <div class="content card-content">
+                      {{ birthdayToAge(users[$index+1].birthday) }} ,
+                      <a class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                      <div class="meta">
+                        <span>{{ users[$index+1].location.name || 'location unknown'}}</span>
+                      </div>
+                      <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
+                      <div class="mini ui red button">1000mi</div>
+                      <div class="description intro">
+                        This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

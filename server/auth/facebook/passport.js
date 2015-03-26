@@ -6,7 +6,7 @@ var Page = require('../../api/page/page.model');
 var FB = require('fbgraph');
 
 exports.setup = function (User, config) {
-  
+
   passport.serializeUser(function(user, done) {
     done(null, user);
   });

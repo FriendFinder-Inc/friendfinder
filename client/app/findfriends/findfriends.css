@@ -8,6 +8,72 @@
   pointer-events: none;
 }
 
+.ui.four.wide.column.filter-accordion{
+  width: 275px !important;
+  min-width: 275px !important;
+  max-width: 275px !important;
+}
+
+.ui.cards>.card.profile-card{
+  width: 420px;
+  max-width: 420px;
+  min-width: 320px;
+  height: 191px;
+}
+
+.circular.ui.button.top-right-info{
+  position: absolute;
+  right: 0px;
+  height: 40px;
+  width: 40px;
+  border-radius: 10em !important;
+}
+
+.ui.cards>.card.profile-card:hover{
+  box-shadow: 0 3px 0 0 #3850A2,0 0 0 1px #3850A2;
+}
+
+.ui.cards>.card>.container{
+  margin: 8px;
+}
+
+.ui.cards>.card>.container>.left{
+  width: 175px;
+  float: left;
+}
+
+.ui.cards>.card>.container>.right{
+  width: calc(100% - 175px);
+  float: left;
+  max-height: 40px;
+  padding-left: 8px;
+}
+
+.ui.cards>.card>.container>.left>.image>img.card-photo{
+  float: left;
+  width: 175px;
+  height: 175px;
+}
+
+.ui.cards>.card>.container>.left>.image>img.card-photo:hover{
+  cursor: pointer;
+}
+
+.ui.cards>.card>.content.card-content{
+  float: left;
+  background-color: blue;
+}
+
+.ui.cards>.card>.container>.right>.content>.meta{
+  padding-bottom: 3px;
+}
+
+.ui.cards>.card>.container>.right>.content>.description.intro{
+  height: 110px;
+  overflow: hidden;
+  padding-top: 3px;
+}
+
 #mutual-likes-container{
   width: 450px;
   text-align: center;

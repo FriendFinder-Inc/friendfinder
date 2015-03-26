@@ -7,6 +7,13 @@ angular.module('friendfinderApp')
       $('.ui.modal').modal({allowMultiple: true});
       //TODO: why does profile modal dissapear after we select message area?
       $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
+      $('#mutual-likes-container').flowtype({
+         minimum   : 500,
+         maximum   : 1200,
+         minFont   : 12,
+         maxFont   : 40,
+         fontRatio : 30
+      });
     };
 
     $scope.linkAccordion = function(){
@@ -242,7 +249,7 @@ angular.module('friendfinderApp')
                 var html = '';
                 angular.forEach($scope.mutualInterests, function(item){
                   //TODO: flowtype.js
-                  html += "<div style='width:100px; float: left;'><a href="+item.link+" target='_blank'><img style='margin: 3px; width; 100px; height: 100px;' src="+item.img+" ></a><div style='float: left; width: 100%; overflow: hidden;'>"+item.name+"</div></div>"
+                  html += "<div style='width:100px; float: left;'><a href="+item.link+" target='_blank'><img style='margin: 3px; width; 100px; height: 100px;' src="+item.img+" ></a><div style=''>"+item.name+"</div></div>"
                 })
                 $('#mutual-likes-container').html(html);
                 console.log('hi', $scope.mutualInterests)

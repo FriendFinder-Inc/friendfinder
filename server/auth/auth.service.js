@@ -25,11 +25,15 @@ function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
-      User.findOne({'@rid': req.user.rid}, function (user) {
-        if (!user) return res.send(401);
-        req.user = user;
-        next();
-      });
+      if(!req.user.rid){
+        res.send(401);
+      } else {
+        User.findOne({'@rid': req.user.rid}, function (user) {
+          if (!user) return res.send(401);
+          req.user = user;
+          next();
+        });
+      }
     });
 }
 
