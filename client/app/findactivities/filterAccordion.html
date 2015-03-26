@@ -1,0 +1,74 @@
+<div class='ui center aligned top attached blue header'>
+  filters
+</div>
+<div class='ui styled fluid accordion filter-accordion'>
+  <div ng-class='{disabled: chooseFilter}' class="title" ng-repeat-start='filter in $parent.filters'>
+    <i class="dropdown icon"></i>
+    {{ filter.key }} : {{ getFilterStr(filter.options) }}
+    <i class="ui large close icon link icon" style='float:right;'
+       ng-click='removeFilter(filter.key)'></i>
+  </div>
+  <div class="content" ng-repeat-end>
+    <div class="ui form">
+      <div class="grouped fields">
+        <div class="field" ng-repeat="option in filter.options">
+          <div class="ui checkbox" ng-click="checkboxClicked('filterChoices', filter.key, option.key)">
+            <input type="checkbox" ng-model="option.value">
+            <label>{{ option.key }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- tags -->
+  <div ng-class='{disabled: chooseFilter}' class="title" ng-if="$parent.showTags">
+    <i class="dropdown icon"></i>
+      tags : {{ $parent.tags.list.length }}
+    <i class="ui large close icon link icon" style='float:right;'
+       ng-click="$parent.hideTags()"></i>
+  </div>
+  <div class="content" ng-if="$parent.showTags">
+    <div class='ui input'>
+      <input type='text' ng-list ng-model='$parent.tags.list'>
+    </div>
+  </div>
+  <!-- select new filter -->
+  <div class="accordion" ng-show='$parent.chooseFilter' style='margin-top: 0px;'>
+    <div class="active title">
+      <i class="dropdown icon"></i>
+      choose
+      <i class="ui right floated large close icon link icon" style='float:right;'
+         ng-click='$parent.chooseFilter = !$parent.chooseFilter'></i>
+    </div>
+    <div class="active content">
+      <button class='fluid ui button' ng-repeat='name in $parent.filterNames' ng-click='addFilter(name)'>{{ name }}</button>
+    </div>
+  </div>
+</div>
+<button ng-class='{disabled: $parent.chooseFilter}' class='fluid ui red button' ng-click='showChoices()'>
+  <i class='ui center aligned add circle icon'></i>
+  add filter
+</button>
+<!-- order by -->
+<div class='ui styled fluid accordion'>
+  <div class="title" ng-class='{disabled: $parent.chooseFilter}'>
+    <i class="dropdown icon"></i>
+    order by : {{ getOrderby() }}
+  </div>
+  <div class="content">
+    <div class="ui form">
+      <div class="grouped fields">
+        <div class="field" ng-repeat="option in orderby[0].options">
+          <div class="ui checkbox" ng-click="checkboxClicked('orderby', 'orderby', option.key)">
+            <input type="checkbox" ng-model="option.value">
+            <label>{{ option.key }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button ng-class='{disabled: $parent.chooseFilter}' class='fluid ui green button' ng-click='find()'>
+  <i class="search icon"></i>
+  <span>find</span>
+</button>

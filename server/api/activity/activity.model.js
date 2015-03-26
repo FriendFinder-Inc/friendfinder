@@ -193,6 +193,7 @@ Activity.findByFilters = function(params, cb) {
 
   var query = buildQuery();
   // console.log('query', query)
+  query = 'select * from Activity'; //TODO
   db.query(query)
   .then(function (Activitys) {
     cb(Activitys);
