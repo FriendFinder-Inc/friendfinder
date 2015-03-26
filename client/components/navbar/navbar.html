@@ -1,4 +1,4 @@
-<div id='navbar-container' ng-controller='NavbarCtrl'>
+<div id='navbar-container' ng-controller='NavbarCtrl' ng-show='user.facebookId'>
 
   <!-- desktop menu -->
   <div id='desktop-menu' ng-show='!isMobile()'>
@@ -9,32 +9,80 @@
 
     <div id='middle-section'>
       <div id='link-container'>
-        <a href='/findfriends' class='menu-item'>find friends</a>
-        <a href='/findactivities' class='menu-item'>find activities</a>
+        <a href='/findfriends' class='menu-item' ng-show='!onFriends()'>
+          find friends
+        </a>
+        <a href='/findfriends' class='menu-item ui circular blue button' ng-show='onFriends()'>
+          find friends
+        </a>
+        <a href='/findactivities' class='menu-item ui circular  green button' ng-show='onActivities()'>
+          find activities
+        </a>
+        <a href='/findactivities' class='menu-item' ng-show='!onActivities()'>
+          find activities
+        </a>
       </div>
     </div>
 
     <div id='right-section'>
-      <i id='mail-icon' class='large mail icon'></i>
-      <img id='dropdown-image' class="ui circular image"
-          src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=60&height=60">
-      <i id='desktop-dropdown-icon' class='large dropdown icon'
-                            ng-click='showDropdown = !showDropdown'></i>
-    </div>
+      <div id='desktop-dropdown-icon' class="ui dropdown toplevel">
+        <div id='dropdown-menu-list' class="left menu">
+          <div class="ui right pointing dropdown link item">
+            <i class="dropdown icon"></i>
+            me
+            <div class="menu">
+              <div class="item" ng-click="nav('/me/messages')">
+                <i class='minu mail icon'></i>
+                messages
+              </div>
+              <div class="item" ui-sref='me.bookmarks.users'>
+                <i class='minu bookmark icon'></i>
+                bookmarks
+              </div>
+              <div class="item" ui-sref='me.activities'>
+                <i class='minu smile icon'></i>
+                activities
+              </div>
+              <div class="item" ui-sref='me.profile'>
+                <i class='minu user icon'></i>
+                profile
+              </div>
+            </div>
+          </div>
+          <div class="ui right pointing dropdown link item">
+            <i class="dropdown icon"></i>
+            settings
+            <div class="menu">
+              <div class="item" ui-sref='settings.account'>
+                <i class='minu setting icon'></i>
+                account
+              </div>
+              <div class="item" ui-sref='settings.feedback.features'>
+                <i class='minu comment icon'></i>
+                feedback
+              </div>
+              <div class="item" ui-sref='settings.about.mission'>
+                <i class='minu info circle icon'></i>
+                about
+              </div>
+            </div>
+          </div>
+          <a class="item" ng-click='logout()'>
+            logout
+          </a>
+        </div>
+      </div>
 
-    <div id='desktop-dropdown' ng-show='showDropdown' class='ui vertical buttons'>
-      <div class="ui button">
-        <i class='small bookmark icon' style='float: left;'></i>
-        bookmarks
+      <div id='unread-placeholder' ng-show='!unreadMail()'></div>
+      {{ unreadMail() }}
+      <div id='unread-messages' class='mini ui red button' ng-show='unreadMail()'>
+        99
       </div>
-      <div class="ui button">
-        <i class='small setting icon' style='float: left;'></i>
-        settings
-      </div>
-      <div class="ui button" ng-click='logout()'>
-        <i class='small sign out icon' style='float: left;'></i>
-        logout
-      </div>
+      <i id='mail-icon' ng-class='{red: unreadMail()}' class='large blue mail icon' ui-sref='me.messages'></i>
+      <img id='dropdown-image' class="ui circular image"
+          src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=50&height=50">
+      <i id='menu-icon' class='big blue dropdown icon' ng-click='toggleMenu()'></i>
+
     </div>
 
   </div>
@@ -42,38 +90,48 @@
   <!-- mobile menu -->
   <div id='mobile-menu' ng-show='isMobile()'>
     <a href="/findfriends" id="mobile-logo"></a>
-    <i id='mobile-dropdown-icon' class='huge bars icon'
-                          ng-click='showDropdown = !showDropdown' style='float: right;'></i>
-    <div id='mobile-dropdown' ng-show='showDropdown' class='ui vertical buttons'>
-      <div class="ui button">
-        <i class='small mail icon' style='float: left;'></i>
-        messages
-      </div>
-      <div class="ui button">
-        <i class='small bookmark icon' style='float: left;'></i>
-        bookmarks
-      </div>
-      <div class="ui button">
-        <i class='small users icon' style='float: left;'></i>
+    <!-- <i id='mobile-dropdown-icon' class='huge blue add circle icon'
+                          ng-click='showDropdown = !showDropdown'></i>
+    <i id='mobile-dropdown-icon' class='huge blue remove circle icon'
+                          ng-click='showDropdown = !showDropdown'></i> -->
+    <i id='mobile-dropdown-icon' class='huge blue bars icon'
+                          ng-click='toggleSidebar()' style='float: right;'></i>
+
+    <div class="ui right vertical inverted labeled icon sidebar menu">
+      <a class="item">
+        <i class="block search icon"></i>
         find friends
-      </div>
-      <div class="ui button">
-        <i class='small marker icon' style='float: left;'></i>
+      </a>
+      <a class="item">
+        <i class="block search icon"></i>
         find activities
-      </div>
-      <div class="ui button">
-        <i class='small user icon' style='float: left;'></i>
+      </a>
+      <a class="item">
+        <i class="block mail icon"></i>
+        messages
+      </a>
+      <a class="item">
+        <i class="block bookmark icon"></i>
+        bookmarks
+      </a>
+      <a class="item">
+        <i class="block smile icon"></i>
+        my activities
+      </a>
+      <a class="item">
+        <i class="block user icon"></i>
         profile
-      </div>
-      <div class="ui button">
-        <i class='small setting icon' style='float: left;'></i>
+      </a>
+      <a class="item">
+        <i class="block setting icon"></i>
         settings
-      </div>
-      <div class="ui button">
-        <i class='small sign out icon' style='float: left;'></i>
+      </a>
+      <a class="item">
+        <i class="block share icon"></i>
         logout
-      </div>
+      </a>
     </div>
-  </div>
+
+  </div> <!-- end mobile menu -->
 
 </div>
