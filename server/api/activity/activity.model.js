@@ -43,10 +43,10 @@ var Activity = function(params) {
 
 Activity.autoComplete = function(input, cb){
   locations.autocomplete({input: input}, function(err, response) {
-    if(err){
-      console.log('GOOGLE API ERROR: failed to autocomplete location', err)
+    if(err || !response.predictions.length){
+      console.log('GOOGLE API ERROR: failed to autocomplete location', err, response);
     }
-    cb(response.predictions)
+    cb(response.predictions);
   });
 };
 
@@ -70,7 +70,7 @@ Activity.prototype.create = function(cb) {
   var self = this;
   // first get the lat/long for the chosen location
   locations.details({placeid: this.props.location}, function(err, details){
-    if(err){
+    if(err || !details.result){
       console.log('GOOGLE API ERROR: failed to get lat/long for place: ', self.props.location, err);
       cb('failure');
     }
@@ -79,7 +79,7 @@ Activity.prototype.create = function(cb) {
       lat: details.result.geometry.location.lat,
       long: details.result.geometry.location.lng
     };
-    // then shorten the urls if they exist
+    // then shorten the urls if they exist TODO: refactor logic
     if(self.props.url){
       googl.shorten(self.props.url)
       .then(function (sUrl) {
@@ -100,6 +100,16 @@ Activity.prototype.create = function(cb) {
       })
       .catch(function(err){
         console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
+        cb('failure');
+      });
+    } else if (self.props.img){
+      googl.shorten(self.props.img)
+      .then(function (sImg) {
+        self.props.img = sImg;
+        saveActivity();
+      })
+      .catch(function(err){
+        console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
         cb('failure');
       });
     } else {

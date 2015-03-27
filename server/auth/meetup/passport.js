@@ -44,7 +44,14 @@ exports.setup = function (User, config) {
           var group ={};
           group.name = json.results[i].name;
           group.id = json.results[i].id;
-          group.img = json.results[i].group_photo.highres_link;
+          try{
+            group.img = json.results[i].group_photo.thumb_link;
+            group.img = json.results[i].group_photo.photo_link;
+            group.img = json.results[i].group_photo.highres_link;
+          } catch(err){
+            group.img = null;
+            console.log('MEETUP API ERROR: failed to add photo for meetup group ', group.name, err, group);
+          }
           group.link = json.results[i].link;
           groups.push(group);
           categories[json.results[i].category.name] = true;

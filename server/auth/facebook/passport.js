@@ -153,6 +153,7 @@ exports.connectFriends = function(user){
       console.log('FB API ERROR: failed to get friends for user: ', user.facebookId, err);
       return;
     }
+    console.log('adding friends', err, res);
     var recurse = function(res){
       for(var i =0; i < res.data.length; i++){
         var friend = res.data[i];
