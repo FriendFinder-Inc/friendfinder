@@ -44,9 +44,9 @@ var Activity = function(params) {
 
 Activity.autoComplete = function(input, latlong, cb){
 
-  if(config.quotaguard.url){
+  if(!config.quotaguard.url){
     var options = {
-        proxy: config.quotaguard.url,
+        proxy: config.quotaguard.url, // make request from static IP
         url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+
               input+
               '&key='+
@@ -93,22 +93,49 @@ Activity.prototype.create = function(cb) {
 
   var self = this;
   // first get the lat/long for the chosen location
-  locations.details({placeid: this.props.location}, function(err, details){
-    if(err || !details.result){
-      console.log('GOOGLE API ERROR: failed to get lat/long for place: ', self.props.location, err);
-      cb('failure');
-    }
-    self.props.location = {
-      name: details.result.formatted_address,
-      lat: details.result.geometry.location.lat,
-      long: details.result.geometry.location.lng
+  if(!config.quotaguard.url){
+    var options = {
+        proxy: config.quotaguard.url, //make request from static IP
+        url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid='+
+              self.props.location+
+              '&key='+
+              config.google.apiKey,
+        headers: {
+            'User-Agent': 'node.js'
+        }
     };
-    // then shorten the urls if they exist TODO: refactor logic
-    if(self.props.url){
-      googl.shorten(self.props.url)
-      .then(function (sUrl) {
-        self.props.url = sUrl;
-        if(self.props.img){
+    request(options, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        var result = JSON.parse(body).result;
+        self.props.location = {
+          name: result.formatted_address,
+          lat: result.geometry.location.lat,
+          long: result.geometry.location.lng
+        };
+        // then shorten the urls if they exist TODO: refactor logic
+        if(self.props.url){
+          googl.shorten(self.props.url)
+          .then(function (sUrl) {
+            self.props.url = sUrl;
+            if(self.props.img){
+              googl.shorten(self.props.img)
+              .then(function (sImg) {
+                self.props.img = sImg;
+                saveActivity();
+              })
+              .catch(function(err){
+                console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
+                cb('failure');
+              });
+            } else {
+              saveActivity();
+            }
+          })
+          .catch(function(err){
+            console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
+            cb('failure');
+          });
+        } else if (self.props.img){
           googl.shorten(self.props.img)
           .then(function (sImg) {
             self.props.img = sImg;
@@ -121,25 +148,59 @@ Activity.prototype.create = function(cb) {
         } else {
           saveActivity();
         }
-      })
-      .catch(function(err){
-        console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
+      } else {
+        console.log('GOOGLE API ERROR: failed to get lat/long for place: ', self.props.location, err);
+      }
+    });
+  } else { // we are on localhost
+    locations.details({placeid: this.props.location}, function(err, details){
+      if(err || !details.result){
+        console.log('GOOGLE API ERROR: failed to get lat/long for place: ', self.props.location, err);
         cb('failure');
-      });
-    } else if (self.props.img){
-      googl.shorten(self.props.img)
-      .then(function (sImg) {
-        self.props.img = sImg;
+      }
+      self.props.location = {
+        name: details.result.formatted_address,
+        lat: details.result.geometry.location.lat,
+        long: details.result.geometry.location.lng
+      };
+      // then shorten the urls if they exist TODO: refactor logic
+      if(self.props.url){
+        googl.shorten(self.props.url)
+        .then(function (sUrl) {
+          self.props.url = sUrl;
+          if(self.props.img){
+            googl.shorten(self.props.img)
+            .then(function (sImg) {
+              self.props.img = sImg;
+              saveActivity();
+            })
+            .catch(function(err){
+              console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
+              cb('failure');
+            });
+          } else {
+            saveActivity();
+          }
+        })
+        .catch(function(err){
+          console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
+          cb('failure');
+        });
+      } else if (self.props.img){
+        googl.shorten(self.props.img)
+        .then(function (sImg) {
+          self.props.img = sImg;
+          saveActivity();
+        })
+        .catch(function(err){
+          console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
+          cb('failure');
+        });
+      } else {
         saveActivity();
-      })
-      .catch(function(err){
-        console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
-        cb('failure');
-      });
-    } else {
-      saveActivity();
-    }
-  });
+      }
+    });
+  }
 };
 
 Activity.findOne = function(params, cb) {
