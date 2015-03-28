@@ -46,12 +46,16 @@ angular.module('friendfinderApp')
       var firstMessage = $scope.selectedThread[0];
       var toRid = (firstMessage.to === $scope.currentUser['@rid'] ? firstMessage.from :
                                                                     firstMessage.to);
+      var toEmail = (firstMessage.toEmail === $scope.currentUser.email ? firstMessage.fromEmail :
+                                                                         firstMessage.toEmail);
       var toFbId = (firstMessage.toFacebookId === $scope.currentUser.facebookId ? firstMessage.fromFacebookId :
                                                                                   firstMessage.toFacebookId);
 
       var data =  {
                     to: toRid,
+                    toEmail: toEmail,
                     from: $scope.currentUser['@rid'],
+                    fromEmail: $scope.currentUser.email,
                     timeSent: new Date(),
                     timeRead: null,
                     content: message,

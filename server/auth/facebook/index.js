@@ -64,6 +64,7 @@ exports.connectFacebook = function(facebookId, accessToken, done){
         }
       }); // end FB.get('/me')
     } else {
+      //console.log('update time') //TODO when to update lastOnline?
       return done(user);
     }
   });
@@ -115,7 +116,8 @@ var newUser = function(fbData, cb){
     },
     role: 'free',
     views: 0,
-    created: new Date()
+    created: new Date(),
+    lastOnline: new Date()
   });
   user.create(function(user) {
     exports.connectFriends(user);

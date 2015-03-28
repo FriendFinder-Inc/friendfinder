@@ -58,6 +58,11 @@ var all = {
     apisecret: process.env.CLOUDINARY_APISECRET
   },
 
+  sendgrid: {
+    username: process.env.SENDGRID_USERNAME,
+    password: process.env.SENDGRID_PASSWORD,
+  },
+
   google: {
     apiKey: process.env.GOOGLE_KEY,
   },

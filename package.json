@@ -25,6 +25,7 @@
     "passport-facebook": "latest",
     "passport-meetup": "^0.1.2",
     "request": "^2.54.0",
+    "sendgrid": "^1.6.0",
     "serve-favicon": "~2.0.1"
   },
   "devDependencies": {

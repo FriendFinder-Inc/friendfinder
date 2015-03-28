@@ -25,6 +25,10 @@ server.listen(config.port, config.ip, function () {
 
 // Expose app
 exports = module.exports = app;
+
+global.sendgrid  = require('sendgrid')(config.sendgrid.username,
+                                       config.sendgrid.password);
+
 // Expose db connection
 global.db = oriento({host:    config.orientdb.serverhost,
                     port:     config.orientdb.serverport,

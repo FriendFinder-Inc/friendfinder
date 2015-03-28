@@ -8,9 +8,6 @@ var User = function(params) {
   this.props.email =         params.email;
   this.props.location =      params.location;
   this.props.birthday =      params.birthday;
-  this.props.hometown =      params.hometown;
-  this.props.school =        params.school;
-  this.props.employer =      params.employer;
   this.props.facebookId =    params.facebookId;
   this.props.fbAccessToken = params.fbAccessToken;
   this.props.name =          params.name;
@@ -19,6 +16,7 @@ var User = function(params) {
   this.props.role =          params.role;
   this.props.views =         params.views;
   this.props.created =       params.created;
+  this.props.lastOnline =    params.lastOnline;
 };
 
 // utility function

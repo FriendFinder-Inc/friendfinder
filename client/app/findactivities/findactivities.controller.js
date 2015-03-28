@@ -275,7 +275,9 @@ angular.module('friendfinderApp')
       var message = $('#message-text').val();
       var data =  {
                     to: $scope.selectedUser['@rid'],
+                    toEmail: $scope.selectedUser.email,
                     from: $scope.currentUser['@rid'],
+                    fromEmail: $scope.currentUser.email,
                     timeSent: new Date(),
                     timeRead: null,
                     content: message,
