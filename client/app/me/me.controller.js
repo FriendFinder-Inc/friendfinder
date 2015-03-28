@@ -8,6 +8,13 @@ angular.module('friendfinderApp')
         // history: true
     });
 
-    $("[ui-sref='"+$state.current.name+"']").addClass('active');
-    $("[data-tab='"+$state.current.name.split('.')[1]+"']").addClass('active');
+    $scope.$on('$stateChangeSuccess', function(event, toState) {
+      $('.item').removeClass('active');
+      $('.ui.tab.label').removeClass('active');
+
+
+      $("[ui-sref='"+$state.current.name+"']").addClass('active');
+      $("[data-tab='"+$state.current.name.split('.')[1]+"']").addClass('active');
+    });
+
   });
