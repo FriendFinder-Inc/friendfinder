@@ -44,6 +44,7 @@ var Activity = function(params) {
 
 Activity.autoComplete = function(input, latlong, cb){
 
+  console.log('config', config)
   if(config.quotaguard.url){
     var options = {
         proxy: config.quotagaurd.url,
