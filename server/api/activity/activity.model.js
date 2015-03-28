@@ -112,40 +112,46 @@ Activity.prototype.create = function(cb) {
           lat: result.geometry.location.lat,
           long: result.geometry.location.lng
         };
-        // then shorten the urls if they exist TODO: refactor logic
+        // then shorten the urls if they exist
+        var count = (self.props.url ? 1 : 0) + (self.props.img ? 1 : 0);
+        var i = 0;
         if(self.props.url){
-          googl.shorten(self.props.url)
-          .then(function (sUrl) {
-            self.props.url = sUrl;
-            if(self.props.img){
-              googl.shorten(self.props.img)
-              .then(function (sImg) {
-                self.props.img = sImg;
+          var options = {
+            method: 'post',
+            body: {longUrl: self.props.url},
+            json: true,
+            url: 'https://www.googleapis.com/urlshortener/v1/url?key='+config.google.apiKey
+          };
+          request.post(options, function(err,response,body){
+            if (!body.error) {
+              self.props.url = body.id;
+              if(++i === count){
                 saveActivity();
-              })
-              .catch(function(err){
-                console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
-                cb('failure');
-              });
+              }
             } else {
-              saveActivity();
+              console.log('GOOGLE API ERROR: failed to shorten URL: ', self.props.url, body.error.message);
             }
-          })
-          .catch(function(err){
-            console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
-            cb('failure');
           });
-        } else if (self.props.img){
-          googl.shorten(self.props.img)
-          .then(function (sImg) {
-            self.props.img = sImg;
-            saveActivity();
-          })
-          .catch(function(err){
-            console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
-            cb('failure');
+        }
+        if(self.props.img){
+          var options = {
+            method: 'post',
+            body: {longUrl: self.props.img},
+            json: true,
+            url: 'https://www.googleapis.com/urlshortener/v1/url?key='+config.google.apiKey
+          };
+          request.post(options, function(err,response,body){
+              if (!body.error) {
+                self.props.img = body.id;
+                if(++i === count){
+                  saveActivity();
+                }
+              } else {
+                console.log('GOOGLE API ERROR: failed to shorten URL: ', self.props.url, err);
+              }
           });
-        } else {
+        }
+        if(!count){
           saveActivity();
         }
       } else {
@@ -163,40 +169,28 @@ Activity.prototype.create = function(cb) {
         lat: details.result.geometry.location.lat,
         long: details.result.geometry.location.lng
       };
-      // then shorten the urls if they exist TODO: refactor logic
+      // then shorten the urls if they exist
+      var count = (self.props.url ? 1 : 0) + (self.props.img ? 1 : 0);
+      var i = 0;
       if(self.props.url){
         googl.shorten(self.props.url)
         .then(function (sUrl) {
           self.props.url = sUrl;
-          if(self.props.img){
-            googl.shorten(self.props.img)
-            .then(function (sImg) {
-              self.props.img = sImg;
-              saveActivity();
-            })
-            .catch(function(err){
-              console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
-              cb('failure');
-            });
-          } else {
+          if(++i === count){
             saveActivity();
           }
-        })
-        .catch(function(err){
-          console.log('GOOGLE API ERROR: failed to shorten url: ', url, err);
-          cb('failure');
         });
-      } else if (self.props.img){
+      }
+      if(self.props.img){
         googl.shorten(self.props.img)
         .then(function (sImg) {
           self.props.img = sImg;
-          saveActivity();
-        })
-        .catch(function(err){
-          console.log('GOOGLE API ERROR: failed to shorten imgUrl: ', img, err);
-          cb('failure');
+          if(++i === count){
+            saveActivity();
+          }
         });
-      } else {
+      }
+      if(!count){
         saveActivity();
       }
     });
