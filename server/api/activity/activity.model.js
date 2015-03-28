@@ -118,6 +118,7 @@ Activity.prototype.create = function(cb) {
         if(self.props.url){
           var options = {
             method: 'post',
+            proxy: config.quotaguard.url, // make request from static IP
             body: {longUrl: self.props.url},
             json: true,
             url: 'https://www.googleapis.com/urlshortener/v1/url?key='+config.google.apiKey
@@ -136,6 +137,7 @@ Activity.prototype.create = function(cb) {
         if(self.props.img){
           var options = {
             method: 'post',
+            proxy: config.quotaguard.url, // make request from static IP
             body: {longUrl: self.props.img},
             json: true,
             url: 'https://www.googleapis.com/urlshortener/v1/url?key='+config.google.apiKey
@@ -147,7 +149,7 @@ Activity.prototype.create = function(cb) {
                   saveActivity();
                 }
               } else {
-                console.log('GOOGLE API ERROR: failed to shorten URL: ', self.props.url, err);
+                console.log('GOOGLE API ERROR: failed to shorten URL: ', self.props.img, body.error.message);
               }
           });
         }
