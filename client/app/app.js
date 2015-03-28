@@ -8,9 +8,9 @@ angular.module('friendfinderApp', [
 ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
-    .when('/settings', '/settings/account')
     .when('/me', '/me/messages')
-    .otherwise('/');
+    .when('/settings', '/settings/account')
+    .otherwise('/')
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
@@ -50,6 +50,10 @@ angular.module('friendfinderApp', [
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
           $location.path('/login');
+        }
+        // don't let user go back to login if already logged in
+        if (next.url === '/' && loggedIn) {
+          $location.path('/me/profile');
         }
       });
     });

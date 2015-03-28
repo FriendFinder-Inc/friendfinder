@@ -25,6 +25,7 @@ angular.module('friendfinderApp')
     $scope.logout = function() {
       Auth.logout();
       $location.path('/');
+      $window.location.reload();
     };
 
     $scope.isMobile = function(){
