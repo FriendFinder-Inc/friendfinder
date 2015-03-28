@@ -58,7 +58,8 @@ function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 function signToken(rid) {
-  return jwt.sign({ rid: rid }, config.secrets.session, { expiresInMinutes: 60*5 });
+  var expires = 60*24*7*4*6; // six months TODO is this ok?
+  return jwt.sign({ rid: rid }, config.secrets.session, { expiresInMinutes: expires });
 }
 
 /**
@@ -69,7 +70,7 @@ function setTokenCookie(req, res) {
   var rid = '#'+req.user['@rid'].cluster+':'+req.user['@rid'].position;
   var token = signToken(rid, req.user.role);
   res.cookie('token', JSON.stringify(token));
-  res.redirect('/me/profile');
+  res.end();
 }
 
 exports.isAuthenticated = isAuthenticated;

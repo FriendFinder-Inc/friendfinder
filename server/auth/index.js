@@ -7,12 +7,18 @@ var User = require('../api/user/user.model');
 var auth = require('../auth/auth.service');
 
 // Passport Configuration
-require('./facebook/passport').setup(User, config);
 require('./meetup/passport').setup(User, config);
 
 var router = express.Router();
 
-router.use('/facebook', require('./facebook'));
 router.use('/meetup', require('./meetup'));
+router.post('/facebook', function(req, res, next){
+  require('./facebook').connectFacebook(req.body.facebookId,
+                                        req.body.accessToken,
+                                        function(user){
+                                          req.user = user;
+                                          next();
+                                        })
+  }, auth.setTokenCookie);
 
 module.exports = router;

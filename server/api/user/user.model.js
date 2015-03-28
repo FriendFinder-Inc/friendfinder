@@ -17,6 +17,8 @@ var User = function(params) {
   this.props.preferences =   params.preferences;
   this.props.profile =       params.profile;
   this.props.role =          params.role;
+  this.props.views =         params.views;
+  this.props.created =       params.created;
 };
 
 // utility function
