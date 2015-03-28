@@ -44,7 +44,7 @@ var Activity = function(params) {
 
 Activity.autoComplete = function(input, latlong, cb){
 
-  if(!config.quotaguard.url){
+  if(config.quotaguard.url){
     var options = {
         proxy: config.quotaguard.url, // make request from static IP
         url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+
@@ -93,7 +93,7 @@ Activity.prototype.create = function(cb) {
 
   var self = this;
   // first get the lat/long for the chosen location
-  if(!config.quotaguard.url){
+  if(config.quotaguard.url){
     var options = {
         proxy: config.quotaguard.url, //make request from static IP
         url: 'https://maps.googleapis.com/maps/api/place/details/json?placeid='+
