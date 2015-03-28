@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('NavbarCtrl', function ($scope, $window, $location, Auth) {
+  .controller('NavbarCtrl', function ($scope, $window, $location, Auth, $state) {
 
     $scope.user = Auth.getCurrentUser();
     $('.ui.dropdown').dropdown();
@@ -33,11 +33,11 @@ angular.module('friendfinderApp')
     };
 
     $scope.onFriends = function(){
-      return $window.location.pathname === '/findfriends';
+      return $window.location.pathname === '/find/friends';
     };
 
     $scope.onActivities = function(){
-      return $window.location.pathname === '/findactivities';
+      return $window.location.pathname === '/find/activities';
     };
 
     $scope.unreadMail = function(){
@@ -56,7 +56,13 @@ angular.module('friendfinderApp')
       $('.ui.right.sidebar').sidebar('toggle');
     };
 
-    $scope.showDropdown = false;
+    $scope.isActive = function(url){
+      if($window.location.pathname === url){
+        return true;
+      }
+      return false;
+    };
 
+    $scope.showHidden = false;
 
   });

@@ -9,12 +9,14 @@ angular.module('friendfinderApp', [
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
     .when('/me', '/me/messages')
+    .when('/find', '/find/friends')
     .when('/settings', '/settings/account')
     .otherwise('/')
 
     $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
   })
+
 
   .factory('authInterceptor', function ($rootScope, $q, $cookieStore, $location) {
     return {
@@ -31,7 +33,7 @@ angular.module('friendfinderApp', [
       //TODO
       responseError: function(response) {
         if(response.status === 401) {
-          $location.path('/login');
+          $location.path('/');
           // remove any stale tokens
           $cookieStore.remove('token');
           return $q.reject(response);
@@ -44,16 +46,18 @@ angular.module('friendfinderApp', [
   })
 
   .run(function ($rootScope, $location, Auth) {
-    //TODO
-    // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
-          $location.path('/login');
+          $location.path('/');
         }
         // don't let user go back to login if already logged in
         if (next.url === '/' && loggedIn) {
           $location.path('/me/profile');
+        }
+        // kind of hacky, but if removed there is a benign UI bug on the sidebar
+        if(next.name === 'findfriends' || next.name === 'findactivities'){
+          $('.item').removeClass('active');
         }
       });
     });

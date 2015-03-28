@@ -144,7 +144,6 @@ angular.module('friendfinderApp')
       Activity.find({}, function(activities){
         $scope.users = activities;
         $scope.activities = activities;
-        console.log('got', activities)
       });
     };
 

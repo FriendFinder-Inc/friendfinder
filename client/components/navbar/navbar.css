@@ -153,24 +153,30 @@
 
 #mobile-dropdown-icon{
 	position: absolute;
-	padding: 5px;
+	padding-top: 5px;
+	padding-right: 60px;
 	top: 0;
 	right: 0;
-	margin-right:10px;
-	float: right;
 	width: 60px;
 	height: 60px;
-	float: left;
 }
 
-#mobile-dropdown{
-	width: 150px;
-	height: 100px;
-	background-color: white;
+#mobile-show-icon{
 	position: absolute;
+	padding: 5px;
+	padding-right: 120px !important;
 	top: 0;
 	right: 0;
-	margin-right: 8px;
-	margin-top: 70px;
-	z-index: 1000;
+	width: 60px;
+	height: 60px;
+}
+
+#mobile-hide-icon{
+	position: absolute;
+	padding: 5px;
+	padding-right: 120px !important;
+	top: 0;
+	right: 0;
+	width: 60px;
+	height: 60px;
 }

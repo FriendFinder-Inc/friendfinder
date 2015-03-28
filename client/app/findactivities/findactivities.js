@@ -5,7 +5,7 @@ angular.module('friendfinderApp')
 
     $stateProvider
       .state('findactivities', {
-        url: '/findactivities',
+        url: '/find/activities',
         templateUrl: 'app/findactivities/findactivities.html',
         controller: 'FindActivitiesCtrl'
       });

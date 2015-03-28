@@ -4,21 +4,21 @@
   <div id='desktop-menu' ng-show='!isMobile()'>
 
     <div id='left-section'>
-      <a href="/findfriends" id="desktop-logo"></a>
+      <a href='/find/friends' id="desktop-logo"></a>
     </div>
 
     <div id='middle-section'>
       <div id='link-container'>
-        <a href='/findfriends' class='menu-item' ng-show='!onFriends()'>
+        <a href='/find/friends' class='menu-item' ng-show='!onFriends()'>
           find friends
         </a>
-        <a href='/findfriends' class='menu-item ui circular blue button' ng-show='onFriends()'>
+        <a href='/find/friends' class='menu-item ui circular blue button' ng-show='onFriends()'>
           find friends
         </a>
-        <a href='/findactivities' class='menu-item ui circular  green button' ng-show='onActivities()'>
+        <a href='/find/activities' class='menu-item ui circular  green button' ng-show='onActivities()'>
           find activities
         </a>
-        <a href='/findactivities' class='menu-item' ng-show='!onActivities()'>
+        <a href='/find/activities'class='menu-item' ng-show='!onActivities()'>
           find activities
         </a>
       </div>
@@ -89,44 +89,44 @@
 
   <!-- mobile menu -->
   <div id='mobile-menu' ng-show='isMobile()'>
-    <a href="/findfriends" id="mobile-logo"></a>
-    <!-- <i id='mobile-dropdown-icon' class='huge blue add circle icon'
-                          ng-click='showDropdown = !showDropdown'></i>
-    <i id='mobile-dropdown-icon' class='huge blue remove circle icon'
-                          ng-click='showDropdown = !showDropdown'></i> -->
+    <a href="/find/friends" id="mobile-logo"></a>
+    <i id='mobile-show-icon' class='huge blue add circle icon' ng-show='showHidden'
+                          ng-click='showHidden = !showHidden'></i>
+    <i id='mobile-hide-icon' class='huge blue remove circle icon' ng-show='!showHidden'
+                          ng-click='showHidden = !showHidden'></i>
     <i id='mobile-dropdown-icon' class='huge blue bars icon'
                           ng-click='toggleSidebar()' style='float: right;'></i>
 
     <div class="ui right vertical inverted labeled icon sidebar menu">
-      <a class="item">
+      <a class="item" ng-class="{active: isActive('/find/friends')}" href='/find/friends'>
         <i class="block search icon"></i>
         find friends
       </a>
-      <a class="item">
+      <a class="item" ng-class="{active: isActive('/find/activities')}" href='/find/activities'>
         <i class="block search icon"></i>
         find activities
       </a>
-      <a class="item">
+      <a class="item" ui-sref='me.messages'>
         <i class="block mail icon"></i>
         messages
       </a>
-      <a class="item">
+      <a class="item" ui-sref='me.bookmarks'>
         <i class="block bookmark icon"></i>
         bookmarks
       </a>
-      <a class="item">
+      <a class="item" ui-sref='me.activities'>
         <i class="block smile icon"></i>
         my activities
       </a>
-      <a class="item">
+      <a class="item" ui-sref='me.profile'>
         <i class="block user icon"></i>
         profile
       </a>
-      <a class="item">
+      <a class="item" ui-sref='settings'>
         <i class="block setting icon"></i>
         settings
       </a>
-      <a class="item">
+      <a class="item" ng-click='logout()'>
         <i class="block share icon"></i>
         logout
       </a>
