@@ -44,10 +44,9 @@ var Activity = function(params) {
 
 Activity.autoComplete = function(input, latlong, cb){
 
-  console.log('config', config)
   if(config.quotaguard.url){
     var options = {
-        proxy: config.quotagaurd.url,
+        proxy: config.quotaguard.url,
         url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+
               input+
               '&key='+
