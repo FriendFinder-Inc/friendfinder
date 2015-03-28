@@ -10,7 +10,7 @@ var validationError = function(res, err) {
 };
 
 exports.autoComplete = function (req, res, next) {
-  Activity.autoComplete(req.query.input, function(suggestions){
+  Activity.autoComplete(req.query.input, req.query.latlong, function(suggestions){
     res.json(suggestions);
   });
 };

@@ -2,6 +2,7 @@
 
 var Tag = require('../tag/tag.model')
 var config = require('../../config/environment');
+var request = require('request');
 var GoogleLocations = require('google-locations');
 var googl = require('goo.gl');
 googl.setKey(config.google.apiKey);
@@ -41,13 +42,36 @@ var Activity = function(params) {
   if(params.img) { this.props.img = params.img; }
 };
 
-Activity.autoComplete = function(input, cb){
-  locations.autocomplete({input: input}, function(err, response) {
-    if(err || !response.predictions.length){
-      console.log('GOOGLE API ERROR: failed to autocomplete location', err, response);
-    }
-    cb(response.predictions);
-  });
+Activity.autoComplete = function(input, latlong, cb){
+
+  if(config.quotaguard.url){
+    var options = {
+        proxy: config.quotagaurd.url,
+        url: 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input='+
+              input+
+              '&key='+
+              config.google.apiKey+
+              '&location='+latlong+
+              '&radius='+150000, //150km = ~93mi
+        headers: {
+            'User-Agent': 'node.js'
+        }
+    };
+    request(options, function(error, response, body) {
+      if (!error && response.statusCode == 200) {
+        cb(JSON.parse(body).predictions);
+      } else {
+        console.log('GOOGLE API ERROR: failed to autocomplete location', error, response);
+      }
+    });
+  } else { // we are on localhost
+    locations.autocomplete({input: input}, function(err, response) {
+      if(err || !response.predictions.length){
+        console.log('GOOGLE API ERROR: failed to autocomplete location', err, response);
+      }
+      cb(response.predictions);
+    });
+  }
 };
 
 Activity.prototype.create = function(cb) {

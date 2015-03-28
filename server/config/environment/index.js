@@ -60,6 +60,10 @@ var all = {
 
   google: {
     apiKey: process.env.GOOGLE_KEY,
+  },
+
+  quotaguard: {
+    url: process.env.QUOTAGUARDSTATIC_URL,
   }
 
 };
