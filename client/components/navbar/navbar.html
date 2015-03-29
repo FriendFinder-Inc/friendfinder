@@ -98,35 +98,35 @@
                           ng-click='toggleSidebar()' style='float: right;'></i>
 
     <div class="ui right vertical inverted labeled icon sidebar menu">
-      <a class="item" ng-class="{active: isActive('/find/friends')}" href='/find/friends'>
+      <a class="item" ng-class="{active: isActive('/find/friends')}" href='/find/friends' ng-click='toggleSidebar()'>
         <i class="block search icon"></i>
         find friends
       </a>
-      <a class="item" ng-class="{active: isActive('/find/activities')}" href='/find/activities'>
+      <a class="item" ng-class="{active: isActive('/find/activities')}" href='/find/activities' ng-click='toggleSidebar()'>
         <i class="block search icon"></i>
         find activities
       </a>
-      <a class="item" ui-sref='me.messages'>
+      <a class="item" ui-sref='me.messages' ng-click='toggleSidebar()'>
         <i class="block mail icon"></i>
         messages
       </a>
-      <a class="item" ui-sref='me.bookmarks'>
+      <a class="item" ui-sref='me.bookmarks' ng-click='toggleSidebar()'>
         <i class="block bookmark icon"></i>
         bookmarks
       </a>
-      <a class="item" ui-sref='me.activities'>
+      <a class="item" ui-sref='me.activities' ng-click='toggleSidebar()'>
         <i class="block smile icon"></i>
         my activities
       </a>
-      <a class="item" ui-sref='me.profile'>
+      <a class="item" ui-sref='me.profile' ng-click='toggleSidebar()'>
         <i class="block user icon"></i>
         profile
       </a>
-      <a class="item" ui-sref='settings'>
+      <a class="item" ui-sref='settings.account' ng-click='toggleSidebar()'>
         <i class="block setting icon"></i>
         settings
       </a>
-      <a class="item" ng-click='logout()'>
+      <a class="item" ng-click='logout()' ng-click='toggleSidebar()'>
         <i class="block share icon"></i>
         logout
       </a>

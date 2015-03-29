@@ -6,6 +6,13 @@ angular.module('friendfinderApp')
     $scope.user = Auth.getCurrentUser();
     $('.ui.dropdown').dropdown();
 
+    $('#menu-icon').mouseenter(function(e){
+      $scope.toggleMenu();
+    });
+    $('#dropdown-menu-list').mouseleave(function(e){
+      $scope.toggleMenu();
+    });
+
     if(window.innerWidth < 768){
       $window.isMobile = true;
     } else {
@@ -49,7 +56,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.toggleMenu = function(){
-      $('.ui.dropdown.toplevel ').dropdown('show');
+      $('.ui.dropdown.toplevel ').dropdown('toggle');
     };
 
     $scope.toggleSidebar = function(){

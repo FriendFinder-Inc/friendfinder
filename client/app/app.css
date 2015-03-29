@@ -30,3 +30,7 @@
 body{
 	background: #e9eaed;
 }
+
+.ui.tab.label{
+  padding: 0px !important;
+}
