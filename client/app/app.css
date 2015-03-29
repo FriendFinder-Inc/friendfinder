@@ -31,6 +31,10 @@ body{
 	background: #e9eaed;
 }
 
+html, body{
+  height: 100%;
+}
+
 .ui.tab.label{
   padding: 0px !important;
 }

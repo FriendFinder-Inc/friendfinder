@@ -314,8 +314,9 @@ angular.module('friendfinderApp')
       $('#grid-container').scrollTop(0);
     };
 
-    $scope.toggleFilterAccordion = function(){
-      $scope.showFilterAccordion = !$scope.showFilterAccordion;
+    $scope.showSideDiv = true;
+    $scope.toggleSideDiv = function(){
+      $showSideDiv = !$scope.showSideDiv;
     };
 
   });

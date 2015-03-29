@@ -10,63 +10,46 @@
 
 .ui.grid>.row{
   padding-bottom: 0rem;
+  padding-top: 0rem;
 }
 
-#findfriends-container{
-
+div.column{
+  padding-bottom: 0rem;
+  padding-top: 0rem;
 }
 
 #scroll-top{
   position: absolute;
   right: 0;
   bottom: 0;
-  z-index: 500;
-  opacity: 50%;
+  z-index: 1;
+  opacity: 0.5;
 }
 
 #scroll-top:hover{
   cursor: pointer;
   opacity: 100%;
-  color: blue;
-}
-
-#filter-accordion-container{
-  width: 280px;
-  min-width: 280px;
-  max-width: 320px;
-  float: left;
-  margin-left: 12px;
-  text-align: left;
-  z-index: 100;
-  position: absolute;
+  color: darkblue;
 }
 
 #grid-container{
   text-align: center;
   overflow-y: scroll;
-  height: 550px;
-  padding: 1px;
+  overflow-x: hidden;
+  height: 590px; /*TODO*/
+  padding: 3px;
 }
-
-.ui.four.wide.column.filter-accordion{
-  width: 275px !important;
-  min-width: 275px !important;
-  max-width: 275px !important;
+.ui.cards{
+  padding: 9px;
 }
 
 .ui.cards>.card.profile-card{
   width: 420px;
   max-width: 420px;
-  min-width: 340px;
+  min-width: 420px;
   height: 191px;
-}
-
-.circular.ui.button.top-right-info{
-  position: absolute;
-  right: 0px;
-  height: 40px;
-  width: 40px;
-  border-radius: 10em !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ui.cards>.card.profile-card:hover{
@@ -142,4 +125,34 @@
 .details-value{
   width:70%;
   float: left;
+}
+
+#side-div{
+  text-align: left;
+  width: 280px;
+  min-width: 280px;
+  max-width: 320px;
+  height: 100%;
+  margin-top: 10px;
+  position: absolute;
+  z-index: 1;
+}
+
+.left-margin{
+  margin-left: 305px;
+}
+
+#right-column{
+  padding: 0px;
+}
+
+#row{
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-right: 30px;
+}
+
+#column{
+  min-width: 430px;
 }
