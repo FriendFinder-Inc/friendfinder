@@ -1,98 +1,222 @@
-<div class='ui center aligned basic segment'>
-  <div class="findfriends-container">
+<div class='container'>
+  <div id="findfriends-container">
 
-    <div id='side-div' ng-show='showSideDiv'>
-      <ng-include src="'app/findfriends/filterAccordion.html'" onload="linkAccordion()"></ng-include>
-    </div>
+    <div id='findfriends-segment' class='ui segment'>
 
-    <div id='right-side' ng-class="{'left-margin': !isMobile() && showSideDiv}">
-      <div class='ui  grid'>
+      <div id='left-rail' class="ui left attached rail" ng-show='!showSideDiv'>
+        <div id='show-segment' class="ui segment">
+          <div class='ui mini red button' ng-click="toggleSideDiv()">
+            show
+          </div>
+        </div>
+      </div>
 
-        <div id='right-column' class="sixteen wide column">
-          <div id="grid-container">
-            <i id='scroll-top' class='ui arrow circle up huge icon' ng-click='scrollTop()'></i>
-            <div class='ui centered grid grid'>
-              <div id='row' class='two column row' ng-repeat='user in users' ng-if='$even'>
-                <div id='column' class='column'>
-                  <div class="ui cards">
-                    <!-- left item -->
-                    <div class="card profile-card">
-                      <div class='container'>
-                        <div class='left'>
+      <div id='right-rail' class="ui right attached rail">
+        <div id='scroll-segment' class="ui segment">
+          <i id='up-arrow' class='ui arrow circle up big icon' ng-click='scrollTop()'></i>
+        </div>
+      </div>
+
+      <div id='accordion' ng-show='showSideDiv'>
+        <ng-include src="'app/findfriends/filterAccordion.html'" onload="linkAccordion()"></ng-include>
+      </div>
+
+      <div id='right' ng-class='{full: !showSideDiv, twoThirds: showSideDiv}' ng-show='showRightSide()'>
+        <div id='grid-container'>
+          <div class="ui grid">
+            <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
+              ng-repeat='user in users' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="column">
+                <div id='golden-wrapper'>
+                  <div id='card-container'>
+                    <div class="ui card profile-card">
+                      <div id='top-half'>
+                        <div id='left-side'>
                           <div class="image" ng-click='showProfileModal(user)'>
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
-                        <div class='right'>
-                          <div class="content card-content">
-                            {{ birthdayToAge(user.birthday) }} ,
-                            <a class="header">{{ user.name.split(' ')[0] }}</a>
-                            <div class="meta">
-                              <span>{{ user.location.name || 'unknown location' }}</span>
-                            </div>
-                            <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
-                            <div class="mini ui red button">1000mi</div>
-                            <div class="description intro">
-                              This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
-                            </div>
+                        <div class='middle'>
+                          {{ birthdayToAge(user.birthday) }} ,
+                          <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                          <div class="meta">
+                            <span>{{ user.location.name || 'location unknown' }}</span>
                           </div>
+                        </div>
+                        <div id='right-side'>
+                          <div class="ui blue button top-right-button">
+                            55mi
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui fitted divider"></div>
+                      <div id='bottom-half'>
+                        <div class='intro-wrapper ellipsis'>
+                          {{ testStr.substring(0, 700) }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class='column'>
-                  <div class="ui cards">
-                    <!-- right item -->
-                    <div class="card profile-card" ng-click='showProfileModal(users[$index+1])' ng-show='users[$index+1]'>
-                      <div class='container'>
-                        <div class='left'>
-                          <div class="image">
+              </div>
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="column">
+                <div id='golden-wrapper'>
+                  <div id='card-container'>
+                    <div class="ui card profile-card" ng-if='users[$index+1]'>
+                      <div id='top-half'>
+                        <div id='left-side'>
+                          <div class="image" ng-click='showProfileModal(users[$index+1])'>
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
-                        <div class='right'>
-                          <div class="content card-content">
-                            {{ birthdayToAge(users[$index+1].birthday) }} ,
-                            <a class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
-                            <div class="meta">
-                              <span>{{ users[$index+1].location.name || 'location unknown'}}</span>
-                            </div>
-                            <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
-                            <div class="mini ui red button">1000mi</div>
-                            <div class="description intro">
-                              This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
-                            </div>
+                        <div class='middle'>
+                          {{ birthdayToAge(users[$index+1].birthday) }} ,
+                          <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          <div class="meta">
+                            <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
                           </div>
+                        </div>
+                        <div id='right-side'>
+                          <div class="ui blue button top-right-button">
+                            55mi
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui fitted divider"></div>
+                      <div id='bottom-half'>
+                        <div class='intro-wrapper ellipsis'>
+                          {{ testStr.substring(0, 700) }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
+            </div>
+            <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
+              ng-repeat='user in users' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              {{ user.name }}
+              <div class="column">
+                <div id='golden-wrapper'>
+                  <div id='card-container'>
+                    <div class="ui card profile-card">
+                      <div id='top-half'>
+                        <div id='left-side'>
+                          <div class="image" ng-click='showProfileModal(user)'>
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
+                          </div>
+                        </div>
+                        <div class='middle'>
+                          {{ birthdayToAge(user.birthday) }} ,
+                          <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                          <div class="meta">
+                            <span>{{ user.location.name || 'location unknown' }}</span>
+                          </div>
+                        </div>
+                        <div id='right-side'>
+                          <div class="ui blue button top-right-button">
+                            55mi
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui fitted divider"></div>
+                      <div id='bottom-half'>
+                        <div class='intro-wrapper ellipsis'>
+                          {{ testStr.substring(0, 700) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div id='golden-wrapper'>
+                  <div id='card-container'>
+                    <div class="ui card profile-card" ng-if='users[$index+1]'>
+                      <div id='top-half'>
+                        <div id='left-side'>
+                          <div class="image" ng-click='showProfileModal(users[$index+1])'>
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                          </div>
+                        </div>
+                        <div class='middle'>
+                          {{ birthdayToAge(users[$index+1].birthday) }} ,
+                          <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          <div class="meta">
+                            <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
+                          </div>
+                        </div>
+                        <div id='right-side'>
+                          <div class="ui blue button top-right-button">
+                            55mi
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui fitted divider"></div>
+                      <div id='bottom-half'>
+                        <div class='intro-wrapper ellipsis'>
+                          {{ testStr.substring(0, 700) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="column">
+                <div id='golden-wrapper'>
+                  <div id='card-container'>
+                    <div class="ui card profile-card" ng-if='users[$index+2]'>
+                      <div id='top-half'>
+                        <div id='left-side'>
+                          <div class="image" ng-click='showProfileModal(users[$index+2])'>
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+2].facebookId }}/picture?width=500&height=500">
+                          </div>
+                        </div>
+                        <div class='middle'>
+                          {{ birthdayToAge(users[$index+2].birthday) }} ,
+                          <a ng-href='/user/{{users[$index+2].facebookId}}/profile' target='_blank' class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
+                          <div class="meta">
+                            <span>{{ users[$index+2].location.name || 'location unknown' }}</span>
+                          </div>
+                        </div>
+                        <div id='right-side'>
+                          <div class="ui blue button top-right-button">
+                            55mi
+                          </div>
+                        </div>
+                      </div>
+                      <div class="ui fitted divider"></div>
+                      <div id='bottom-half'>
+                        <div class='intro-wrapper ellipsis'>
+                          {{ testStr.substring(0, 700) }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             </div>
           </div>
         </div>
-
-      </div> <!-- end stackable grid -->
+      </div>
     </div>
 
   </div>
 </div>
 
+
+
 <ng-include src="'app/findfriends/profileModal.html'" onload="linkModal()"></ng-include>
 
-<!-- message modal -->
 <div class="ui small modal message" style='text-align: center;'>
-
-  <textarea id='message-text' placeholder='enter message...' rows="10" cols="50"></textarea>
-
+  <textarea id='message-area' placeholder='enter message...'></textarea>
   <center>
     <div id='send-message-btn' class="ui green button">
       send
     </div>
-    <div id='cancel-message-btn' class="ui red button">
+    <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
       cancel
     </div>
   </center>

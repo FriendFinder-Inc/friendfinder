@@ -7,6 +7,7 @@ var Meetup = function(params) {
   this.props.name =     params.name;
   this.props.id =       params.id;
   this.props.img =      params.img;
+  this.props.link =      params.link;
 };
 
 // utility function

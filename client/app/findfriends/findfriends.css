@@ -1,3 +1,131 @@
+#findfriends-container{
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ui.grid>.row{
+  padding-bottom: 0rem;
+  padding-top: 0rem;
+}
+
+#show-sidediv-btn{
+  position: absolute;
+  top: 0;
+  margin-top: 70px;
+  z-index: 1;
+}
+
+#message-area{
+  width: 100%;
+  min-height: 150px;
+}
+
+.full{
+  width: 100% !important;
+}
+
+#half-true{
+  width: 50% !important;
+  padding: 0px !important;
+}
+
+#half-false{
+  padding: 0px !important;
+}
+
+.twoThirds{
+  width: calc(100% - 250px);
+}
+
+/*force cards to retain golden ratio*/
+#golden-wrapper{
+  position: relative;
+	padding-bottom: 62%;
+	height: 0;
+  margin: 4px;
+}
+
+#card-container{
+  position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.ui.grid{
+  margin: 0px !important;
+}
+
+.ui.grid>.row>.column{
+  padding: 0px !important;
+}
+
+#right{
+  float: left;
+  padding-left: 4px;
+}
+
+#grid-container{
+  height: calc(100vh - 70px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding-top: 4px;
+}
+
+#left-rail{
+  width: 54px;
+  margin-top: 7px;
+}
+
+#right-rail{
+  width: 54px;
+  margin-top: 7px;
+}
+
+#up-arrow{
+  opacity: 0.5;
+  color: steelblue;
+}
+
+#up-arrow:hover{
+  opacity: 1;
+  cursor: pointer;
+}
+
+#scroll-segment{
+  padding: 0px !important;
+  background-color: #E9EAED !important;
+  box-shadow: none !important;
+}
+
+#show-segment{
+  padding: 0px !important;
+  background-color: #E9EAED !important;
+  box-shadow: none !important;
+}
+
+#findfriends-segment{
+  padding: 0px !important;
+  background-color: #E9EAED;
+  box-shadow: none;
+}
+
+/*TODO investigate why we have to do this*/
+/*if takend out, triple columns show up on mobile (even with ng-hide)*/
+@media only screen and (max-width: 767px){
+  .ui.grid>.doubling.three.column.row.workaround{
+    display: none !important;
+  }
+}
+@media only screen and (max-width: 767px){
+  .ui.grid>.doubling.two.column.row.ng-hide.workaround{
+    display: none !important;
+  }
+}
+
+/*accordion styles*/
 .disabled.title {
   cursor: default;
   background-color: #dcddde !important;
@@ -8,151 +136,169 @@
   pointer-events: none;
 }
 
-.ui.grid>.row{
-  padding-bottom: 0rem;
-  padding-top: 0rem;
-}
-
-div.column{
-  padding-bottom: 0rem;
-  padding-top: 0rem;
-}
-
-#scroll-top{
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  opacity: 0.5;
-}
-
-#scroll-top:hover{
-  cursor: pointer;
-  opacity: 100%;
-  color: darkblue;
-}
-
-#grid-container{
-  text-align: center;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 590px; /*TODO*/
-  padding: 3px;
-}
-.ui.cards{
-  padding: 9px;
-}
-
-.ui.cards>.card.profile-card{
-  width: 420px;
-  max-width: 420px;
-  min-width: 420px;
-  height: 191px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.ui.cards>.card.profile-card:hover{
-  box-shadow: 0 3px 0 0 #3850A2,0 0 0 1px #3850A2;
-}
-
-.ui.cards>.card>.container{
-  margin: 8px;
-}
-
-.ui.cards>.card>.container>.left{
-  width: 175px;
-  float: left;
-}
-
-.ui.cards>.card>.container>.right{
-  width: calc(100% - 175px);
-  float: left;
-  max-height: 40px;
-  padding-left: 8px;
-}
-
-.ui.cards>.card>.container>.left>.image>img.card-photo{
-  float: left;
-  width: 175px;
-  height: 175px;
-}
-
-.ui.cards>.card>.container>.left>.image>img.card-photo:hover{
-  cursor: pointer;
-}
-
-.ui.cards>.card>.content.card-content{
-  float: left;
-  background-color: blue;
-}
-
-.ui.cards>.card>.container>.right>.content>.meta{
-  padding-bottom: 3px;
-}
-
-.ui.cards>.card>.container>.right>.content>.description.intro{
-  height: 110px;
-  overflow: hidden;
-  padding-top: 3px;
-}
-
-#mutual-likes-container{
-  width: 450px;
-  text-align: center;
-  overflow: auto;
-  white-space:nowrap;
-}
-
-#mutual-likes-contents{
-  display: inline-block !important;
-  float:left !important;
-}
-
-#intro{
-  width: 100%;
-}
-
-#details{
-  width: 100%;
-}
-
-.details-key{
-  width: 30%;
-  float: left;
-}
-
-.details-value{
-  width:70%;
-  float: left;
-}
-
-#side-div{
-  text-align: left;
-  width: 280px;
-  min-width: 280px;
-  max-width: 320px;
-  height: 100%;
+#accordion{
+  width: 250px;
+  max-width: 250px;
+  min-width: 250px;
   margin-top: 10px;
-  position: absolute;
-  z-index: 1;
+  float: left;
 }
 
-.left-margin{
-  margin-left: 305px;
+#filter-accordion-header{
+  padding: 10px 10px 13px 10px;
 }
 
-#right-column{
-  padding: 0px;
+.filter-accordion>.title{
+  padding: 8px !important;
+  font-size: 14px !important;
+  overflow: hidden;
 }
 
-#row{
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-right: 30px;
+.filter-accordion>.content{
+  padding: 0px 6px 6px 6px !important;
+  font-size: 14px !important;
 }
 
-#column{
-  min-width: 430px;
+.ui.attached.button{
+  width: 49%;
+  text-align: center !important;
+}
+
+.ui.find.button{
+  padding-left: 0px;
+}
+
+.filter-accordion>.popup.icon{
+  margin-left: 10px !important;
+}
+
+/*begin facebook share and invite btn*/
+
+#fb-btn-container{
+  text-align: center;
+}
+
+#fb-share-btn{
+  margin-top: 4px;
+  margin-bottom: -5px;
+  text-align: center;
+}
+
+#fb-invite-btn{
+  margin-top: 4px;
+  margin-bottom: -5px;
+  text-align: center;
+}
+
+.facebookShare {
+  border: none;
+  visibility: visible;
+  width: auto;
+  height: 22px;
+  background: transparent;
+  overflow: hidden;
+  -webkit-text-size-adjust: none;
+  color: #333;
+  line-height: 1.28;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  direction: ltr;
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
+  display: inline-block;
+}
+.facebookShare:hover .facebookButton .pluginButton,
+.facebookShare:active .facebookButton .pluginButton,
+.facebookShare:focus .facebookButton .pluginButton {
+  background: #5b7bd5;
+  background: -moz-linear-gradient(top, #5b7bd5 0%, #4864b1 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #5b7bd5), color-stop(100%, #4864b1));
+  background: -webkit-linear-gradient(top, #5b7bd5 0%, #4864b1 100%);
+  background: -o-linear-gradient(top, #5b7bd5 0%, #4864b1 100%);
+  background: -ms-linear-gradient(top, #5b7bd5 0%, #4864b1 100%);
+  background: linear-gradient(to bottom, #5b7bd5 0%, #4864b1 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5b7bd5', endColorstr='#4864b1', GradientType=0);
+  border-color: #5874c3 #4961a8 #41599f;
+  box-shadow: inset 0 0 1px #607fd6;
+}
+.facebookShare .facebookButton {
+  color: #3b5998;
+  text-decoration: none;
+  font-size: 11px;
+  text-align: left;
+  display: inline-block;
+  width: 55px;
+}
+.facebookShare .facebookButton .pluginButton {
+  background: #4c69ba;
+  background: -moz-linear-gradient(top, #4c69ba 0%, #3b55a0 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #4c69ba), color-stop(100%, #3b55a0));
+  background: -webkit-linear-gradient(top, #4c69ba 0%, #3b55a0 100%);
+  background: -o-linear-gradient(top, #4c69ba 0%, #3b55a0 100%);
+  background: -ms-linear-gradient(top, #4c69ba 0%, #3b55a0 100%);
+  background: linear-gradient(to bottom, #4c69ba 0%, #3b55a0 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#4c69ba', endColorstr='#3b55a0', GradientType=0);
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  height: 20px;
+  line-height: 20px;
+  padding: 0;
+  text-shadow: 0 -1px 0 #354c8c;
+  white-space: nowrap;
+}
+.facebookShare .facebookButton .pluginButton .pluginButtonContainer {
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.004);
+}
+.facebookShare .facebookButton .pluginButton .pluginButtonContainer .pluginButtonImage {
+  display: inline-block;
+}
+.facebookShare .facebookButton .pluginButton button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-weight: bold;
+  margin: -1px;
+  outline: none;
+  padding: 0;
+  text-shadow: 0 -1px 0 #354c8c;
+}
+.facebookShare .facebookButton .pluginButton button .pluginButtonIcon {
+  height: 14px;
+  left: 0;
+  margin: 0 4px 0 4px;
+  position: relative;
+  top: 3px;
+  vertical-align: top;
+  width: 14px;
+}
+.facebookShare .facebookButton .pluginButton button .sp_plugin-button-2x {
+  background-image: url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y5/r/KxVPs0eEy36.png);
+  background-size: 30px 72px;
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 14px;
+  width: 14px;
+}
+.facebookShare .facebookButton .pluginButton button .sx_plugin-button-2x_favblue {
+  background-position: 0 -42px;
+}
+.facebookShare .facebookButton .pluginButton button i.img {
+  -ms-high-contrast-adjust: none;
+  _overflow: hidden;
+}
+.facebookShare .facebookButton .pluginButton .pluginButtonLabel {
+  padding: 0 5px 0 0;
+  position: relative;
+  vertical-align: top;
+}
+.facebookShare .facebookCount {
+  display: inline-block;
+  width: auto;
 }

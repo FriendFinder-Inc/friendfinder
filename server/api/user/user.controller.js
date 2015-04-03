@@ -9,43 +9,21 @@ var validationError = function(res, err) {
   return res.json(422, err);
 };
 
-/**
- * Creates a new user
- */
- //TODO
-exports.create = function (req, res, next) {
-  var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
-  newUser.save(function(err, user) {
-    if (err) return validationError(res, err);
-    var token = jwt.sign({_id: user._id }, config.secrets.session, { expiresInMinutes: 60*5 });
-    res.json({ token: token });
-  });
-};
 
 /**
  * Get a single user
  */
-exports.show = function (req, res, next) {
-  var userId = req.params.id;
-
-  User.findById(userId, function (err, user) {
-    if (err) return next(err);
-    if (!user) return res.send(401);
+exports.get = function (req, res, next) {
+  User.getById(req.query.rid, function (user) {
     res.json(user);
   });
 };
 
-/**
- * Deletes a user
- * restriction: 'admin'
- */
- //TODO
-exports.destroy = function(req, res) {
-  User.findByIdAndRemove(req.params.id, function(err, user) {
-    if(err) return res.send(500, err);
-    return res.send(204);
+
+exports.delete = function(req, res) {
+  //test
+  User.delete(req.params.rid, function(user) {
+    return res.json(user);
   });
 };
 
@@ -64,7 +42,7 @@ exports.find = function(req, res, next) {
  */
 exports.update = function(req, res, next) {
   User.update(req.user['@rid'], req.body, function(totalMod){
-    res.send(200);
+    res.send(totalMod);
   });
 };
 
@@ -77,35 +55,48 @@ exports.bookmark = function(req, res, next) {
   });
 };
 
-/**
- * Get all bookmarks for user
- */
 exports.getBookmarks = function(req, res, next) {
-  User.getAllBookmarks(req.user['@rid'], function(bookmarks){
+  User.getEdge('bookmarked', req.user['@rid'], function(bookmarks){
     res.json(bookmarks);
   });
 };
 
-/**
- * get mutual fb likes between 2 users
- */
-exports.mutualInterests = function(req, res, next) {
-  User.mutualInterests(req.query.userA, req.query.userB, function(interests){
+exports.getInterests = function(req, res, next) {
+  User.getEdge('likes', req.query.rid, function(interests){
     res.json(interests);
   });
 };
 
-
-/**
- * Get my info
- */
-exports.me = function(req, res, next) {
-  res.json(req.user);
+exports.getMeetups = function(req, res, next) {
+  User.getEdge('member', req.query.rid, function(meetups){
+    res.json(meetups);
+  });
 };
 
-/**
- * Authentication callback
- */
-exports.authCallback = function(req, res, next) {
-  res.redirect('/findfriends');
+exports.mutualInterests = function(req, res, next) {
+  User.getMutual("likes", req.user['@rid'], req.query.rid, function(mutual){
+    res.json(mutual);
+  });
+};
+
+exports.mutualFriends = function(req, res, next) {
+  User.getMutual("friends", req.user['@rid'], req.query.rid, function(mutual){
+    res.json(mutual);
+  });
+};
+
+exports.mutualMeetups = function(req, res, next) {
+  User.getMutual("member", req.user['@rid'], req.query.rid, function(mutual){
+    res.json(mutual);
+  });
+};
+
+exports.connectionPath = function(req, res, next) {
+  User.getConnectionPath(req.user['@rid'], req.query.rid, function(mutual){
+    res.json(mutual);
+  });
+};
+
+exports.me = function(req, res, next) {
+  res.json(req.user);
 };

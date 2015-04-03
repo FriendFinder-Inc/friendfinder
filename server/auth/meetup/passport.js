@@ -44,6 +44,7 @@ exports.setup = function (User, config) {
           var group ={};
           group.name = json.results[i].name;
           group.id = json.results[i].id;
+          group.link = json.results[i].link;
           // try to get image
           if(json.results[i].group_photo){
             if(json.results[i].group_photo.highres_link){

@@ -12,7 +12,24 @@
     <meta name="description" content="Meet cool people. Do fun things.">
     <meta name=viewport content="width=device-width, initial-scale=1">
     <meta name="mobile-web-app-capable" content="yes">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- favicons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <!-- TODO: figure out why this is needed -->
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.9.0/semantic.min.css">
     <!-- build:css(client) app/vendor.css -->
@@ -49,13 +66,14 @@
       <link rel="stylesheet" href="app/app.css">
       <link rel="stylesheet" href="app/findactivities/findactivities.css">
       <link rel="stylesheet" href="app/findfriends/findfriends.css">
+      <link rel="stylesheet" href="app/findfriends/profileModal.css">
+      <link rel="stylesheet" href="app/findfriends/userCard.css">
       <link rel="stylesheet" href="app/main/main.css">
       <link rel="stylesheet" href="app/me/activities/activities.css">
       <link rel="stylesheet" href="app/me/me.css">
       <link rel="stylesheet" href="app/me/messages/messages.css">
       <link rel="stylesheet" href="app/me/profile/profile.css">
       <link rel="stylesheet" href="app/settings/settings.css">
-      <link rel="stylesheet" href="components/directives/profile-card/profile-card.css">
       <link rel="stylesheet" href="components/navbar/navbar.css">
       <!-- endinjector -->
 
@@ -81,15 +99,11 @@
     <![endif]-->
 
     <div class="ui sidebar"></div>
+    <!-- TODO -->
     <div class="pusher">
       <div ng-include="'components/navbar/navbar.html'"></div>
-      <!-- Add your site or application content here -->
-      <div style='text-align: center;' ui-view=""></div>
+      <div ui-view=""></div>
     </div>
-
-
-    <!-- google places api -->
-    <script src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
 
     <!-- Google Analytics -->
     <script>
@@ -107,7 +121,7 @@
       window.fbAsyncInit = function() {
         FB.init({
           appId      : '943817445662602',
-          xfbml      : true,
+          xfbml      : false,
           version    : 'v1.0' //TODO
         });
       };
@@ -162,6 +176,8 @@
       <script src="bower_components/pickadate/lib/picker.date.js"></script>
       <script src="bower_components/pickadate/lib/picker.time.js"></script>
       <script src="bower_components/Flowtype.js/flowtype.js"></script>
+      <script src="bower_components/trunk8/trunk8.js"></script>
+      <script src="bower_components/jquery-textfill/source/jquery.textfill.js"></script>
       <!-- endbower -->
     <!-- endbuild -->
 
@@ -202,7 +218,6 @@
       <script src="app/settings/feedback/feedbackGeneral.controller.js"></script>
       <script src="app/settings/settings.controller.js"></script>
       <script src="app/settings/settings.js"></script>
-      <script src="components/directives/profile-card/profile-card.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/services/activity.service.js"></script>
       <script src="components/services/auth.service.js"></script>

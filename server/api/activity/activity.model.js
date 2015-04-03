@@ -218,10 +218,7 @@ Activity.getAll = function(rid, cb) {
 };
 
 Activity.update = function(rid, params, cb) {
-  db.update(rid).set({
-    details: params.details,
-    profile: params.profile
-  })
+  db.update(rid).set(params)
   .scalar()
   .then(function (total) {
     cb(total);
@@ -231,7 +228,6 @@ Activity.update = function(rid, params, cb) {
 Activity.delete = function(rid, cb) {
   db.query("delete vertex "+rid)
   .then(function (res) {
-    console.log('d', res)
     cb(res);
   });
 };

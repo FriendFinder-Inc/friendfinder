@@ -131,10 +131,6 @@ Tag.findByFilters = function(params, cb) {
   // });
 };
 
-Tag.getMutualFriends = function(params, cb){
-  // SELECT expand(rids) FROM (SELECT intersect(out('friends').@rid) as rids FROM [#12:77, #12:79])
-}
-
 
 
 module.exports = Tag;

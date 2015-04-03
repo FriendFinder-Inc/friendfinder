@@ -58,7 +58,7 @@ function hasRole(roleRequired) {
  * Returns a jwt token signed by the app secret
  */
 function signToken(rid) {
-  var expires = 60*24*7*4*6; // six months TODO is this ok?
+  var expires = 60*3; // 3 hours for security
   return jwt.sign({ rid: rid }, config.secrets.session, { expiresInMinutes: expires });
 }
 

@@ -65,7 +65,9 @@ exports.connectFacebook = function(facebookId, accessToken, done){
       }); // end FB.get('/me')
     } else {
       //console.log('update time') //TODO when to update lastOnline?
-      return done(user);
+      User.update(user['@rid'], {fbAccessToken: accessToken}, function(res){
+        return done(user);
+      });
     }
   });
 };
@@ -73,7 +75,6 @@ exports.connectFacebook = function(facebookId, accessToken, done){
 var newUser = function(fbData, cb){
   var user = new User({
     details:{
-      cliche:             {value: '-', private: false},
       diet:               {value: '-', private: false},
       drinks:             {value: '-', private: false},
       drugs:              {value: '-', private: false},
@@ -81,7 +82,7 @@ var newUser = function(fbData, cb){
       employer:           {value: fbData.employer, private: false},
       ethnicity:          {value: '-', private: false},
       gender:             {value: fbData.gender||'-', private: false},
-      height:             {value: '-', private: false},
+      // height:             {value: '-', private: false},
       hometown:           {value: fbData.hometown, private: false},
       job:                {value: '-', private: false},
       orientation:        {value: '-', private: false},
@@ -102,8 +103,8 @@ var newUser = function(fbData, cb){
       email: {
         whenMessaged: true,
         activityRequest: true,
-        activityInvite: true,
-        weeklyMatch: true
+        activityInvite: true
+        // weeklyMatch: true
       },
       privacy: {
         hiddenFromFriends: false

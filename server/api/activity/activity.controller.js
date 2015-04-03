@@ -30,8 +30,18 @@ exports.create = function (req, res, next) {
 /**
  * Get a single Activity
  */
-exports.getAll = function (req, res, next) {
+exports.getMine = function (req, res, next) {
   Activity.getAll(req.user['@rid'], function (activities) {
+    if (!activities) return res.send(401);
+    res.json(activities);
+  });
+};
+
+/**
+ * Get a single Activity
+ */
+exports.get = function (req, res, next) {
+  Activity.getAll(req.query.rid, function (activities) {
     if (!activities) return res.send(401);
     res.json(activities);
   });
@@ -77,37 +87,4 @@ exports.bookmark = function(req, res, next) {
   Activity.bookmark(req.Activity['@rid'], req.body.rid, function(res){
     res.send(200);
   });
-};
-
-/**
- * Get all bookmarks for Activity
- */
-exports.getBookmarks = function(req, res, next) {
-  Activity.getAllBookmarks(req.Activity['@rid'], function(bookmarks){
-    res.json(bookmarks);
-  });
-};
-
-/**
- * get mutual fb likes between 2 Activitys
- */
-exports.mutualInterests = function(req, res, next) {
-  Activity.mutualInterests(req.query.ActivityA, req.query.ActivityB, function(interests){
-    res.json(interests);
-  });
-};
-
-
-/**
- * Get my info
- */
-exports.me = function(req, res, next) {
-  res.json(req.Activity);
-};
-
-/**
- * Authentication callback
- */
-exports.authCallback = function(req, res, next) {
-  res.redirect('/findfriends');
 };

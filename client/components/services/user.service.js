@@ -12,6 +12,26 @@ angular.module('friendfinderApp')
           id:'me'
         }
       },
+      getConnectionPath: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id:'me',
+          controller: 'connectionpath'
+        }
+      },
+      // delete: {
+      //   method: 'DELETE',
+      //   params: {
+      //     id:'me'
+      //   }
+      // },
+      // disable: {
+      //   method: 'PUT',
+      //   params: {
+      //     id:'me'
+      //   }
+      // },
       update: {
         method: 'PUT',
         params: {
@@ -42,12 +62,51 @@ angular.module('friendfinderApp')
           controller: 'bookmarks'
         }
       },
+      activities: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          controller: 'activities'
+        }
+      },
+      interests: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'rid',
+          controller: 'interests'
+        }
+      },
+      meetups: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'rid',
+          controller: 'meetups'
+        }
+      },
       mutualinterests: {
         method: 'GET',
         isArray: true,
         params: {
           id: 'me',
           controller: 'mutualinterests'
+        }
+      },
+      mutualfriends: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller: 'mutualfriends'
+        }
+      },
+      mutualmeetups: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller: 'mutualmeetups'
         }
       }
 	  });

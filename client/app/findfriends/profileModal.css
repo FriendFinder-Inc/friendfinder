@@ -1,0 +1,175 @@
+
+.profile-modal-header{
+  padding: 6px 6px 12px 6px !important;
+  background-color: #3b83c0 !important;
+  color: white !important;
+  max-height: 37px !important;
+}
+
+#hide-btn{
+  position: absolute !important;
+  left: 16px !important;
+  height: 30px;
+}
+
+#hide-interests-btn{
+  position: absolute !important;
+  left: 16px !important;
+  height: 30px;
+  margin: 7px;
+}
+
+#photos-container{
+  width: 100%;
+  text-align: center;
+  overflow: auto;
+  white-space:nowrap;
+}
+
+.ui.grid>.row>.column.profile-modal-column{
+  padding: 10px !important;
+}
+
+#action-buttons-container{
+  padding: 0px !important;
+}
+
+#action-buttons{
+  background-color: #3b83c0;
+  border-radius: 0px;
+}
+
+#profile-modal-segment{
+  margin: 0px !important;
+  background-color: #e9eaed;
+}
+
+.user-detail-key{
+  width: 50%;
+  float: left;
+  color: gray;
+}
+
+.user-detail-val{
+  width: 50%;
+  float: left;
+}
+
+.detail-segment{
+  padding: 6px !important;
+  border-bottom: 1px solid lightgray !important;
+}
+
+.scroll-box{
+  max-height: 250px;
+  overflow: scroll;
+}
+
+.square-100px{
+  width: 100px;
+  height: 100px;
+}
+
+.tag-holder{
+  float: left;
+  padding-top: 37px;
+  padding-left: 3px;
+  background-color: #d95c5c;
+  color: white;
+  margin: 2px;
+  text-align: left;
+}
+
+.connection-path-box{
+  float: left;
+  padding-top: 37px;
+  padding-left: 3px;
+  background-color: #d95c5c;
+  color: white;
+  margin: 2px;
+}
+
+#red-tag:after{
+  background-color: #d95c5c !important;
+}
+
+#page-container, #tag-container, #meetup-container, #friend-container{
+  max-height: 125px;
+  max-width: 100px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 2px;
+}
+
+#node-container{
+  max-height: 125px;
+  max-width: 100px;
+  overflow: hidden;
+  display: inline-block;
+  margin: -2px;
+  padding-left: 1px;
+}
+
+/*begin activities*/
+
+.activities-background{
+  background-color: #5bbd72 !important;
+}
+
+.activity-container{
+  height: 250px;
+}
+
+.activity-description{
+  max-height: 90px;
+  min-height: 90px;
+  width: 100%;
+  margin: 0px !important;
+  overflow: hidden;
+  padding: 4px !important;
+}
+
+#activity-segment{
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  padding: 6px !important;
+  margin: 0px 14px 14px 0px !important;
+}
+
+.is-event{
+  position: absolute;
+  top: 6;
+  right: 0;
+}
+
+#activity-segment:hover{
+  border: 1px solid darkgreen;
+}
+
+.activity-top-half{
+  height: 100px;
+  margin-bottom: 6px;
+}
+
+.activity-bottom-half{
+  height: 130px;
+  text-align: left;
+}
+
+.activity-top-left{
+  float: left;
+  width: 100px;
+}
+
+.activity-top-right{
+  float: left;
+  text-align: left;
+  width: 136px;
+  padding-left: 4px;
+}
+
+.activity-buttons{
+  margin-left: 13px;
+  margin-top: 6px;
+}

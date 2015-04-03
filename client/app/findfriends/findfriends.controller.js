@@ -1,14 +1,56 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Message) {
+  .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Activity, Message) {
 
-    $scope.showFilterAccordion = true;
+    $(window).load(function() {
+      setTimeout(function(){
+        $('.intro-wrapper').flowtype({
+         minimum   : 250,
+         maximum   : 800,
+         minFont   : 10,
+         maxFont   : 72,
+         fontRatio : 25
+        });
+        $('.middle').flowtype({
+         minimum   : 80,
+         maximum   : 700,
+         minFont   : 12,
+         maxFont   : 150,
+         fontRatio : 12
+        });
+        $('.ui.loading.segment').removeClass('loading');
+        $('.popup.icon').popup({on: 'click'});
+        $('.popup.icon').click(function(e){
+          e.stopPropagation();
+        });
+      }, 1);
+    });
+
+    // initial query
+    $scope.bookmarks = [];
+    Auth.getCurrentUser()
+    .$promise.then(function(user){
+      $scope.currentUser = user;
+      $scope.filters = [$scope.filterChoices[1]];
+      for(var i in $scope.filters[0].options){
+        // set distance to 25 mi by default
+        $scope.filters[0].options[1].value = true;
+      }
+      $scope.find();
+      User.bookmarks().$promise.then(function(bookmarks){
+        angular.forEach(bookmarks, function(item){
+          $scope.bookmarks.push(item['@rid']);
+        })
+        console.log('bookmarks', $scope.bookmarks);
+      });
+    });
 
     $scope.linkModal = function() {
-      $('.ui.modal').modal({allowMultiple: true});
-      //TODO: why does profile modal dissapear after we select message area?
+      $('.ui.modal').modal({allowMultiple: false});
+      $('.ui.modal').modal('setting', 'transition', 'fade');
       $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
+
       $('#mutual-likes-container').flowtype({
          minimum   : 500,
          maximum   : 1200,
@@ -36,17 +78,18 @@ angular.module('friendfinderApp')
     $scope.showTags = true;
 
     $scope.orderby = [{'key':'orderby', 'options':['-', 'distance', 'last online',
-                      'shared interests', 'mutual friends',
-                      'degrees of separation']}];
+                      'shared interests', 'mutual friends']}];
 
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},
-      {'key':'distance',         'options':['5mi', '25mi', '100mi', 'anywhere']},
+      {'key':'distance',         'options':['5mi', '25mi', '50mi', '100mi', 'anywhere']},
       {'key':'orientation',      'options':['hetero', 'homo', 'bi', 'other']},
       {'key':'last online',      'options':['online now', 'past week', 'past month']},
       {'key':'smokes',           'options':['never', 'occassionally', 'often']},
+      {'key':'activities',       'options':['has activities']},
       {'key':'meetup.com',       'options':['member of same group(s)']},
       {'key':'drinks',           'options':['never', 'occassionally', 'often']},
+      {'key':'connection',       'options':['3rd degree', '4th degree', '5th degree', '6th degree', '7th degree']},
       {'key':'drugs',            'options':['never', 'occassionally', 'often']},
       {'key':'education',        'options':['some highschool', 'highschool', 'some college', 'associates',
         'bachelors', 'masters', 'doctorate']},
@@ -58,10 +101,9 @@ angular.module('friendfinderApp')
       {'key':'relationship',     'options':['single', 'not single']},
       // {'key':'height',           'options':["<5'0''", "5'0''", "5'1''", "5'2''", "5'3''", "5'4''", "5'5''",
       //   "5'6''", "5'7''", "5'8''", "5'9''", "5'10''", "5'11''", "6'0''", "6'1''", "6'2''", "6'3''", ">6'4''"]},
-      {'key':'cliche',           'options':['hipster', 'yuppie']},
       {'key':'ethnicity',        'options':['white', 'black', 'hispanic/latin', 'asian', 'indian', 'middle eastern',
         'native american', 'pacific islander', 'other']},
-      {'key':'personality type', 'options':['INTJ', 'INTP', 'INFJ', 'INFP',
+      {'key':'personality',      'options':['INTJ', 'INTP', 'INFJ', 'INFP',
                                             'ISFJ', 'ISFP', 'ISTJ', 'ISTP']}];
 
     angular.forEach($scope.filterChoices, function(filter){
@@ -89,7 +131,7 @@ angular.module('friendfinderApp')
       var option = $scope.orderby[0]['options'].filter(function(item){
         return item.value;
       });
-      return option[0].key;
+      return option[0] ? option[0].key : '';
     };
 
     $scope.getFilterStr = function(options){
@@ -103,8 +145,13 @@ angular.module('friendfinderApp')
     };
 
     // semantic breaks angular binding on checkbox inputs, this should make you
-    // appreciate how awesome+convenient angular is!
+    // appreciate how awesome/convenient angular is!
     $scope.checkboxClicked = function(obj, key, option){
+      if((option === 'mutual friends' ||
+          option === 'degrees of separation') &&
+          $scope.currentUser.role === 'free'){
+        return;
+      }
       for(var i in $scope[obj]){
         if($scope[obj][i].key === key){
           for(var j in $scope[obj][i]){
@@ -114,7 +161,7 @@ angular.module('friendfinderApp')
                   $scope[obj][i].options[k].value = !$scope[obj][i].options[k].value;
                 }
                 // options that are mutually exclusive
-                else if (key === 'distance' || key === 'orderby' || key === 'last online'){
+                else if (key === 'distance' || key === 'orderby' || key === 'last online' || key === 'connection'){
                   $scope[obj][i].options[k].value = false;
                 }
               }
@@ -125,38 +172,47 @@ angular.module('friendfinderApp')
     };
 
     $scope.find = function(){
-
+      $('.ui.find.button').addClass('loading');
       var findFilters = {};
       $scope.filters.map(function(filter){
         for(var i in filter.options){
           var key = filter.options[i].key;
           var val = filter.options[i].value;
           if(val === true){
-            findFilters['details.'+filter.key] ?
-              findFilters['details.'+filter.key].push(key) :
-              findFilters['details.'+filter.key] = [key];
+            if(filter.key === 'meetup.com' || filter.key === 'activities'){
+              findFilters[filter.key] = true;
+            } else {
+              findFilters['details.'+filter.key] ?
+                findFilters['details.'+filter.key].push(key) :
+                findFilters['details.'+filter.key] = [key];
+            }
           }
         }
       });
       if($scope.tags.list.length){
         findFilters['tags'] = $scope.tags.list.toString();
       }
+
       User.find(findFilters, function(users){
         $scope.users = users;
+        console.log('users', users)
+        $('.ui.find.button').removeClass('loading');
+        setTimeout(function(){
+          $('.intro-wrapper').flowtype({
+           minimum   : 250,
+           maximum   : 800,
+           minFont   : 10,
+           maxFont   : 72,
+           fontRatio : 25
+          });
+        }, 1);
+        $('.popup.icon').popup({on: 'click'});
+        $('.popup.icon').click(function(e){
+          e.stopPropagation();
+        });
       });
     }
 
-    // initial query
-    Auth.getCurrentUser()
-    .$promise.then(function(user){
-      $scope.currentUser = user;
-      $scope.filters = [$scope.filterChoices[1]];
-      for(var i in $scope.filters[0].options){
-        // set distance to 25 mi by default
-        $scope.filters[0].options[1].value = true;
-      }
-      $scope.find();
-    });
 
     // initialize a list of just the filter names for display
     $scope.filterNames = [];
@@ -208,57 +264,119 @@ angular.module('friendfinderApp')
       });
     };
 
-    $scope.showProfileModal = function(user){
-      $scope.selectedUser = user;
-      $('.ui.modal.profile').modal('show');
-      $scope.getFacebookPhotos(user);
-      $scope.getMutualInterests(user);
-      // get meetup TODO
-      // get shortest path
-    };
-
     $scope.bookmarkUser = function(user){
       var data = {
         rid: user['@rid']
       };
       User.bookmark(data).$promise.then(function(bookmarks){
-        // User.bookmarks().$promise.then(function(all){
-        // });
+        $scope.bookmarks.push(data.rid);
       });
     };
 
+    $scope.isBookmarked = function(selectedUser){
+      if($scope.selectedUser && $scope.bookmarks.indexOf(selectedUser['@rid']) != -1){
+        return true;
+      } else{
+        return false;
+      }
+    };
+
+    $scope.showProfileModal = function(user){
+      $scope.newUser = true;
+      $scope.showAllInterests = false;
+      $scope.showMutualFriends = true;
+      $scope.showMutualInterests = true;
+      $scope.selectedUser = user;
+      $('.ui.modal.profile').modal('setting', {
+        onVisible: function(){
+          // make sure all data is visible
+          $('.activity-title').textfill({});
+          $('.activity-name').textfill({});
+          $('.activity-location').textfill({});
+        }
+      }).modal('show');
+      $scope.getFacebookPhotos(user);
+      $scope.getMutualInterests(user);
+      $scope.getMutualFriends(user);
+      $scope.getMutualMeetups(user);
+      $scope.getUsersActivities(user);
+    };
+
+
     $scope.getMutualInterests = function(user){
-      $scope.mutualInterests = [];
-      var users = {
-        userA: $scope.currentUser.facebookId,
-        userB: user.facebookId
-      };
-      User.mutualinterests(users).$promise.then(function(mutual){
+      $scope.mutualInterests = {};
+      $scope.mutualInterests.pages = [];
+      $scope.mutualInterests.tags = [];
+      $scope.mutualInterests.meetups = [];
+      User.mutualinterests({rid: user['@rid']}).$promise.then(function(mutual){
         var token = {
           access_token: $scope.currentUser.fbAccessToken
         };
-        var len = 0;
         angular.forEach(mutual, function(like){
-          FB.api('/'+like.id, token,function(res){
-            FB.api('/'+like.id+'/picture', token,function(img){
-              $scope.mutualInterests.push({
-                name: res.name,
-                link: res.link,
-                img: img.data.url
+          if(like['@class'] === 'Page'){
+            FB.api('/'+like.id, token,function(res){
+              FB.api('/'+like.id+'/picture', token,function(img){
+                $scope.mutualInterests.pages.push({
+                  name: res.name,
+                  link: res.link,
+                  img: img.data.url
+                });
+                $scope.$apply(function(){}); // update for modal
               });
-              len++;
-              if(len === mutual.length){
-                var html = '';
-                angular.forEach($scope.mutualInterests, function(item){
-                  //TODO: flowtype.js
-                  html += "<div style='width:100px; float: left;'><a href="+item.link+" target='_blank'><img style='margin: 3px; width; 100px; height: 100px;' src="+item.img+" ></a><div style=''>"+item.name+"</div></div>"
-                })
-                $('#mutual-likes-container').html(html);
-                console.log('hi', $scope.mutualInterests)
-              }
             });
-          });
+          } else {
+            $scope.mutualInterests.tags.push({name: like.name});
+          }
         });
+      });
+    };
+
+    $scope.getMutualFriends = function(user){
+      $scope.mutualFriends = [];
+      User.mutualfriends({rid: user['@rid']}).$promise.then(function(mutual){
+        $scope.mutualFriends = mutual;
+        if(!mutual.length){
+          $scope.getConnectionPath(user);
+        }
+      });
+    };
+
+    $scope.getMutualMeetups = function(user){
+      $scope.mutualMeetups = [];
+      User.mutualmeetups({rid: user['@rid']}).$promise.then(function(mutual){
+        $scope.mutualMeetups = mutual;
+      });
+    };
+
+    $scope.getUsersInterests = function(user){
+      User.interests({rid: user['@rid']}).$promise.then(function(likes){
+        angular.forEach(likes, function(like){
+          if(like['@class'] === 'Tag'){
+            $scope.allInterests.tags.push(like);
+          } else {
+            //TODO: show fb likes?
+          }
+        });
+      });
+    };
+
+    $scope.getUsersMeetups = function(user){
+      User.meetups({rid: user['@rid']}).$promise.then(function(meetups){
+        $scope.allInterests.meetups = meetups;
+      });
+    };
+
+    $scope.getUsersActivities = function(user){
+      $scope.usersActivities = [];
+      Activity.get({rid: user['@rid']}).$promise.then(function(activities){
+        $scope.usersActivities = activities;
+      });
+    };
+
+    $scope.getConnectionPath = function(user){
+      $scope.connectionPath = [];
+      User.getConnectionPath({rid: user['@rid']}).$promise.then(function(path){
+        $scope.connectionPath = path;
       });
     };
 
@@ -285,10 +403,7 @@ angular.module('friendfinderApp')
                   };
 
       Message.send(data).$promise.then(function(res){
-        Message.get({userId: $scope.currentUser.facebookId}).$promise.then(function(messages){
-          //TODO: retrieve messages
-          console.log('got messages', messages);
-        });
+        // TODO success
       });
     };
 
@@ -298,15 +413,10 @@ angular.module('friendfinderApp')
     };
 
     $scope.closeModals = function(){
-      $('.ui.modal').modal('hide all');
+      $('.ui.modal').modal('hide');
     };
 
     $scope.isMobile = function(){
-      if($window.isMobile){
-        $scope.showFilterAccordion = false;
-      } else {
-        $scope.showFilterAccordion = true;
-      }
       return $window.isMobile;
     };
 
@@ -314,9 +424,180 @@ angular.module('friendfinderApp')
       $('#grid-container').scrollTop(0);
     };
 
-    $scope.showSideDiv = true;
-    $scope.toggleSideDiv = function(){
-      $showSideDiv = !$scope.showSideDiv;
+    $scope.isTriple = function(i){
+      return (i === 0) || (i % 3 === 0);
+    };
+    $scope.isDouble = function(i){
+      return (i === 0) || (i % 2 === 0);
+    };
+    $scope.isTooSmall = function(){
+      return window.innerWidth < 992;
     };
 
+    $scope.showRightSide = function(){
+      if(!$scope.showSideDiv){
+        return true;
+      } else if ($scope.isMobile()){
+        return false;
+      } else {
+        return true;
+      }
+    };
+
+    $scope.showSideDiv = false;
+    $scope.toggleSideDiv = function(){
+      $scope.showSideDiv = !$scope.showSideDiv;
+      setTimeout(function(){
+        // hacky, for line 28 of findfriends.html TODO
+        $('.intro-wrapper').trunk8({lines:4, tooltip:false});
+        $scope.$apply(function(){});
+        $('.intro-wrapper').flowtype({
+         minimum   : 250,
+         maximum   : 800,
+         minFont   : 10,
+         maxFont   : 72,
+         fontRatio : 25
+        });
+        $('.middle').flowtype({
+         minimum   : 80,
+         maximum   : 700,
+         minFont   : 12,
+         maxFont   : 150,
+         fontRatio : 12
+        });
+      }, 1);
+    };
+
+    $('#right-rail').hide();
+    $('#grid-container').on('scroll', function(e){
+      $scope.updateScroll();
+    });
+
+    $scope.updateScroll = function(){
+      if($scope.showSideDiv){
+        return;
+      }
+      if($('#grid-container').scrollTop() > 400){
+        $('#right-rail').show();
+      } else{
+        $('#right-rail').hide();
+      }
+    };
+
+    $scope.makeHalf = function(){
+      return $('.two.column.row').width() > 450;
+    };
+
+    $scope.doWorkaround = function(){
+      return true;
+    };
+
+    $scope.isPersonality = function(key){
+      if(key === 'personality'){
+        $('.popup.icon').popup({on: 'click'});
+        $('.popup.icon').click(function(e){
+          e.stopPropagation();
+        });
+        return true;
+      }
+    };
+
+    $scope.isLockedFilter = function(key){
+      if((key === 'mutual friends' ||
+          key === 'degrees of separation') &&
+          $scope.currentUser.role === 'free'){
+        return true;
+      }
+    };
+
+    $scope.lockedClicked = function(){
+      setTimeout(function(){
+        FB.XFBML.parse();
+        $('#fb-share-btn').click(function(){
+          $scope.facebookShare();
+        });
+        $('#fb-invite-btn').click(function(){
+          $scope.facebookInvite();
+        });
+      }, 1);
+    };
+
+    $scope.facebookShare = function(){
+      //TODO: will this work with v2.0?
+      FB.ui(
+      {
+        method        : 'feed',
+        display       : 'iframe',
+        name          : 'friendfinder.io',
+        link          : 'https://friendfinder.io',
+        picture       : 'http://i.huffpost.com/gen/964776/images/o-CATS-KILL-BILLIONS-facebook.jpg',
+        caption       : 'Meet cool people. Do fun things.',
+        description   : 'A new website to help you meet new people, through your facebook friends.'
+      },
+      function(response) {
+        if (response && response.post_id) {
+          User.update({role: 'paid'}).$promise.then(function(res){
+            if(!res[0] === 1){
+              alert('failed to update your profile, please email support@friendfinder.io'+
+                'or try refreshing and sharing again. (you can delete the second post afterwards)');
+            } else{
+              $scope.currentUser = Auth.getCurrentUser();
+              $scope.currentUser.role = 'paid';
+            }
+          });
+        } else {
+          // do not unlock
+        }
+      });
+    };
+
+    $scope.facebookInvite = function(){
+      //TODO: will this work with v2.0?
+      FB.ui(
+      {
+        method        : 'apprequests',
+        message       : 'Check out this awesome new website I just discovered!'
+      },
+      function(response) {
+      });
+    };
+
+    $scope.showMutualInterests = true;
+    $scope.toggleMutualInterests = function(){
+      $scope.showMutualInterests = !$scope.showMutualInterests;
+    };
+
+    $scope.showMutualFriends = true;
+    $scope.toggleMutualFriends = function(){
+      $scope.showMutualFriends = !$scope.showMutualFriends;
+    };
+
+    $scope.showConnectionPath = true;
+    $scope.toggleConnectionPath = function(){
+      $scope.showConnectionPath = !$scope.showConnectionPath;
+    };
+
+
+    $scope.newUser = true;
+    $scope.showAllInterests = false;
+    $scope.toggleAllInterests = function(){
+      if(!$scope.showAllInterests && $scope.newUser){
+        $scope.allInterests = {};
+        $scope.allInterests.tags = [];
+        $scope.allInterests.meetups = [];
+        $scope.getUsersInterests($scope.selectedUser);
+        $scope.getUsersMeetups($scope.selectedUser);
+        $scope.newUser = false;
+      }
+      $scope.showAllInterests = !$scope.showAllInterests;
+    };
+
+    $scope.prettyDate = function(dateStr){
+      return moment(dateStr).format('ll');
+    };
+
+    $scope.testStr = "Hi I'm Mike! I'm really friendly and out going and I love meeting"+
+    'new people. :) I moved to the city three years ago and have been loving it '+
+    'here ever since. Feel free to send me a message and check out my activities.'+
+    'I look forward to meeting you!';
   });

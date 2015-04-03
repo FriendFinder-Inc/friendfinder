@@ -15,10 +15,7 @@ angular.module('friendfinderApp')
       },
       get: {
         method: 'GET',
-        isArray: true,
-        params: {
-          id:'me'
-        }
+        isArray: true
       },
       create: {
         method: 'POST'

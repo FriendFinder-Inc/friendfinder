@@ -1,0 +1,83 @@
+#top-half{
+  height: 50%;
+  width: 100%;
+}
+
+#bottom-half{
+  height: 50%;
+  width: 100%;
+  overflow: hidden;
+  word-wrap: break-word;
+  padding: 2.5% 0 !important;
+}
+
+#left-side{
+  width: 25%;
+  float: left;
+}
+
+.middle{
+  float: left;
+  width: 70%;
+  margin-left: 6px;
+  height: 100%;
+  position: relative;
+  top: 50%;
+  transform: translateY(-15%);
+}
+
+#right-side{
+  width: 25%;
+  float: right;
+}
+
+.ui.card.profile-card{
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.card-photo{
+  width: 100%;
+  cursor: pointer;
+}
+
+.card-photo:hover{
+  border: 2px solid #3b83c0;
+}
+
+.ui.card.profile-card:hover{
+  box-shadow: 0 3px 0 0 #3b83c0,0 0 0 1px #3b83c0;
+}
+
+.top-right-button{
+  position: absolute;
+  top: 10px;
+  right: 6px;
+  padding: 9px 0px 0px 0px !important;
+  width: 50px;
+  height: 33px;
+}
+
+.top-right-button:hover{
+  cursor: default;
+}
+
+#intro-wrapper{
+  width: 100%;
+  height: 100%;
+  padding: 5% 0 !important;
+}
+
+.ellipsis{
+  display: block; /* Fallback for non-webkit */
+  display: -webkit-box;
+  height: 16*1.4*4; /* Fallback for non-webkit */
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.4;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
