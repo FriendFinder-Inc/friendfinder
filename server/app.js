@@ -7,6 +7,8 @@
 // Set default node environment to development
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
+require('newrelic');
+
 var express = require('express');
 var oriento = require('oriento');
 // var cloudinary = require('cloudinary');
