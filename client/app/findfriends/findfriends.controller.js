@@ -49,15 +49,7 @@ angular.module('friendfinderApp')
     $scope.linkModal = function() {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
-      $('.ui.modal.message').modal('attach events', '.modal.profile .button.message');
-
-      $('#mutual-likes-container').flowtype({
-         minimum   : 500,
-         maximum   : 1200,
-         minFont   : 12,
-         maxFont   : 40,
-         fontRatio : 30
-      });
+      $('.ui.modal.message').modal('attach events', '.modal.profile .button.message-btn');
     };
 
     $scope.linkAccordion = function(){

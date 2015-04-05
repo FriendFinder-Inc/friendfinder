@@ -62,7 +62,8 @@
 
 .scroll-box{
   max-height: 250px;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .square-100px{
