@@ -44,7 +44,7 @@ angular.module('friendfinderApp')
     $scope.linkModal = function() {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
-      $('.ui.modal.message').modal('attach events', '.modal.profile .button.message-btn');
+      $('.ui.modal.message').modal('attach events', '.modal.activity-profile .button.message-btn');
     };
 
     $scope.linkAccordion = function(){
@@ -260,7 +260,7 @@ angular.module('friendfinderApp')
       $scope.showMutualInterests = true;
       User.getById({rid: rid}).$promise.then(function(user){
         $scope.selectedUser = user;
-        $('.ui.modal.profile').modal('setting', {
+        $('.ui.modal.activity-profile').modal('setting', {
           onVisible: function(){
             // make sure all data is visible
             $('.activity-title').textfill({});

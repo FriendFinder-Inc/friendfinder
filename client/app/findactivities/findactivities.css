@@ -32,3 +32,20 @@
   cursor: pointer;
   color: #56d1ff;
 }
+
+.activity-title{
+  overflow: hidden;
+  margin-top: -8px;
+  max-height: 18px;
+  font-weight: bold;
+}
+
+.activity-date{
+  overflow: hidden;
+}
+
+.activity-location{
+  overflow: hidden;
+  max-height: 33px;
+  color: darkgray;
+}

@@ -1,0 +1,20 @@
+<div class="ui long modal activity-profile">
+  <i class="close icon floated right"></i>
+
+  <ng-include src="'components/profileView.html'"></ng-include>
+
+  <div id='action-buttons-container' class='ui content'>
+    <div id='action-buttons' class='ui center aligned segment'>
+      <div class="ui red button message-btn">
+        message
+      </div>
+      <div class="ui teal button" ng-click='$parent.bookmarkUser(selectedUser)'
+        ng-if='!$parent.isBookmarked(selectedUser)'>
+        bookmark
+      </div>
+      <div class="ui grey button" ng-click="$parent.closeModals()">
+        close
+      </div>
+    </div>
+  </div>
+</div>

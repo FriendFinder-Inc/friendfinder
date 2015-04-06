@@ -67,8 +67,11 @@
 }
 
 .square-100px{
-  width: 100px;
-  height: 100px;
+  max-width: 100px;
+  max-height: 100px;
+  position: absolute;
+  margin: auto;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .tag-holder{
@@ -161,6 +164,10 @@
 .activity-top-left{
   float: left;
   width: 100px;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  background-color: black;
 }
 
 .activity-top-right{

@@ -38,9 +38,9 @@
                         <div class='ui circular image creator-img'>
                           <img ng-src="https://graph.facebook.com/{{ activity.creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{ activity.title }}</p>
-                        <div ng-if="activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
-                        <div ng-if="!activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activity.title }}</div></span>
+                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{activity.creatorName}}</p>
+                        <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                        <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
                         <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
                         <div class='activity-location'><span>{{ activity.location.name}}</div></span>
@@ -75,9 +75,9 @@
                         <div class='ui circular image creator-img'>
                           <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{ activities[$index+1].title }}</p>
-                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+1].title }}</div></span>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{activity.creatorName}}</p>
+                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
                         <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
                         <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
@@ -116,9 +116,9 @@
                         <div class='ui circular image creator-img'>
                           <img ng-src="https://graph.facebook.com/{{ activity.creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{ activity.title }}</p>
-                        <div ng-if="activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
-                        <div ng-if="!activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activity.title }}</div></span>
+                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{activity.creatorName}}</p>
+                        <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                        <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
                         <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
                         <div class='activity-location'><span>{{ activity.location.name}}</div></span>
@@ -153,9 +153,9 @@
                         <div class='ui circular image creator-img'>
                           <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{ activities[$index+1].title }}</p>
-                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+1].title }}</div></span>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{activity.creatorName}}</p>
+                        <div ng-if="activities[$index+1].link" class='activity-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+1].link" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
                         <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
                         <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
@@ -190,9 +190,9 @@
                         <div class='ui circular image creator-img'>
                           <img ng-src="https://graph.facebook.com/{{ activities[$index+2].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click='showProfileModal(activities[$index+2].creator)'>{{ activities[$index+2].title }}</p>
-                        <div ng-if="activities[$index+2].link" class='activities[$index+2]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
-                        <div ng-if="!activities[$index+2].link" class='activities[$index+2]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+2].title }}</div></span>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+2].creator)'>{{activity.creatorName}}</p>
+                        <div ng-if="activities[$index+2].link" class='activity-title'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
+                        <div ng-if="!activities[$index+2].link" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
                         <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
                         <div class='activity-location'><span>{{ activities[$index+2].location.name}}</div></span>
@@ -227,7 +227,7 @@
 </div>
 
 
-<ng-include src="'app/findfriends/profileModal.html'" onload="linkModal()"></ng-include>
+<ng-include src="'app/findactivities/profileModal.html'" onload="linkModal()"></ng-include>
 
 <div class="ui small modal message" style='text-align: center;'>
   <textarea id='message-area' placeholder='enter message...'></textarea>
