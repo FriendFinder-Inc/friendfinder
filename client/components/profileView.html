@@ -1,0 +1,206 @@
+<div id='profile-view-segment' class='ui segment'>
+
+  <div id='photos-container'>
+    <div class="ui small image" ng-repeat='img in fbPicsUrls' style='width: 250px; margin: 4px;'>
+      <img ng-src="{{img}}">
+    </div>
+  </div>
+
+  <div class='ui grid'>
+    <div id='mutual-container' class='doubling two column row'>
+      <div id='mutual-friends' class='center aligned column profile-view-column'
+        ng-if="mutualFriends.length">
+        <h5 class="ui top attached header profile-view-header">
+          <div id='hide-btn' class='ui mini red button' ng-click="toggleMutualFriends()">
+            <p ng-show="showMutualFriends">hide</p>
+            <p ng-show="!showMutualFriends">show</p>
+          </div>
+          mutual friends ({{ mutualFriends.length }})
+        </h5>
+        <div class='ui bottom attached segment' ng-show="showMutualFriends">
+          <div class='scroll-box'>
+            <div id='friend-container' ng-repeat='friend in mutualFriends'>
+              <div class='friend'>
+                <img class='square-100px' ng-src="https://graph.facebook.com/{{ friend.id }}/picture?width=100&height=100">
+                <p style='text-align: center;'>{{friend.name.split(' ')[0]}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- if no mutual friends, try to show connection path -->
+      <div id='connection-path' class='center aligned column profile-view-column'
+        ng-if="!mutualFriends.length">
+        <h5 class="ui top attached header profile-view-header">
+          <div id='hide-btn' class='ui mini red button' ng-click="toggleConnectionPath()">
+            <p ng-show="showConnectionPath">hide</p>
+            <p ng-show="!showConnectionPath">show</p>
+          </div>
+          <p ng-show="connectionPath.length">connection path ({{ connectionPath.length-1 }} degrees)</p>
+          <p ng-show="!connectionPath.length">connection path (unknown)</p>
+        </h5>
+        <div class='ui bottom attached segment' ng-show="showConnectionPath">
+          <div id='connection-path-box'>
+            <div id='node-container' ng-repeat='node in connectionPath'>
+              <div class='node'>
+                <div>
+                  <img class='ui circular image' ng-src="https://graph.facebook.com/{{ node.id || node.facebookId }}/picture?width=60&height=60">
+                  <i class='ui large angle right icon' style='margin-top: 18px;' ng-show='!$last'></i>
+                  <i class='ui large angle right icon' style='margin-top: 18px; visibility: hidden;' ng-show='$last'></i>
+                </div>
+                <p style='text-align: center; margin-right: 30px;'>{{node.name.split(' ')[0]}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='mutual-interests' class='center aligned column profile-view-column'>
+        <h5 class="ui top attached header profile-view-header">
+          <div id='hide-btn' class='ui mini red button' ng-click="toggleMutualInterests()">
+            <p ng-show="showMutualInterests">hide</p>
+            <p ng-show="!showMutualInterests">show</p>
+          </div>
+          mutual interests ({{ mutualInterests.pages.length + mutualInterests.tags.length + mutualMeetups.length }})
+        </h5>
+        <div class='ui bottom attached segment' ng-show="showMutualInterests">
+          <div class='scroll-box'>
+            <div id='page-container' ng-repeat='page in mutualInterests.pages'>
+              <div class='page'>
+                <a ng-href="{{page.link}}" target="_blank">
+                  <img class='square-100px' ng-src="{{page.img}}">
+                </a>
+                <p style='text-align: center;'>{{page.name}}</p>
+              </div>
+            </div>
+            <div id='tag-container' ng-repeat='tag in mutualInterests.tags'>
+              <div class='tag-holder square-100px'>
+                <span id='red-tag' class="ui tag label red-square-tag">{{ tag.name }}</span>
+              </div>
+              <p style='visibility: hidden;'>placeholder</p>
+            </div>
+            <div id='meetup-container' ng-repeat='meetup in mutualMeetups'>
+              <div class='meetup'>
+                <a ng-href="{{meetup.link}}" target="_blank">
+                  <img class='square-100px' ng-src="{{meetup.img || 'assets/images/meetupLogo.png'}}">
+                </a>
+                <p style='text-align: center;'>{{meetup.name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id='profile-container' class='doubling two column row'>
+      <div id='intro-column' class='column profile-view-column'>
+        <h5 class="ui top attached center aligned header profile-view-header">
+          intro
+        </h5>
+        <div class='ui bottom attached segment'>
+          {{ selectedUser.profile.intro }}
+        </div>
+        <h5 class="ui top attached center aligned header profile-view-header">
+          ideal weekend
+        </h5>
+        <div class='ui bottom attached segment'>
+          {{ selectedUser.profile.idealWeekend }}
+        </div>
+        <h5 class="ui top attached center aligned header profile-view-header">
+          dream destination
+        </h5>
+        <div class='ui bottom attached segment'>
+          {{ selectedUser.profile.dreamDestination }}
+        </div>
+      </div>
+      <div id='details-column' class='column profile-view-column'>
+        <h5 class="ui top attached center aligned header profile-view-header">
+          details
+        </h5>
+        <div class='ui bottom attached segment'>
+          <div ng-repeat='(key, val) in selectedUser.details'>
+            <div class='ui vertical segment detail-segment' ng-if="!val.private && val.value != '-'">
+              <div class='user-detail-key'>
+                {{ key }}
+              </div>
+              <div class='user-detail-val'>
+                {{ val.value }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='ui grid'>
+    <div id='all-interests-column' class='center aligned column profile-view-column'>
+      <div id='all-interests-container'>
+        <div id='hide-interests-btn' class='ui mini red button' ng-click="toggleAllInterests()">
+          <p ng-show="showAllInterests">hide</p>
+          <p ng-show="!showAllInterests">show</p>
+        </div>
+        <h5 class="ui top attached header profile-view-header">
+          all interests
+        </h5>
+        <div class='ui bottom attached segment' ng-show="showAllInterests">
+          <div class='scroll-box'>
+            <div id='tag-container' ng-repeat='tag in allInterests.tags'>
+              <div class='tag-holder square-100px'>
+                <span id='red-tag' class="ui tag label red-square-tag">{{ tag.name }}</span>
+              </div>
+              <p style='visibility: hidden;'>placeholder</p>
+            </div>
+            <div id='meetup-container' ng-repeat='meetup in allInterests.meetups'>
+              <div class='meetup'>
+                <a ng-href="{{meetup.link}}" target="_blank">
+                  <img class='square-100px' ng-src="{{meetup.img || 'assets/images/meetupLogo.png'}}">
+                </a>
+                <p style='text-align: center;'>{{meetup.name}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class='ui grid'>
+    <div id='all-interests-column' class='center aligned column profile-view-column'>
+      <div id='activities-container'>
+        <h5 class="ui top attached header profile-view-header">
+          activities ({{ usersActivities.length }})
+        </h5>
+        <div class='ui bottom attached segment activities-background'>
+          <div id='activity-segment' class='ui segment' ng-repeat="activity in usersActivities">
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activity.img}}">
+                </div>
+                <div class='activity-top-right'>
+                  <div ng-if="activity.link" class='activity-title' style='margin-top: 30px; max-height: 33px;'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                  <div ng-if="!activity.link" class='activity-title' style='margin-top: 30px; max-height: 33px;'><span>{{ activity.title }}</div></span>
+                  <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                </div>
+              </div>
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activity.description}}
+                </div>
+                <div class='activity-buttons'>
+                  <div class='ui buttons'>
+                    <div class='ui red button' style='float: left; width: 50%;'>ask to join</div>
+                    <div class='ui teal button' style='float: left; width: 50%;'>bookmark</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

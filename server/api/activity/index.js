@@ -10,6 +10,7 @@ var router = express.Router();
 router.post('/', auth.isAuthenticated(), controller.create);
 router.get('/autocomplete', auth.isAuthenticated(), controller.autoComplete);
 router.get('/', auth.isAuthenticated(), controller.get);
+router.post('/rid/request', auth.isAuthenticated(), controller.request);
 router.get('/me', auth.isAuthenticated(), controller.getMine);
 router.put('/me/update', auth.isAuthenticated(), controller.update);
 router.post('/me/delete', auth.isAuthenticated(), controller.delete);

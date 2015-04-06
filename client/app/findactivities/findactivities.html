@@ -1,97 +1,241 @@
-<div class='ui center aligned basic segment'>
-  <div class="findactivities-container">
+<div class='container'>
+  <div id="findfriends-container">
 
-    <div class='ui stackable grid'>
+    <div id='findfriends-segment' class='ui segment'>
 
-      <div class="four wide column">
-        <div id='filter-accordion-container' class="filter-accordion" ng-show="showFilterAccordion">
-          <ng-include src="'app/findactivities/filterAccordion.html'" onload="linkAccordion()"></ng-include>
+      <div id='left-rail' class="ui left attached rail" ng-show='!showSideDiv'>
+        <div id='show-segment' class="ui segment">
+          <div class='ui mini red button' ng-click="toggleSideDiv()">
+            show
+          </div>
         </div>
       </div>
 
-      <div class="twelve wide column">
-        <!-- right side -->
-        <div id="grid-container">
-          <i id='scroll-top' class='ui arrow circle up huge icon' ng-click='scrollTop()'></i>
-          <div class='ui grid'>
-            <div class='doubling two column row' ng-repeat='user in users' ng-if='$even'>
-              <div class='column'>
-                <div class="ui cards">
-                  <!-- left item -->
-                  <div class="card activity-card">
-                    <div class='container'>
-                      <div class='left'>
-                        <div class="image" ng-click='showProfileModal(user)'>
-                          <img class='card-photo' ng-src="{{ user.img }}">
-                        </div>
+      <div id='right-rail' class="ui right attached rail">
+        <div id='scroll-segment' class="ui segment">
+          <i id='up-arrow' class='ui arrow circle up big icon' ng-click='scrollTop()'></i>
+        </div>
+      </div>
+
+      <div id='accordion' ng-show='showSideDiv'>
+        <ng-include src="'app/findactivities/filterAccordion.html'" onload="linkAccordion()"></ng-include>
+      </div>
+
+      <div id='right' ng-class='{full: !showSideDiv, twoThirds: showSideDiv}' ng-show='showRightSide()'>
+        <div id='grid-container'>
+          <div class="ui grid">
+            <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
+              ng-repeat='activity in activities' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
+                <div id='activity-wrapper' class='ui segment'>
+                  <div class='activity-container'>
+                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+                    <div class='activity-top-half'>
+                      <div class='activity-top-left'>
+                        <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
                       </div>
-                      <div class='right'>
-                        <div class="content card-content">
-                          <a class="header">{{ user.title }}</a>
-                          <div class="meta">
-                            <span>{{ user.location.name || 'unknown location' }}</span>
-                          </div>
-                          <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
-                          <div class="mini ui red button">1000mi</div>
-                          <div class="description intro">
-                            This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
-                          </div>
+                      <div class='activity-top-right'>
+                        <div class='ui circular image creator-img'>
+                          <img ng-src="https://graph.facebook.com/{{ activity.creatorFbId }}/picture?width=30&height=30">
+                        </div>
+                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{ activity.title }}</p>
+                        <div ng-if="activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                        <div ng-if="!activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activity.title }}</div></span>
+                        <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                      </div>
+                    </div>
+                    <div class='activity-bottom-half'>
+                      <div class='ui segment activity-description'>
+                        {{activity.description}}
+                      </div>
+                      <div class='activity-buttons'>
+                        <div class='ui fluid buttons'>
+                          <div class='ui red button' style='width: 50%;'
+                            ng-if='!alreadyRequested(activity)' ng-click='request(activity)'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activity)'>requested</div>
+                          <div class='ui teal button' style='width: 50%;'
+                            ng-if='!isBookmarked(activity)' ng-click='bookmark(activity)'>bookmark</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class='column'>
-                <div class="ui cards">
-                  <!-- right item -->
-                  <div class="card activity-card" ng-click='showProfileModal(users[$index+1])' ng-show='users[$index+1]'>
-                    <div class='container'>
-                      <div class='left'>
-                        <div class="image">
-                          <img class='card-photo' ng-src="{{users[$index+1].img}}">
-                        </div>
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
+                <div id='activity-wrapper' class='ui segment'>
+                  <div class='activity-container'>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+                    <div class='activity-top-half'>
+                      <div class='activity-top-left'>
+                        <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                       </div>
-                      <div class='right'>
-                        <div class="content card-content">
-                          <a class="header">{{ users[$index+1].title }}</a>
-                          <div class="meta">
-                            <span>{{ users[$index+1].location.name || 'location unknown'}}</span>
-                          </div>
-                          <div class="mini ui blue button" ng-show='!isMobile()'>bookmark</div>
-                          <div class="mini ui red button">1000mi</div>
-                          <div class="description intro">
-                            This will eventually be a quick little introduction paragraph the users will create...ck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph tck little introduction paragraph t
-                          </div>
+                      <div class='activity-top-right'>
+                        <div class='ui circular image creator-img'>
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
+                        </div>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{ activities[$index+1].title }}</p>
+                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+1].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                      </div>
+                    </div>
+                    <div class='activity-bottom-half'>
+                      <div class='ui segment activity-description'>
+                        {{activities[$index+1].description}}
+                      </div>
+                      <div class='activity-buttons'>
+                        <div class='ui fluid buttons'>
+                          <div class='ui red button' style='width: 50%;'
+                            ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
+                          <div class='ui teal button' style='width: 50%;'
+                            ng-if='!isBookmarked(activities[$index+1])' ng-click='bookmark(activities[$index+1])'>bookmark</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
+              ng-repeat='activity in activities' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              {{ user.name }}
+              <div class="center aligned column activities">
+                <div id='activity-wrapper' class='ui segment'>
+                  <div class='activity-container'>
+                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+                    <div class='activity-top-half'>
+                      <div class='activity-top-left'>
+                        <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
+                      </div>
+                      <div class='activity-top-right'>
+                        <div class='ui circular image creator-img'>
+                          <img ng-src="https://graph.facebook.com/{{ activity.creatorFbId }}/picture?width=30&height=30">
+                        </div>
+                        <p class='creator-name' ng-click='showProfileModal(activity.creator)'>{{ activity.title }}</p>
+                        <div ng-if="activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                        <div ng-if="!activity.link" class='activity-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activity.title }}</div></span>
+                        <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                      </div>
+                    </div>
+                    <div class='activity-bottom-half'>
+                      <div class='ui segment activity-description'>
+                        {{activity.description}}
+                      </div>
+                      <div class='activity-buttons'>
+                        <div class='ui fluid buttons'>
+                          <div class='ui red button' style='width: 50%;'
+                            ng-if='!alreadyRequested(activity)' ng-click='request(activity)'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activity)'>requested</div>
+                          <div class='ui teal button' style='width: 50%;'
+                            ng-if='!isBookmarked(activity)' ng-click='bookmark(activity)'>bookmark</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="center aligned column activities">
+                <div id='activity-wrapper' class='ui segment'>
+                  <div class='activity-container'>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+                    <div class='activity-top-half'>
+                      <div class='activity-top-left'>
+                        <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                      </div>
+                      <div class='activity-top-right'>
+                        <div class='ui circular image creator-img'>
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
+                        </div>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+1].creator)'>{{ activities[$index+1].title }}</p>
+                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+1].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                      </div>
+                    </div>
+                    <div class='activity-bottom-half'>
+                      <div class='ui segment activity-description'>
+                        {{activities[$index+1].description}}
+                      </div>
+                      <div class='activity-buttons'>
+                        <div class='ui fluid buttons'>
+                          <div class='ui red button' style='width: 50%;'
+                            ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
+                          <div class='ui teal button' style='width: 50%;'
+                            ng-if='!isBookmarked(activities[$index+1])' ng-click='bookmark(activities[$index+1])'>bookmark</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="center aligned column activities">
+                <div id='activity-wrapper' class='ui segment'>
+                  <div class='activity-container'>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>
+                    <div class='activity-top-half'>
+                      <div class='activity-top-left'>
+                        <img class='square-100px' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                      </div>
+                      <div class='activity-top-right'>
+                        <div class='ui circular image creator-img'>
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+2].creatorFbId }}/picture?width=30&height=30">
+                        </div>
+                        <p class='creator-name' ng-click='showProfileModal(activities[$index+2].creator)'>{{ activities[$index+2].title }}</p>
+                        <div ng-if="activities[$index+2].link" class='activities[$index+2]-title' style='margin-top: -8px; max-height: 33px;'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
+                        <div ng-if="!activities[$index+2].link" class='activities[$index+2]-title' style='margin-top: -8px; max-height: 33px;'><span>{{ activities[$index+2].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+2].location.name}}</div></span>
+                      </div>
+                    </div>
+                    <div class='activity-bottom-half'>
+                      <div class='ui segment activity-description'>
+                        {{activities[$index+2].description}}
+                      </div>
+                      <div class='activity-buttons'>
+                        <div class='ui fluid buttons'>
+                          <div class='ui red button' style='width: 50%;'
+                            ng-if='!alreadyRequested(activities[$index+2])' ng-click='request(activities[$index+2])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+2])'>requested</div>
+                          <div class='ui teal button' style='width: 50%;'
+                            ng-if='!isBookmarked(activities[$index+2])' ng-click='bookmark(activities[$index+2])'>bookmark</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             </div>
           </div>
-        </div> <!-- end right side -->
+        </div>
       </div>
-
-    </div> <!-- end stackable grid -->
+    </div>
 
   </div>
 </div>
 
-<ng-include src="'app/findactivities/profileModal.html'" onload="linkModal()"></ng-include>
 
-<!-- message modal -->
+<ng-include src="'app/findfriends/profileModal.html'" onload="linkModal()"></ng-include>
+
 <div class="ui small modal message" style='text-align: center;'>
-
-  <textarea id='message-text' placeholder='enter message...' rows="10" cols="50"></textarea>
-
+  <textarea id='message-area' placeholder='enter message...'></textarea>
   <center>
     <div id='send-message-btn' class="ui green button">
       send
     </div>
-    <div id='cancel-message-btn' class="ui red button">
+    <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
       cancel
     </div>
   </center>

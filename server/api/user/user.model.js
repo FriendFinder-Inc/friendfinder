@@ -52,7 +52,7 @@ User.findOne = function(params, cb) {
 User.getById = function(rid, cb) {
   db.query('select from '+rid)
   .then(function (user) {
-    cb(user);
+    cb(user[0]);
   });
 };
 

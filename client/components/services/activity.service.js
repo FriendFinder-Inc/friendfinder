@@ -36,6 +36,13 @@ angular.module('friendfinderApp')
           controller:'update'
         }
       },
+      request: {
+        method: 'POST',
+        params: {
+          id: 'rid',
+          controller: 'request'
+        }
+      },
       find: {
         method: 'GET',
         isArray: true,

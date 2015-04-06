@@ -19,7 +19,6 @@ angular.module('friendfinderApp')
          maxFont   : 150,
          fontRatio : 12
         });
-        $('.ui.loading.segment').removeClass('loading');
         $('.popup.icon').popup({on: 'click'});
         $('.popup.icon').click(function(e){
           e.stopPropagation();
@@ -283,7 +282,7 @@ angular.module('friendfinderApp')
         onVisible: function(){
           // make sure all data is visible
           $('.activity-title').textfill({});
-          $('.activity-name').textfill({});
+          $('.activity-date').textfill({});
           $('.activity-location').textfill({});
         }
       }).modal('show');

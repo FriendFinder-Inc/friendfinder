@@ -21,6 +21,7 @@ exports.autoComplete = function (req, res, next) {
 exports.create = function (req, res, next) {
   req.body.data.creator = req.user['@rid'];
   req.body.data.creatorFbId = req.user.facebookId;
+  req.body.data.creatorName = req.user.name.split(' ')[0];
   var newActivity = new Activity(req.body.data);
   newActivity.create(function(activity){
     res.json(activity)
@@ -44,6 +45,29 @@ exports.get = function (req, res, next) {
   Activity.getAll(req.query.rid, function (activities) {
     if (!activities) return res.send(401);
     res.json(activities);
+  });
+};
+
+exports.request = function (req, res, next) {
+  Activity.request(req.user['@rid'], req.body.rid, function(response){
+    //send email to owner
+    db.query('select email from '+req.body.owner)
+    .then(function(data){
+      var name = req.user.name.split(' ')[0];
+      sendgrid.send({
+        to:       data[0].email,
+        from:     'noreply@friendfinder.io',
+        fromname: 'friendfinder',
+        subject:  'New join request from '+name,
+        text:     name+' wants to join your activity: '+req.body.activityTitle
+      }, function(err, json) {
+        if (err) {
+          console.log('SENDGRID API ERROR: failed to send message ', err);
+          return res.send(404);
+        }
+        return res.send(200);
+      });
+    });
   });
 };
 

@@ -1,10 +1,37 @@
-<div class='ui center aligned top attached blue header'>
-  filters
+<div id='filter-accordion-header' class='ui center aligned top attached blue header'>
+  <div class='mini ui left floated red button' ng-click='$parent.toggleSideDiv()'>
+    hide
+  </div>
+    filters
+  <div class='mini ui right floated green button' ng-click='showChoices()'>
+    add +
+  </div>
 </div>
 <div class='ui styled fluid accordion filter-accordion'>
+  <!-- select new filter -->
+  <div class="accordion filter-accordion" ng-show='$parent.chooseFilter' style='margin-top: 0px;'>
+    <div class="active title">
+      <i class="dropdown icon"></i>
+      choose filter
+      <i class="ui right floated large close icon link icon" style='float:right;'
+         ng-click='$parent.chooseFilter = !$parent.chooseFilter'></i>
+    </div>
+    <div class="active content">
+      <div ng-repeat='name in $parent.filterNames' ng-if='$even'>
+        <div class='left attached ui green button' ng-click='addFilter(name)'>
+          {{ name }}
+        </div>
+        <div class='right attached ui green button' ng-click='addFilter($parent.filterNames[$index+1])' ng-if='$parent.filterNames[$index+1]'>
+          {{ $parent.filterNames[$index+1] }}
+        </div>
+      </div>
+    </div>
+  </div>
   <div ng-class='{disabled: chooseFilter}' class="title" ng-repeat-start='filter in $parent.filters'>
     <i class="dropdown icon"></i>
     {{ filter.key }} : {{ getFilterStr(filter.options) }}
+    <i class="circular question icon link popup" ng-if="isPersonality(filter.key)"
+      data-html="<p>To learn more about personality types visit <a href='http://www.16personalities.com' target='_blank'>16personalities.com</a></p>"></i>
     <i class="ui large close icon link icon" style='float:right;'
        ng-click='removeFilter(filter.key)'></i>
   </div>
@@ -23,7 +50,7 @@
   <!-- tags -->
   <div ng-class='{disabled: chooseFilter}' class="title" ng-if="$parent.showTags">
     <i class="dropdown icon"></i>
-      tags : {{ $parent.tags.list.length }}
+      keywords : {{ $parent.tags.list.length }}
     <i class="ui large close icon link icon" style='float:right;'
        ng-click="$parent.hideTags()"></i>
   </div>
@@ -32,43 +59,57 @@
       <input type='text' ng-list ng-model='$parent.tags.list'>
     </div>
   </div>
-  <!-- select new filter -->
-  <div class="accordion" ng-show='$parent.chooseFilter' style='margin-top: 0px;'>
-    <div class="active title">
-      <i class="dropdown icon"></i>
-      choose
-      <i class="ui right floated large close icon link icon" style='float:right;'
-         ng-click='$parent.chooseFilter = !$parent.chooseFilter'></i>
-    </div>
-    <div class="active content">
-      <button class='fluid ui button' ng-repeat='name in $parent.filterNames' ng-click='addFilter(name)'>{{ name }}</button>
-    </div>
-  </div>
 </div>
-<button ng-class='{disabled: $parent.chooseFilter}' class='fluid ui red button' ng-click='showChoices()'>
-  <i class='ui center aligned add circle icon'></i>
-  add filter
-</button>
+
 <!-- order by -->
-<div class='ui styled fluid accordion'>
+<div class='ui styled fluid accordion filter-accordion'>
   <div class="title" ng-class='{disabled: $parent.chooseFilter}'>
     <i class="dropdown icon"></i>
-    order by : {{ getOrderby() }}
+    list by : {{ getOrderby() }}
   </div>
+
   <div class="content">
     <div class="ui form">
       <div class="grouped fields">
         <div class="field" ng-repeat="option in orderby[0].options">
           <div class="ui checkbox" ng-click="checkboxClicked('orderby', 'orderby', option.key)">
             <input type="checkbox" ng-model="option.value">
-            <label>{{ option.key }}</label>
+            <label>
+              {{ option.key }}
+              <i class="circular lock icon link popup" ng-if="isLockedFilter(option.key)" ng-click='lockedClicked()'
+                data-html="<div>
+                             To unlock advanced social networking features, please help expand their value for everyone by liking and sharing. (invite optional) <br>
+                             <div id='fb-btn-container'>
+                               <div class='fb-like' data-href='https://developers.facebook.com/docs/plugins/' data-layout='button' data-action='like' data-show-faces='true'></div>
+                               <div id='fb-share-btn' class='facebookShare'>
+                                 <div class='facebookButton' style='text-align: center; padding-left: 10px;'>
+                             			 <div class='pluginButton'>
+                             				 <div class='pluginButtonContainer'>
+                             				   <span class='pluginButtonLabel'>Share</span>
+                             			   </div>
+                             		   </div>
+                             		 </div>
+                               </div>
+                               <div id='fb-invite-btn' class='facebookShare'>
+                                 <div class='facebookButton' style='text-align: center; padding-left: 10px;'>
+                             			 <div class='pluginButton'>
+                             				 <div class='pluginButtonContainer'>
+                             				   <span class='pluginButtonLabel'>Invite</span>
+                             			   </div>
+                             		   </div>
+                             		 </div>
+                               </div>
+                             </div>
+                           </div>">
+              </i>
+            </label>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<button ng-class='{disabled: $parent.chooseFilter}' class='fluid ui green button' ng-click='find()'>
+<button ng-class='{disabled: $parent.chooseFilter}' class='fluid ui green button find' ng-click='find()'>
   <i class="search icon"></i>
   <span>find</span>
 </button>

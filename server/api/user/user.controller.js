@@ -61,6 +61,12 @@ exports.getBookmarks = function(req, res, next) {
   });
 };
 
+exports.getRequests = function(req, res, next) {
+  User.getEdge('requested', req.user['@rid'], function(requests){
+    res.json(requests);
+  });
+};
+
 exports.getInterests = function(req, res, next) {
   User.getEdge('likes', req.query.rid, function(interests){
     res.json(interests);

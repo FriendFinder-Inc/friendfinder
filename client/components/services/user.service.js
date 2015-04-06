@@ -12,6 +12,9 @@ angular.module('friendfinderApp')
           id:'me'
         }
       },
+      getById: {
+        method: 'GET'
+      },
       getConnectionPath: {
         method: 'GET',
         isArray: true,
@@ -60,6 +63,14 @@ angular.module('friendfinderApp')
         params: {
           id: 'me',
           controller: 'bookmarks'
+        }
+      },
+      requests: {
+        method: 'GET',
+        isArray: true,
+        params: {
+          id: 'me',
+          controller: 'requests'
         }
       },
       activities: {

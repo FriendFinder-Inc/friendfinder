@@ -8,11 +8,12 @@ var auth = require('../../auth/auth.service');
 var router = express.Router();
 
 router.get('/me', auth.isAuthenticated(), controller.me);
-router.get('/:id', auth.isAuthenticated(), controller.get);
+router.get('/', auth.isAuthenticated(), controller.get);
 router.put('/me/update', auth.isAuthenticated(), controller.update);
 router.delete('/me/delete', auth.isAuthenticated(), controller.delete);
 router.post('/me/bookmark', auth.isAuthenticated(), controller.bookmark);
 router.get('/me/bookmarks', auth.isAuthenticated(), controller.getBookmarks);
+router.get('/me/requests', auth.isAuthenticated(), controller.getRequests);
 router.get('/:id/interests', auth.isAuthenticated(), controller.getInterests);
 router.get('/:id/meetups', auth.isAuthenticated(), controller.getMeetups);
 router.get('/me/mutualinterests', auth.isAuthenticated(), controller.mutualInterests);

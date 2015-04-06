@@ -34,6 +34,7 @@ var Activity = function(params) {
   this.props.isEvent =     params.isEvent;
   this.props.created =     new Date();
   this.props.creator =     params.creator;
+  this.props.creatorName = params.creatorName;
   this.props.creatorFbId = params.creatorFbId;
   this.props.views =       0;
   // optional props
@@ -223,6 +224,10 @@ Activity.update = function(rid, params, cb) {
   .then(function (total) {
     cb(total);
   });
+};
+
+Activity.request = function(fromRid, toRid, cb) {
+  createEdge(fromRid, toRid, 'requested', cb);
 };
 
 Activity.delete = function(rid, cb) {

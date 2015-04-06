@@ -65,6 +65,7 @@
 #right{
   float: left;
   padding-left: 4px;
+  /*margin-top: 0px !important;*/
 }
 
 #grid-container{
