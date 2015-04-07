@@ -35,6 +35,23 @@ var createEdge = function(fromRid, toRid, type, cb){
   });
 };
 
+// utility function
+var deleteEdge = function(fromRid, toRid, type, cb){
+  db.delete('EDGE', type)
+  .from(fromRid)
+  .to(toRid)
+  .one()
+  .then(function (edge) {
+    console.log('e', edge)
+    cb(edge);
+  })
+  .catch(function(err){
+    var msg = 'ORIENTDB ERROR: failed to delete edge, '+err.message;
+    console.log(msg)
+    cb(msg)
+  });
+};
+
 User.prototype.create = function(cb) {
   db.insert().into('RegisteredUser').set(this.props).one()
   .then(function (user) {
@@ -65,7 +82,7 @@ User.update = function(rid, params, cb) {
 };
 
 User.prototype.delete = function(rid, cb) {
-  b.query('delete vertex '+rid)
+  db.query('delete vertex '+rid)
   .then(function (user) {
     cb(user);
   });
@@ -73,6 +90,10 @@ User.prototype.delete = function(rid, cb) {
 
 User.bookmark = function(fromRid, toRid, cb) {
   createEdge(fromRid, toRid, 'bookmarked', cb);
+};
+
+User.removeBookmark = function(fromRid, toRid, cb) {
+  deleteEdge(fromRid, toRid, 'bookmarked', cb);
 };
 
 User.getEdge = function(edge, rid, cb) {

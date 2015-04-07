@@ -55,6 +55,12 @@ exports.bookmark = function(req, res, next) {
   });
 };
 
+exports.removeBookmark = function(req, res, next) {
+  User.removeBookmark(req.user['@rid'], req.query.rid, function(response){
+    res.send(200);
+  });
+};
+
 exports.getBookmarks = function(req, res, next) {
   User.getEdge('bookmarked', req.user['@rid'], function(bookmarks){
     res.json(bookmarks);

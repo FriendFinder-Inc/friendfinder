@@ -1,5 +1,190 @@
-<div class="container" ng-controller='BookmarksUsersCtrl'>
-  <div class='ui segment'>
-    users
+<div class="container" ng-controller='BookmarksCtrl'>
+  <div class="ui grid">
+    <div class="doubling two column row" ng-show='(isTooSmall()) && isDouble($index)'
+      ng-repeat='user in users' ng-class="{workaround: '(isTooSmall()) && isDouble($index)'}">
+      <div ng-attr-id="{{'half-'+makeHalfUser()}}" class="column">
+        <div id='golden-wrapper'>
+          <div id='card-container'>
+            <div class="ui card profile-card">
+              <div id='top-half'>
+                <div id='left-side'>
+                  <div class="image" ng-click="showProfileModal(user['@rid'], 'users')">
+                    <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
+                  </div>
+                </div>
+                <div class='middle'>
+                  {{ birthdayToAge(user.birthday) }} ,
+                  <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                  <div class="meta">
+                    <span>{{ user.location.name || 'location unknown' }}</span>
+                  </div>
+                </div>
+                <div id='right-side'>
+                  <div class="ui red button top-right-button bookmarks" ng-click="removeBookmark(user['@rid'])">
+                    <i class='ui big close icon' id='x-icon'></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fitted divider"></div>
+              <div id='bottom-half'>
+                <div class='intro-wrapper ellipsis'>
+                  {{ testStr.substring(0, 700) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div ng-attr-id="{{'half-'+makeHalfUser()}}" class="column">
+        <div id='golden-wrapper'>
+          <div id='card-container'>
+            <div class="ui card profile-card" ng-if='users[$index+1]'>
+              <div id='top-half'>
+                <div id='left-side'>
+                  <div class="image" ng-click="showProfileModal(users[$index+1]['@rid'], 'users')">
+                    <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                  </div>
+                </div>
+                <div class='middle'>
+                  {{ birthdayToAge(users[$index+1].birthday) }} ,
+                  <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                  <div class="meta">
+                    <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
+                  </div>
+                </div>
+                <div id='right-side'>
+                  <div class="ui red button top-right-button bookmarks" ng-click="removeBookmark(users[$index+1]['@rid'])">
+                    <i class='ui big close icon' id='x-icon'></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fitted divider"></div>
+              <div id='bottom-half'>
+                <div class='intro-wrapper ellipsis'>
+                  {{ testStr.substring(0, 700) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="doubling three column row" ng-show='isTriple($index) && !isTooSmall()'
+      ng-repeat='user in users' ng-class="{workaround: 'isTriple($index) && !isTooSmall()'}">
+      {{ user.name }}
+      <div class="column">
+        <div id='golden-wrapper'>
+          <div id='card-container'>
+            <div class="ui card profile-card">
+              <div id='top-half'>
+                <div id='left-side'>
+                  <div class="image" ng-click="showProfileModal(user['@rid'], 'users')">
+                    <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
+                  </div>
+                </div>
+                <div class='middle'>
+                  {{ birthdayToAge(user.birthday) }} ,
+                  <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                  <div class="meta">
+                    <span>{{ user.location.name || 'location unknown' }}</span>
+                  </div>
+                </div>
+                <div id='right-side'>
+                  <div class="ui red button top-right-button bookmarks" ng-click="removeBookmark(user['@rid'])">
+                    <i class='ui big close icon' id='x-icon'></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fitted divider"></div>
+              <div id='bottom-half'>
+                <div class='intro-wrapper ellipsis'>
+                  {{ testStr.substring(0, 700) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div id='golden-wrapper'>
+          <div id='card-container'>
+            <div class="ui card profile-card" ng-if='users[$index+1]'>
+              <div id='top-half'>
+                <div id='left-side'>
+                  <div class="image" ng-click="showProfileModal(users[$index+1]['@rid'], 'users')">
+                    <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                  </div>
+                </div>
+                <div class='middle'>
+                  {{ birthdayToAge(users[$index+1].birthday) }} ,
+                  <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                  <div class="meta">
+                    <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
+                  </div>
+                </div>
+                <div id='right-side'>
+                  <div class="ui red button top-right-button bookmarks" ng-click="removeBookmark(users[$index+1]['@rid'])">
+                    <i class='ui big close icon' id='x-icon'></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fitted divider"></div>
+              <div id='bottom-half'>
+                <div class='intro-wrapper ellipsis'>
+                  {{ testStr.substring(0, 700) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column">
+        <div id='golden-wrapper'>
+          <div id='card-container'>
+            <div class="ui card profile-card" ng-if='users[$index+2]'>
+              <div id='top-half'>
+                <div id='left-side'>
+                  <div class="image" ng-click="showProfileModal(users[$index+2]['@rid'], 'users')">
+                    <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+2].facebookId }}/picture?width=500&height=500">
+                  </div>
+                </div>
+                <div class='middle'>
+                  {{ birthdayToAge(users[$index+2].birthday) }} ,
+                  <a ng-href='/user/{{users[$index+2].facebookId}}/profile' target='_blank' class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
+                  <div class="meta">
+                    <span>{{ users[$index+2].location.name || 'location unknown' }}</span>
+                  </div>
+                </div>
+                <div id='right-side'>
+                  <div class="ui red button top-right-button bookmarks" ng-click="removeBookmark(users[$index+2]['@rid'])">
+                    <i class='ui big close icon' id='x-icon'></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fitted divider"></div>
+              <div id='bottom-half'>
+                <div class='intro-wrapper ellipsis'>
+                  {{ testStr.substring(0, 700) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-include src="'app/me/bookmarks/usersProfileModal.html'" onload="linkModal('users')"></ng-include>
+
+  <div class="ui small modal message" style='text-align: center;'>
+    <textarea id='message-area' placeholder='enter message...'></textarea>
+    <center>
+      <div id='send-message-btn' class="ui green button">
+        send
+      </div>
+      <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
+        cancel
+      </div>
+    </center>
   </div>
 </div>

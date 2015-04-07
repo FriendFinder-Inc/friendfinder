@@ -237,8 +237,8 @@ angular.module('friendfinderApp')
       });
     };
 
-    $scope.isBookmarked = function(item){
-      if(item && $scope.bookmarks.indexOf(item['@rid']) != -1){
+    $scope.isBookmarked = function(rid){
+      if(rid && $scope.bookmarks.indexOf(rid) != -1){
         return true;
       } else{
         return false;

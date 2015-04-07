@@ -1,0 +1,14 @@
+.top-right-button.bookmarks:hover{
+  cursor: pointer;
+}
+
+#x-icon{
+  margin-top: -7px !important;
+  margin-left: 0px !important;
+}
+
+/*@media only screen (min-width: 768px) and (max-width: 992px){
+  .ui.grid>.two.column.row>.column.bookmarks{
+    width: 50% !important;
+  }
+}*/

@@ -67,6 +67,11 @@
 }
 
 .square-100px{
+  width: 100px;
+  height: 100px;
+}
+
+.new-square-100px{
   max-width: 100px;
   max-height: 100px;
   position: absolute;
@@ -180,5 +185,6 @@
 
 .activity-buttons{
   margin-left: 13px;
+  margin-right: 13px;
   margin-top: 6px;
 }

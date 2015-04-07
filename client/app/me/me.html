@@ -15,10 +15,10 @@
       <a class="item" data-tab="bookmarks/users" ui-sref='me.bookmarks.users'>users</a>
       <a class="item" data-tab="bookmarks/acts" ui-sref='me.bookmarks.acts'>activities</a>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="bookmarks/users">
+    <div ng-class="{active: isActive('users')}" class="ui bottom attached tab segment" data-tab="bookmarks/users">
       <ng-include src="'app/me/bookmarks/bookmarksUsers.html'"></ng-include>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="bookmarks/acts">
+    <div ng-class="{active: isActive('acts')}" class="ui bottom attached tab segment" data-tab="bookmarks/acts">
       <ng-include src="'app/me/bookmarks/bookmarksActivities.html'"></ng-include>
     </div>
   </div>

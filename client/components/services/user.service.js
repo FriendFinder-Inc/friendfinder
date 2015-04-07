@@ -57,6 +57,13 @@ angular.module('friendfinderApp')
           controller: 'bookmark'
         }
       },
+      removeBookmark: {
+        method: 'DELETE',
+        params: {
+          id: 'me',
+          controller: 'bookmark'
+        }
+      },
       bookmarks: {
         method: 'GET',
         isArray: true,

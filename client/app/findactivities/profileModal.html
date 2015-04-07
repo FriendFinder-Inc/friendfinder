@@ -9,7 +9,7 @@
         message
       </div>
       <div class="ui teal button" ng-click='$parent.bookmarkUser(selectedUser)'
-        ng-if='!$parent.isBookmarked(selectedUser)'>
+        ng-if="!$parent.isBookmarked(selectedUser['@rid'])">
         bookmark
       </div>
       <div class="ui grey button" ng-click="$parent.closeModals()">
