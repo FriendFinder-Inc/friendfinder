@@ -1,61 +1,180 @@
 <div class="container" ng-controller='ActivitiesCtrl'>
-  <div class='ui segment'>
-    <div class='ui green button' ng-click='showCreate()'>
+  <div class='ui center aligned segment activities-segment'>
+    <div class='ui blue button create-new-btn' ng-click='showCreate()'>
       create new
     </div>
 
     <div class='ui grid'>
-      <div class='doubling two column row' ng-repeat='activity in activities' ng-if='$even'>
-        <div class='column'>
-          <!-- r1-c1 -->
-          <div class="item" style='max-height: 100px;'
-               ng-click='showActivityModal(activity)'>
-            <div class="image">
-              <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
-            </div>
-            <div class="content">
-              <a class="header">{{ activity.title }}</a>
-              <div class="meta">
-                <span>{{ activity.location.title }}</span>
+      <div class="doubling two column row" ng-show='isTooSmall() && isDouble($index)'
+        ng-repeat='activity in activities' ng-class="{workaround: 'isTooSmall() && isDouble($index)'}">
+        <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
+          <div id='my-activity-wrapper' class='ui segment'>
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
+                </div>
+                <div class='activity-top-right my-activity'>
+                  <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                  <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
+                  <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                </div>
               </div>
-              <div class="ui buttons">
-                <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
-                <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
-              </div>
-              <div class="description">
-                This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activity.description}}
+                </div>
+                <div class='my-activity-buttons'>
+                  <div class='ui fluid buttons'>
+                    <!-- <div class='ui red button' style='width: 50%;'
+                      ng-if='!alreadyRequested(activity)' ng-click='showEdit(activity)'>edit</div> -->
+                    <div class='ui red button' style='width: 50%;'
+                      ng-if='!isdeleteed(activity)' ng-click='showDelete(activity)'>delete</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class='column'>
-          <!-- r1-c2 -->
-          <div class="item" style='max-height: 100px;'
-               ng-click='showActivityModal(activity)'>
-            <div class="image">
-              <img class="activity-image" ng-src="{{ activity.img ? activity.img : 'assets/images/powered-by-google-on-white.png' }}">
-            </div>
-            <div class="content">
-              <a class="header">{{ activities[$index+1].title }}</a>
-              <div class="meta">
-                <span>{{ activity.location.name }}</span>
+        <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+1]">
+          <div id='my-activity-wrapper' class='ui segment'>
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                </div>
+                <div class='activity-top-right my-activity'>
+                  <div ng-if="activities[$index+1].link" class='activities[$index+1]-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                  <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
+                  <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                </div>
               </div>
-              <div class="ui buttons">
-                <div class="ui blue button" ng-click='showEdit(activity)'>edit</div>
-                <div class="ui red button" ng-click='showDelete(activity)'>delete</div>
-              </div>
-              <div class="description">
-                This will eventually be a quick little introduction paragraph the users will create..ventually be a quick little introductiventually be a quick little introductiventuaventually be a quick little introductiventually be a quick little introductiventuaventually be a quick litventually be a quick little introductiventually be a quick little introductiventually be a quick little introductiventually be a quick little introductitle introductiventually be a quick little introductilly be a quick little introductilly be a quick little introducti.
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activities[$index+1].description}}
+                </div>
+                <div class='my-activity-buttons'>
+                  <div class='ui fluid buttons'>
+                    <!-- <div class='ui red button' style='width: 50%;'
+                      ng-if='!alreadyRequested(activities[$index+1])' ng-click='showEdit(activities[$index+1])'>edit</div> -->
+                    <div class='ui red button' style='width: 50%;'
+                      ng-if='!isdeleteed(activities[$index+1])' ng-click='showDelete(activities[$index+1])'>delete</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+      <div class="doubling three column row" ng-show='isTriple($index) && !isTooSmall()'
+        ng-repeat='activity in activities' ng-class="{workaround: 'isTriple($index) && !isTooSmall()'}">
+        <div class="center aligned column activities">
+          <div id='my-activity-wrapper' class='ui segment'>
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
+                </div>
+                <div class='activity-top-right my-activity'>
+                  <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
+                  <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
+                  <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                </div>
+              </div>
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activity.description}}
+                </div>
+                <div class='my-activity-buttons'>
+                  <div class='ui fluid buttons'>
+                    <!-- <div class='ui teal button' style='width: 50%;'
+                      ng-if='!alreadyRequested(activity)' ng-click='showEdit(activity)'>edit</div> -->
+                    <div class='ui red button' style='width: 50%;'
+                      ng-if='!isdeleteed(activity)' ng-click='showDelete(activity)'>delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center aligned column activities" ng-if="activities[$index+1]">
+          <div id='my-activity-wrapper' class='ui segment'>
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                </div>
+                <div class='activity-top-right my-activity'>
+                  <div ng-if="activities[$index+1].link" class='activity-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                  <div ng-if="!activities[$index+1].link" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
+                  <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                </div>
+              </div>
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activities[$index+1].description}}
+                </div>
+                <div class='my-activity-buttons'>
+                  <div class='ui fluid buttons'>
+                    <!-- <div class='ui teal button' style='width: 50%;'
+                      ng-if='!alreadyRequested(activities[$index+1])' ng-click='showEdit(activities[$index+1])'>edit</div> -->
+                    <div class='ui red button' style='width: 50%;'
+                      ng-if='!isdeleteed(activities[$index+1])' ng-click='showDelete(activities[$index+1])'>delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="center aligned column activities" ng-if="activities[$index+2]">
+          <div id='my-activity-wrapper' class='ui segment'>
+            <div class='activity-container'>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>
+              <div class='activity-top-half'>
+                <div class='activity-top-left'>
+                  <img class='square-100px' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                </div>
+                <div class='activity-top-right my-activity'>
+                  <div ng-if="activities[$index+2].link" class='activity-title'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
+                  <div ng-if="!activities[$index+2].link" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
+                  <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
+                  <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+2].location.name}}</div></span>
+                </div>
+              </div>
+              <div class='activity-bottom-half'>
+                <div class='ui segment activity-description'>
+                  {{activities[$index+2].description}}
+                </div>
+                <div class='my-activity-buttons'>
+                  <div class='ui fluid buttons'>
+                    <!-- <div class='ui teal button' style='width: 50%;'
+                      ng-if='!alreadyRequested(activities[$index+2])' ng-click='showEdit(activities[$index+2])'>edit</div> -->
+                    <div class='ui red button' style='width: 50%;'
+                      ng-if='!isdeleteed(activities[$index+2])' ng-click='showDelete(activities[$index+2])'>delete</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
+
   <ng-include src="'app/me/activities/createModal.html'"></ng-include>
-  <ng-include src="'app/me/activities/editModal.html'"></ng-include>
+  <!-- <ng-include src="'app/me/activities/editModal.html'"></ng-include> -->
   <ng-include src="'app/me/activities/deleteModal.html'"></ng-include>
 </div>

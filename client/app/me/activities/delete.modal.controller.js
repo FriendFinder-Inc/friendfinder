@@ -4,7 +4,6 @@ angular.module('friendfinderApp')
   .controller('DeleteModalCtrl', function ($scope, Activity) {
 
     $scope.delete = function(){
-      console.log('in delete', $scope.selectedActivity)
       Activity.delete({
         owner: $scope.selectedActivity.creator,
         rid: $scope.selectedActivity['@rid']

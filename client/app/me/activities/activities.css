@@ -1,4 +1,105 @@
-.activity-image{
-  /*width: 250px !important;
-  height: 250px !important;*/
+
+.create-new-btn{
+  margin-bottom: 8px !important;
+  margin-top: 8px !important;
+}
+
+.activities-segment{
+  background-color: #5bbd72 !important;
+  padding: 0px !important;
+}
+
+.create-btn-container{
+  text-align: center;
+  padding-bottom: 12px;
+}
+
+.ui.grid>.two.column.row>.column{
+  padding: 10px !important;
+}
+
+#create-left-column{
+  /*margin-top: 30px;*/
+}
+
+#radio-container{
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#description{
+  max-height: 26px;
+  height: 26px;
+}
+
+.google-powered:hover{
+  cursor: auto !important;
+  background-color: white !important;
+}
+
+.ui.selection.dropdown .menu{
+  max-height: 300px !important;
+}
+
+.ui.selection.dropdown .menu>.item.autocomplete{
+  padding: 4px !important;
+}
+
+.ui.selection.dropdown .menu>.header.autocomplete{
+  padding: 0px !important;
+  margin-left: 8px;
+}
+
+.show-date{
+  display: block !important;
+}
+
+#isEventLabel{
+  margin-right: 20px;
+  margin-left: 40px
+}
+
+#isEvent{
+  margin-right: -40px;
+}
+
+.icon.popup.is-event{
+  position: absolute;
+  top: -7px !important;
+  left: 0px;
+  z-index: 1;
+}
+
+.ui.form.segment.create-act{
+  margin-top: 40px !important;
+  min-height: 375px;
+}
+
+.ui.form.segment.delete-act{
+  margin-top: 40px !important;
+  min-height: 60px;
+}
+
+.my-activity-buttons{
+  margin-left: 70px;
+  margin-top: 6px;
+  width: 200px;
+}
+
+#my-activity-wrapper{
+  width: 250px;
+  height: 250px;
+  display: inline-block;
+  padding: 6px !important;
+  margin: 4px 14px 14px 4px !important;
+  box-shadow: 0 3px 0 0 #d4d4d5,0 0 0 1px #d4d4d5;
+}
+
+#my-activity-wrapper:hover{
+  box-shadow: 0 3px 0 0 #07761a,0 0 0 1px #07761a;
+}
+
+.activity-top-right.my-activity{
+  margin-top: 30px;
 }

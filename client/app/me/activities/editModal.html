@@ -1,83 +1,95 @@
-<!-- edit modal -->
-<div class="ui small edit modal" ng-controller='EditModalCtrl'>
+<!-- create modal -->
+<!-- <div class="ui edit modal" ng-controller='EditModalCtrl'>
   <i class="close icon"></i>
-  <div class="header">
-    editing {{ selectedActivity.title }}
-  </div>
 
-  <div class="container">
-
-  <div class="ui form segment">
+  <div class="ui form segment edit-act">
     <div class="ui inverted dimmer" ng-class="{true: 'active', false: 'disabled'}[loading]">
-      <div class="ui text loader">creating activity</div>
+      <div class="ui text loader">saving activity</div>
     </div>
 
-    <div class="field">
-      <label for="title">title</label>
-      <div class="ui icon input">
-        <input id="title" type="text" ng-model="selectedActivity.title">
-        <i class="asterisk red icon" ng-show='!selectedActivity.title'></i>
-      </div>
-    </div>
-    <div class="field">
-      <label for="description">description</label>
-      <div class="ui icon input">
-        <input id="description" type="text" ng-model="selectedActivity.description">
-        <i class="asterisk red icon" ng-show='!selectedActivity.description'></i>
-      </div>
-    </div>
-    <div class="field">
-      <label for="location">location</label>
-      <div class="ui icon input">
-        <input id='location-input-edit' type="text" ng-model="locationInput" autocomplete='off'>
-        <input id="location" ng-show='false' ng-model='selectedActivity.location'>
-        <i class="asterisk red icon" ng-show='!locationInput'></i>
-      </div>
-      <div class="ui fluid search selection dropdown" style='border: 0px; padding: 0px;'>
-        <div class="menu">
-          <div class="item" ng-repeat='place in suggestions' ng-click='setLocation(place)'>
-            {{place.description}}
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="field">
       <div id='radio-container'>
-        <label for="isEvent">Is this an event?</label>
         <div class="ui icon input">
+    <i class="circular question icon link popup is-event"
+      data-html="An event is a one time thing, with a specific time and place. (concert, show, festival, convention, etc.)"></i>
+        <label id='isEventLabel' for="isEvent">Is this an event?  </label>
           no<input id="isEvent" type="radio" ng-model="selectedActivity.isEvent" value="false">
           yes<input id="isNotEvent" type="radio" ng-model="selectedActivity.isEvent" value="true">
         </div>
       </div>
     </div>
-    <div class="field">
-      <label for="date">date</label>
-      <div class="ui icon input">
-        <input id="date" type="text" ng-model="selectedActivity.date">
-        <i id="date-asterisk" class="asterisk red icon"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label for="url">URL</label>
-      <div class="ui icon input">
-        <input id="url" type="text" ng-model="selectedActivity.url">
-        <i class="asterisk red icon" ng-show="selectedActivity.isEvent === 'true' && !selectedActivity.url"></i>
-      </div>
-    </div>
-    <div class="field">
-      <label for="img">image URL</label>
-      <div class="ui icon input">
-        <input id="img" type="text" placeholder='optional but recommended' ng-model="selectedActivity.img">
-      </div>
-    </div>
-    <div class="field">
-      <label for="tags">tags</label>
-      <div class="ui icon input">
-        <input id="tags" type="text" placeholder='comma separated' ng-list ng-model="selectedActivity.tags">
-        <i class="asterisk red icon" ng-show='!selectedActivity.tags.length'></i>
-      </div>
-    </div>
 
-    <button class="ui fluid green  button" ng-click="create()">edit</button>
+    <div class='ui grid'>
+      <div class='doubling two column row create-act' style='width: 50%;'>
+        <div class='column create-act' id='create-left-column'>
+          <div class="field">
+            <label for="title">title ({{40 - selectedActivity.title.length}} chars remaining)</label>
+            <div class="ui icon input">
+              <input id="title" type="text" autocomplete='off' placeholder='what do you want to do?' ng-model="selectedActivity.title">
+              <i class="asterisk red icon" ng-show='!selectedActivity.title'></i>
+            </div>
+          </div>
+          <div class="field">
+            <label for="description">description ({{200 - selectedActivity.description.length}} chars remaining)</label>
+            <div class="ui icon input">
+              <textarea id="description" autocomplete='off' type="textarea" placeholder='describe the activity in more detail' ng-model="selectedActivity.description"></textarea>
+              <i class="asterisk red icon" ng-show='!selectedActivity.description'></i>
+            </div>
+          </div>
+          <div class="field">
+            <label for="tags">tags</label>
+            <div class="ui icon input">
+              <input id="tags" type="text" autocomplete='off' placeholder='comma separated list, for searching' ng-list ng-model="selectedActivity.tags">
+              <i class="asterisk red icon" ng-show='!selectedActivity.tags.length'></i>
+            </div>
+          </div>
+        </div>
+        <div class='column create-act' style='width: 50%;'>
+          <div class="field">
+            <label for="location">location</label>
+            <div class="ui icon input">
+              <input id='location-input-edit' type="text" placeholder='where?' ng-model="locationInput" autocomplete='off'>
+              <input id="edit-location" ng-show='false' ng-model='selectedActivity.location'>
+              <i class="asterisk red icon" ng-show='!locationInput'></i>
+            </div>
+            <div class="ui fluid search selection dropdown" style='border: 0px; padding: 0px;'>
+              <div class="menu">
+                <div ng-class="{'google-powered': place.description === 'googlePowered', header: place.description === 'googlePowered', item: place.description != 'googlePowered'}"
+                  class="autocomplete" ng-repeat='place in suggestions' ng-click='setLocation(place)'>
+                  <p ng-if="place.description != 'googlePowered'">{{place.description}}</p>
+                  <img ng-src="assets/images/poweredByGoogle.png" ng-if="place.description === 'googlePowered'">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="date">date</label>
+            <div class="ui icon input">
+              <input id="date" type="text" placeholder='when?' ng-model="selectedActivity.date">
+              <i class="date asterisk red icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label for="url">link</label>
+            <div class="ui icon input">
+              <input id="url" type="text" autocomplete='off' placeholder='paste URL here' ng-model="selectedActivity.url">
+              <i class="asterisk red icon" ng-show="selectedActivity.isEvent === 'true' && !selectedActivity.url"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label for="img">image link</label>
+            <div class="ui icon input">
+              <input id="img" type="text" autocomplete='off' placeholder='optional but recommended' ng-model="selectedActivity.img">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+
+  <div class='create-btn-container'>
+    <button class="ui green button" ng-click="save()">save</button>
+    <button class="ui grey button" ng-click="hideModal()">cancel</button>
+  </div>
+
+</div> -->

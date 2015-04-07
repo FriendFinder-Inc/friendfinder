@@ -1,10 +1,15 @@
 <!-- delete modal -->
 <div class="ui small delete modal" ng-controller='DeleteModalCtrl'>
   <i class="close icon"></i>
-  <div class="header">
-    deleting activity
-  </div>
-  are you sure you want to delete {{ selectedActivity.title }} ?
-  <button class="ui fluid red  button" ng-click="delete()">delete</button>
-  <button class="ui fluid grey  button" ng-click="hideModal()">cancel</button>
+  <center>
+    <div class="ui form segment delete-act">
+      <div class='ui center aligned content'>
+        Are you sure you want to delete <span style='font-weight: bold;'>{{ selectedActivity.title }}</span>?
+      </div>
+    </div>
+    <div class='ui buttons' style='margin-bottom: 12px;'>
+      <button class="ui red button" ng-click="delete()">delete</button>
+      <button class="ui grey button" ng-click="hideModal()">cancel</button>
+    </div>
+  </center>
 </div>

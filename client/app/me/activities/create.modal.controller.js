@@ -1,20 +1,34 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('CreateModalCtrl', function ($scope, $element, Activity, Auth) {
+  .controller('CreateModalCtrl', function ($scope, Activity, Auth) {
 
     $scope.currentUser = Auth.getCurrentUser();
     $scope.loading = false;
-    $scope.showDateAsterisk = false;
     $scope.activity = {};
     $scope.activity.isEvent = "false";
 
     $('.ui.dropdown').dropdown();
+    $('.popup.icon').popup({on: 'click'});
+    $('.popup.icon').click(function(e){
+      e.stopPropagation();
+    });
 
     $scope.setLocation = function(place){
+      if(place.description === 'googlePowered'){
+        return;
+      }
       $scope.activity.location = place.place_id;
       $('#location-input-create').val(place.description);
     };
+
+    $scope.hideModal = function(){
+      $('.ui.create.modal').modal('hide');
+      $scope.$parent.hideModal();
+      $scope.activity = {};
+      $scope.activity.isEvent = 'false';
+      $('#location-input-create').val(undefined);
+    }
 
     $('#location-input-create').on('keyup', function(){
       $scope.activity.location = undefined;
@@ -24,30 +38,31 @@ angular.module('friendfinderApp')
         var latlong = $scope.currentUser.location.lat+','+$scope.currentUser.location.long;
         Activity.autocomplete({input: input, latlong: latlong}).$promise.then(function(suggestions){
           $scope.suggestions = suggestions;
-          $scope.suggestions.push({description: 'TODO google logo'});
+          $scope.suggestions.push({description: 'googlePowered'});
         });
       } else{
         $('.ui.dropdown').dropdown('hide');
       }
     });
 
-    // pickadate is breaking angular binding for some reason
-    $scope.$watchGroup(['activity.date', 'activity.isEvent'], function(){
+    // pickadate breaks angular binding...
+    $scope.$watchCollection("activity", function(newVal, oldVal){
       var date = $('#date').val();
-      if($scope.activity.isEvent === 'true' && !date){
-        $('#date-asterisk').show();
+      if(newVal.isEvent === 'true' && !date){
+        $('.date.asterisk').show();
       } else {
-        $('#date-asterisk').hide();
+        $('.date.asterisk').hide();
       }
     });
 
-    var registrationForm = $($element);
     var today = new Date();
     $('#date').pickadate({min: today});
 
-    $scope.isInvalid = function() {
-      return !registrationForm.form('validate form');
-    };
+    $('.picker__wrap').click(function(e){
+      $('.ui.create.modal').focus();
+      //TODO focus bug
+      $('body').focus();
+    });
 
     $scope.create = function () {
       var validations = {
@@ -56,6 +71,10 @@ angular.module('friendfinderApp')
           rules: [{
             type: 'empty',
             prompt: 'enter a title'
+          },
+          {
+            type: 'maxLength[40]',
+            prompt: 'too many characters'
           }]
         },
         description: {
@@ -63,6 +82,9 @@ angular.module('friendfinderApp')
           rules: [{
             type: 'empty',
             prompt: 'enter a description'
+          },{
+            type: 'maxLength[200]',
+            prompt: 'too many characters'
           }]
         },
         location: {
@@ -77,6 +99,9 @@ angular.module('friendfinderApp')
           rules: [{
             type: 'empty',
             prompt: 'you must add at least one tag'
+          },{
+            type: 'maxLength[100]',
+            prompt: 'too many characters'
           }]
         }
       };
@@ -93,8 +118,13 @@ angular.module('friendfinderApp')
           rules: [{
             type: 'url',
             prompt: 'not a valid URL'
+          },{
+            type: 'maxLength[500]',
+            prompt: 'too many characters'
           }]
         };
+      } else {
+        validations.date = undefined;
       }
       if($scope.activity.img){
         validations.img = {
@@ -102,16 +132,19 @@ angular.module('friendfinderApp')
           rules: [{
             type: 'url',
             prompt: 'not a valid URL'
+          },{
+            type: 'maxLength[500]',
+            prompt: 'too many characters'
           }]
         };
+      } else {
+        validations.img = undefined;
       }
 
-      (function ($) {
-        $('.ui.form').form(validations, {on: 'blur', inline: 'true'});
-      }(jQuery));
+      $('.ui.form').form(validations, {on: 'blur', inline: 'true'});
 
       var self = this;
-      if (this.isInvalid()) {
+      if (!$('.ui.form').form('validate form')[1]) {
         return;
       }
       this.loading = true;
@@ -127,10 +160,12 @@ angular.module('friendfinderApp')
         img: $scope.activity.img
       };
       Activity.create({data: activity}).$promise.then(function(res){
-        console.log('man, ', res)
-        $scope.addActivity(res);
+        $scope.$parent.addActivity(res);
         self.loading = false;
-        $scope.hideModal();
+        $scope.$parent.hideModal();
+        $scope.activity = {};
+        $scope.activity.isEvent = 'false';
+        $('#location-input-create').val(undefined);
       });
 
     };

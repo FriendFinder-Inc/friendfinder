@@ -63,7 +63,7 @@
                   </div>
                 </div>
               </div>
-              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
                     <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
@@ -103,7 +103,6 @@
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
               ng-repeat='activity in activities' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
-              {{ user.name }}
               <div class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
@@ -141,7 +140,7 @@
                   </div>
                 </div>
               </div>
-              <div class="center aligned column activities">
+              <div class="center aligned column activities" ng-if="activities[$index+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
                     <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
@@ -178,7 +177,7 @@
                   </div>
                 </div>
               </div>
-              <div class="center aligned column activities">
+              <div class="center aligned column activities" ng-if="activities[$index+2]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
                     <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>

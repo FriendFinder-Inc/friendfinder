@@ -587,8 +587,4 @@ angular.module('friendfinderApp')
       return moment(dateStr).format('ll');
     };
 
-    $scope.testStr = "Hi I'm Mike! I'm really friendly and out going and I love meeting"+
-    'new people. :) I moved to the city three years ago and have been loving it '+
-    'here ever since. Feel free to send me a message and check out my activities.'+
-    'I look forward to meeting you!';
   });
