@@ -16,18 +16,18 @@
 
   <div class="ui tab label" data-tab="about">
     <div class="ui top attached tabular menu">
+      <a class="item" data-tab="about/mission" ui-sref='settings.about.mission'>mission</a>
       <a class="item" data-tab="about/terms" ui-sref='settings.about.terms'>terms</a>
       <a class="item" data-tab="about/privacy" ui-sref='settings.about.privacy'>privacy</a>
-      <a class="item" data-tab="about/mission" ui-sref='settings.about.mission'>mission</a>
+    </div>
+    <div ng-class="{active: isActive('mission')}" class="ui bottom attached tab segment" data-tab="about/mission">
+      <ng-include src="'app/settings/about/aboutMission.html'"></ng-include>
     </div>
     <div ng-class="{active: isActive('terms')}" class="ui bottom attached tab segment" data-tab="about/terms">
       <ng-include src="'app/settings/about/aboutTerms.html'"></ng-include>
     </div>
     <div ng-class="{active: isActive('privacy')}" class="ui bottom attached tab segment" data-tab="about/privacy">
       <ng-include src="'app/settings/about/aboutPrivacy.html'"></ng-include>
-    </div>
-    <div ng-class="{active: isActive('mission')}" class="ui bottom attached tab segment" data-tab="about/mission">
-      <ng-include src="'app/settings/about/aboutMission.html'"></ng-include>
     </div>
   </div>
 

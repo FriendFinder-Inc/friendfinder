@@ -1,19 +1,80 @@
-/*#photos-container{
-  width: 100%;
+
+#profile-input{
+  max-height: 50px;
+}
+
+.row-container{
+  padding: 6px;
+  margin-bottom: 37px;
+}
+
+.chars-remaining{
+  color: lightgrey;
+  font-size: 12px;
+}
+
+#details-column{
+  padding: -1px !important;
+}
+
+#all-interests-column{
+  padding-top: 0px;
+}
+
+#details-key{
+  width: 25%;
+  float: left;
+  padding-top: 8px;
+}
+
+#details-dropdown{
+  width: 50%;
+  float: left;
   text-align: center;
-  overflow: auto;
-  white-space:nowrap;
-  margin-bottom: 14px;
-}*/
-
-#intro-column{
-  width: 100%;
 }
 
-.ui.input{
-  width: 100%;
+#details-button{
+  width: 15%;
+  float: left;
+  margin-left: 10px;
 }
 
-input.ng-dirty{
-  border: 1px solid red;
+.ui.button.privacy-btn{
+  padding: 8px;
+}
+
+.ui.button.save-btn{
+  margin-top: 5px;
+}
+
+.ui.selection.dropdown.details{
+  padding: 7px !important;
+  max-width: 100px !important;
+  min-width: 100px !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+#detail-value{
+  overflow: hidden;
+}
+
+#details-menu-item{
+  padding: 6px !important;
+}
+
+#remove-interest-btn{
+  padding: 3px;
+  margin-left: 2px;
+  width: 100px;
+  border-radius: 0px;
+}
+
+#my-profile-tag{
+  margin-top: 0px;
+}
+
+#new-tags{
+  margin-bottom: 8px;
+  margin-top: 0px;
 }

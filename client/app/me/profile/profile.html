@@ -2,125 +2,176 @@
   <div class='ui segment'>
 
     <div id='photos-container'>
-      <div class="ui small image" ng-repeat='img in fbPicsUrls' style='width: 250px;'>
+      <div class="ui small image" ng-repeat='img in fbPicsUrls' style='width: 250px; margin: 4px;'>
         <img ng-src="{{img}}">
       </div>
     </div>
 
     <div ng-class='{green: profileModified ||
+                           meetupsModified ||
                            tagsModified,
                     disabled: !(profileModified ||
+                                meetupsModified ||
                                 tagsModified)}'
-         class='ui green button' style='margin-bottom: 16px;'
+         class='ui green button save-btn'
          ng-click='saveChanges()'>
       save changes
     </div>
 
-    <div class='ui two column grid'>
-      <div class='doubling two column row'>
-
-        <div class='column' id='intro-column'>
-
-          <h5 class="ui top attached center aligned header">
+    <div class='ui grid'>
+      <div id='profile-container' class='doubling two column row'>
+        <div id='intro-column' class='column profile-view-column'>
+          <h5 class="ui top attached center aligned header profile-view-header">
             intro
           </h5>
-          <div class='ui content'>
-            <div id='intro' class='ui segment'>
-              <p>Introduce yourself!</p><br>
-              <div class="ui input" id='intro-area'>
-                <input type="text-area" ng-model='currentUser.profile.intro'
-                       placeholder="{{ currentUser.profile.intro }}">
+          <div class='ui bottom attached segment'>
+            <div class='ui form'>
+              <label>
+                Introduce yourself! What's your story? What are you looking for?
+                <br>
+                <p class='chars-remaining'>({{500 - currentUser.profile.intro.length}} chars remaining)</p>
+              </label>
+              <div class="ui input">
+                <textarea id='profile-input' type="textarea" ng-model='currentUser.profile.intro'></textarea>
               </div>
             </div>
           </div>
-          <h5 class="ui top attached center aligned header">
+          <h5 class="ui top attached center aligned header profile-view-header">
             ideal weekend
           </h5>
-          <div class='ui content'>
-            <div id='intro' class='ui segment'>
-              <p>What is your favorite way to spend the weekend?</p><br>
-              <div class="ui input" id='ideal-weekend-area'>
-                <input type="text-area" ng-model='currentUser.profile.idealWeekend'
-                       placeholder="{{ currentUser.profile.idealWeekend }}">
+          <div class='ui bottom attached segment'>
+            <div class='ui form'>
+              <label>
+                What is your favorite way to spend the weekend?
+                <br>
+                <p class='chars-remaining'>({{500 - currentUser.profile.idealWeekend.length}} chars remaining)</p>
+              </label>
+              <div class="ui input">
+                <textarea id='profile-input' type="textarea" ng-model='currentUser.profile.idealWeekend'></textarea>
               </div>
             </div>
           </div>
-          <h5 class="ui top attached center aligned header">
+          <h5 class="ui top attached center aligned header profile-view-header">
             dream destination
           </h5>
-          <div class='ui content'>
-            <div id='intro' class='ui segment'>
-              <p>If you and another user won a 3 day trip to anywhere in the world,
-              where would you suggest to go and why?</p><br>
-              <div class="ui input" id='dream-destination-area'>
-                <input type="text-area" ng-model='currentUser.profile.dreamDestination'
-                       placeholder="{{ currentUser.profile.dreamDestination }}">
+          <div class='ui bottom attached segment'>
+            <div class='ui form'>
+              <label>
+                If you and another user won a 3 day trip to anywhere in the world, where would you suggest to go and why?
+                <br>
+                <p class='chars-remaining'>({{500 - currentUser.profile.dreamDestination.length}} chars remaining)</p>
+              </label>
+              <div class="ui input">
+                <textarea id='profile-input' type="textarea" ng-model='currentUser.profile.dreamDestination'></textarea>
               </div>
             </div>
           </div>
-          <h5 class="ui top attached center aligned header">
-            tags
-          </h5>
-          <div class='ui content'>
-            <div id='intro' class='ui segment'>
-              <p>Create a comma separated list of things you like, so that other users
-              who share that interest can find you.</p><br>
-              <div class="ui input" id='tag-list-area'>
-                <input type="text-area" ng-model='tagList' ng-list
-                       placeholder="{{ tagList.toString() }}">
-              </div>
-              <div id='tag-container' class=''>
-                <!-- <span class="ui tag label" ng-repeat='tag in tagList | orderBy'>{{ tag }}</span> -->
-              </div>
-            </div>
-          </div>
-
         </div>
-
-        <div class='column' id='details-column'>
-          <h5 class="ui top attached center aligned header">
+        <div id='details-column' class='column profile-view-column'>
+          <h5 class="ui top attached center aligned header profile-view-header">
             details
           </h5>
-          <div class='ui content'>
-            <div id='details' class='ui segment'>
-              <div class="ui vertical segment"
-                   ng-repeat='(key, value) in currentUser.details'>
-                <div class='details-key'>
+          <div class='ui bottom attached segment'>
+              <div class="row-container"
+                   ng-repeat='(key, value) in currentUser.details'
+                   ng-show="key != 'hometown' &&
+                            key != 'employer' &&
+                            key != 'school'">
+
+                <div id='details-key'>
                   {{key}}
                 </div>
 
-                <select ng-model="currentUser.details[key].value"
-                        ng-options="choice for choice in detailOptions[key] track by choice">
-                </select>
-
-
-                <!-- TODO angular binding -->
-                <!-- <div id='dropdown-{{key}}' class="ui selection dropdown"
-                     ng-click='showDropdown(key)'>
-                  <div class="default text">{{ value.value }}</div>
-                  <div ng-show="key != 'hometown' &&
-                                key != 'employer' &&
-                                key != 'school'">
+                <div id='details-dropdown'>
+                  <div class="ui selection dropdown details"
+                       ng-click='showDropdown(key)'>
                     <i class="dropdown icon"></i>
+                    <div class="default text">
+                      {{ value.value }}
+                    </div>
                     <div class="menu">
-                      <div class="item">Male</div>
-                      <div class="item">Female</div>
+                      <div id='details-menu-item' class="item"
+                        ng-repeat='option in detailOptions[key]'
+                        ng-click="optionSelected(key, option)">{{option}}</div>
                     </div>
                   </div>
-                </div> -->
+                </div>
 
-                <div ng-class='{grey: value.private, green: !value.private}'
-                     class='ui button' ng-click='togglePrivacy(key, value.private)'
-                     ng-model='value.private'>
-                  {{ value.private ? 'hidden' : 'public' }}
+                <div id='details-button'>
+                  <div ng-class='{grey: value.private, green: !value.private}'
+                       class='ui button privacy-btn' ng-click='togglePrivacy(key, value.private)'
+                       ng-model='value.private'>
+                    {{ value.private ? 'hidden' : 'public' }}
+                  </div>
                 </div>
 
               </div>
             </div>
-          </div>
         </div>
-
       </div>
     </div>
+
+    <div class='ui grid'>
+      <div id='all-interests-column' class='center aligned column profile-view-column'>
+        <div id='all-interests-container'>
+          <div id='hide-interests-btn' class='ui mini red button' ng-click="toggleInterests()">
+            <p ng-show="showInterests">hide</p>
+            <p ng-show="!showInterests">show</p>
+          </div>
+          <h5 class="ui top attached header profile-view-header">
+            my interests
+          </h5>
+          <div class='ui bottom attached segment' ng-show="showInterests">
+            <div id='new-tags'>
+              <div class='ui form tags'>
+                <div class='ui input'>
+                  <input id='add-tags-input' ng-list ng-model='newTags' placeholder='comma-separated list'>
+                </div>
+                <div id='add-tags-btn' class='ui green button'>
+                  add
+                </div>
+              </div>
+            </div>
+            <div class='scroll-box'>
+              <div id='tag-container' ng-repeat='tag in interests.tags'>
+                <div id='remove-interest-btn' class='ui teal button'
+                  ng-click='removeInterest(tag)'>
+                  remove
+                </div>
+                <div id='my-profile-tag' class='tag-holder square-100px'>
+                  <span id='red-tag' class="ui tag label red-square-tag">{{ tag.name }}</span>
+                </div>
+                <p style='visibility: hidden;'>placeholder</p>
+              </div>
+              <div id='meetup-container' ng-repeat='meetup in interests.meetups'>
+                <div id='remove-interest-btn' class='ui teal button' style='margin-left: 0px'
+                  ng-click='removeInterest(meetup)'>
+                  remove
+                </div>
+                <div class='meetup'>
+                  <a ng-href="{{meetup.link}}" target="_blank">
+                    <img class='square-100px' ng-src="{{meetup.img || 'assets/images/meetupLogo.png'}}">
+                  </a>
+                  <p style='text-align: center;'>{{meetup.name}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-class='{green: profileModified ||
+                           meetupsModified ||
+                           tagsModified,
+                    disabled: !(profileModified ||
+                                meetupsModified ||
+                                tagsModified)}'
+         class='ui green button save-btn'
+         ng-click='saveChanges()'>
+      save changes
+    </div>
+
   </div>
+
 </div>

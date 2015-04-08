@@ -42,7 +42,6 @@ var deleteEdge = function(fromRid, toRid, type, cb){
   .to(toRid)
   .one()
   .then(function (edge) {
-    console.log('e', edge)
     cb(edge);
   })
   .catch(function(err){
@@ -94,6 +93,15 @@ User.bookmark = function(fromRid, toRid, cb) {
 
 User.removeBookmark = function(fromRid, toRid, cb) {
   deleteEdge(fromRid, toRid, 'bookmarked', cb);
+};
+
+User.removeMeetups = function(fromRid, toRids, cb) {
+  if(!Array.isArray(toRids)){
+    toRids = [toRids];
+  }
+  for(var i = 0; i < toRids.length; i++){
+    deleteEdge(fromRid, toRids[i], 'member', cb);
+  }
 };
 
 User.getEdge = function(edge, rid, cb) {

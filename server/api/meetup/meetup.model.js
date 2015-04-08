@@ -7,7 +7,7 @@ var Meetup = function(params) {
   this.props.name =     params.name;
   this.props.id =       params.id;
   this.props.img =      params.img;
-  this.props.link =      params.link;
+  this.props.link =     params.link;
 };
 
 // utility function
@@ -69,6 +69,7 @@ Meetup.addGroups = function(userRid, groups, cb) {
       name: groups[i].name,
       id: groups[i].id,
       img: groups[i].img,
+      link: groups[i].link
     });
     newMeetup.getOrCreate(function(meetup){
       createEdge(userRid, meetup['@rid'], 'member', cb);

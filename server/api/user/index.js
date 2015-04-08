@@ -12,6 +12,7 @@ router.get('/', auth.isAuthenticated(), controller.get);
 router.put('/me/update', auth.isAuthenticated(), controller.update);
 router.delete('/me', auth.isAuthenticated(), controller.delete);
 router.post('/me/bookmark', auth.isAuthenticated(), controller.bookmark);
+router.delete('/me/meetups', auth.isAuthenticated(), controller.removeMeetups);
 router.delete('/me/bookmark', auth.isAuthenticated(), controller.removeBookmark);
 router.get('/me/bookmarks', auth.isAuthenticated(), controller.getBookmarks);
 router.get('/me/requests', auth.isAuthenticated(), controller.getRequests);

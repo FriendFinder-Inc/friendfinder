@@ -30,6 +30,13 @@ angular.module('friendfinderApp')
           id:'me'
         }
       },
+      removemeetups: {
+        method: 'DELETE',
+        params: {
+          id:'me',
+          controller: 'meetups'
+        }
+      },
       // disable: {
       //   method: 'PUT',
       //   params: {
