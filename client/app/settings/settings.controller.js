@@ -15,4 +15,12 @@ angular.module('friendfinderApp')
         $("[ui-sref='"+$state.current.name+"']").addClass('active');
         $("[data-tab='"+$state.current.name.split('.')[1]+"']").addClass('active');
       });
+
+      $scope.isActive = function(tab){
+        if(tab === $state.current.name.split('.')[2]){
+          return true;
+        } else {
+          return false;
+        }
+      };
   });

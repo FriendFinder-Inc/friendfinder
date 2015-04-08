@@ -21,8 +21,7 @@ exports.get = function (req, res, next) {
 
 
 exports.delete = function(req, res) {
-  //test
-  User.delete(req.params.rid, function(user) {
+  User.delete(req.query.rid, function(user) {
     return res.json(user);
   });
 };

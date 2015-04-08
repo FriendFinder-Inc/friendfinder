@@ -2,29 +2,16 @@
 
   <div class="ui pointing secondary menu">
     <a class="item" data-tab="account" ui-sref='settings.account'>account</a>
-    <a class="item" data-tab="feedback" ui-sref='settings.feedback.features'>feedback</a>
+    <a class="item" data-tab="feedback" ui-sref='settings.feedback'>feedback</a>
     <a class="item" data-tab="about" ui-sref='settings.about.terms'>about</a>
   </div>
 
   <div class="ui tab label" data-tab="account">
-    <ng-include src="'app/settings/account/account.html'"></ng-include>
+    <ng-include src="'app/settings/account/account.html'" onload='linkModal()'></ng-include>
   </div>
 
   <div class="ui tab label" data-tab="feedback">
-    <div class="ui top attached tabular menu">
-      <a class="item" data-tab="feedback/features" ui-sref='settings.feedback.features'>features</a>
-      <a class="item" data-tab="feedback/bugs" ui-sref='settings.feedback.bugs'>bugs</a>
-      <a class="item" data-tab="feedback/general" ui-sref='settings.feedback.general'>general</a>
-    </div>
-    <div class="ui bottom attached active tab segment" data-tab="feedback/features">
-      <ng-include src="'app/settings/feedback/feedbackFeatures.html'"></ng-include>
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="feedback/bugs">
-      <ng-include src="'app/settings/feedback/feedbackBugs.html'"></ng-include>
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="feedback/general">
-      <ng-include src="'app/settings/feedback/feedbackGeneral.html'"></ng-include>
-    </div>
+    <ng-include src="'app/settings/feedback/feedback.html'"></ng-include>
   </div>
 
   <div class="ui tab label" data-tab="about">
@@ -33,13 +20,13 @@
       <a class="item" data-tab="about/privacy" ui-sref='settings.about.privacy'>privacy</a>
       <a class="item" data-tab="about/mission" ui-sref='settings.about.mission'>mission</a>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="about/terms">
+    <div ng-class="{active: isActive('terms')}" class="ui bottom attached tab segment" data-tab="about/terms">
       <ng-include src="'app/settings/about/aboutTerms.html'"></ng-include>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="about/privacy">
+    <div ng-class="{active: isActive('privacy')}" class="ui bottom attached tab segment" data-tab="about/privacy">
       <ng-include src="'app/settings/about/aboutPrivacy.html'"></ng-include>
     </div>
-    <div class="ui bottom attached tab segment" data-tab="about/mission">
+    <div ng-class="{active: isActive('mission')}" class="ui bottom attached tab segment" data-tab="about/mission">
       <ng-include src="'app/settings/about/aboutMission.html'"></ng-include>
     </div>
   </div>

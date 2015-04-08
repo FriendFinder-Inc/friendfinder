@@ -1,19 +1,83 @@
 <div class="container" ng-controller='AccountCtrl'>
   <div class='ui segment'>
 
-    <div class='ui red button' ng-click="meetupAuth()"
-          ng-show='!currentUser.meetupId'>
-      link meetup.com account
-    </div>
+    <div class='segment-container'>
+      <h5 class="ui top attached header account-header">
+        sync other accounts
+      </h5>
+      <div class='ui bottom attached segment' id='account-segment'>
+        <i class="circular question icon link popup"
+          data-html="Link your meetup.com account to find members of the same (or similar) meetup groups. Make sure to resync if you join new groups in the future."></i>
+        <div class='ui red button' ng-click="meetupAuth()"
+              ng-show='!currentUser.meetupId'>
+          link meetup.com
+        </div>
 
-    <div class='ui red button' ng-click="meetupAuth()"
-          ng-show='currentUser.meetupId'>
-      sync meetup.com account
-    </div>
+        <div class='ui red button' ng-click="meetupAuth()"
+              ng-show='currentUser.meetupId'>
+          sync meetup.com
+        </div><br>
 
-    <div class='ui blue button' ng-click="facebookSync()">
-      sync facebook account
+        <!-- <div class='ui blue button' ng-click="facebookSync()">
+          sync facebook
+        </div> -->
+      </div>
+
+      <h5 class="ui top attached header account-header">
+        email
+      </h5>
+      <div class='ui bottom attached segment' id='account-segment'>
+        <div class='checkbox-holder'>
+          <div id='account-checkbox' class="ui checkbox" ng-click="checkboxClicked('email', 'whenMessaged')">
+            <input type="checkbox" ng-model="currentUser.preferences.email.whenMessaged">
+            <label>when messaged</label>
+          </div><br>
+          <div id='account-checkbox' class="ui checkbox" ng-click="checkboxClicked('email', 'activityRequest')">
+            <input type="checkbox" ng-model="currentUser.preferences.email.activityRequest">
+            <label>on activity request</label>
+          </div><br>
+          <!-- <div id='account-checkbox' class="ui checkbox" ng-click="checkboxClicked('email', 'activityInvite')">
+            <input type="checkbox" ng-model="currentUser.preferences.email.activityInvite">
+            <label>on activity invite</label>
+          </div> -->
+        </div>
+      </div>
+
+      <h5 class="ui top attached header account-header">
+        privacy
+      </h5>
+      <div class='ui bottom attached segment' id='account-segment'>
+        <div id='account-checkbox' class="ui checkbox" ng-click="checkboxClicked('privacy', 'hiddenFromFriends')">
+          <input type="checkbox" ng-model="currentUser.preferences.privacy.hiddenFromFriends">
+          <label>hide profile from facebook friends</label>
+        </div>
+      </div>
+
+      <div class='ui green button' ng-click='save()' ng-class="{disabled: !accountModified}">
+        save
+      </div>
+
+      <div class='ui red button' ng-click='showDeleteModal()'>
+        delete account
+      </div>
+
     </div>
 
   </div>
+  
+  <div class='ui small modal delete'>
+    <i class="close icon"></i>
+    <center>
+      <div class="ui form segment delete-act">
+        <div class='ui center aligned content'>
+          Are you sure you want to permanently delete your account?
+        </div>
+      </div>
+      <div class='ui buttons' style='margin-bottom: 12px;'>
+        <button class="ui red button" ng-click="delete()">delete</button>
+        <button class="ui grey button" ng-click="hideModal()">cancel</button>
+      </div>
+    </center>
+  </div>
+
 </div>

@@ -10,7 +10,7 @@ var router = express.Router();
 router.get('/me', auth.isAuthenticated(), controller.me);
 router.get('/', auth.isAuthenticated(), controller.get);
 router.put('/me/update', auth.isAuthenticated(), controller.update);
-router.delete('/me/delete', auth.isAuthenticated(), controller.delete);
+router.delete('/me', auth.isAuthenticated(), controller.delete);
 router.post('/me/bookmark', auth.isAuthenticated(), controller.bookmark);
 router.delete('/me/bookmark', auth.isAuthenticated(), controller.removeBookmark);
 router.get('/me/bookmarks', auth.isAuthenticated(), controller.getBookmarks);

@@ -81,7 +81,7 @@ User.update = function(rid, params, cb) {
   });
 };
 
-User.prototype.delete = function(rid, cb) {
+User.delete = function(rid, cb) {
   db.query('delete vertex '+rid)
   .then(function (user) {
     cb(user);

@@ -14,15 +14,6 @@ angular.module('friendfinderApp')
       .state('settings.feedback', {
         url: '/feedback'
       })
-      .state('settings.feedback.features', {
-        url: '/features'
-      })
-      .state('settings.feedback.bugs', {
-        url: '/bugs'
-      })
-      .state('settings.feedback.general', {
-        url: '/general'
-      })
       .state('settings.about', {
         url: '/about'
       })

@@ -23,12 +23,13 @@ angular.module('friendfinderApp')
           controller: 'connectionpath'
         }
       },
-      // delete: {
-      //   method: 'DELETE',
-      //   params: {
-      //     id:'me'
-      //   }
-      // },
+      delete: {
+        method: 'DELETE',
+        isArray: true,
+        params: {
+          id:'me'
+        }
+      },
       // disable: {
       //   method: 'PUT',
       //   params: {

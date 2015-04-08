@@ -11,7 +11,7 @@ var Tag = function(params) {
 // utility function
 var createEdge = function(fromRid, toRid, type, cb){
   // don't create duplicate edges ever (even with index constraint)
-  db.query("select from likes where in ="+toRid+" and out = "+fromRid+" and @class = 'Tag'").then(function(edge){
+  db.query("select from likes where in ="+toRid+" and out = "+fromRid).then(function(edge){
     if(!edge.length){
       db.create('EDGE', type)
       .from(fromRid)
