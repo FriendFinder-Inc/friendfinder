@@ -49,25 +49,21 @@ exports.get = function (req, res, next) {
 };
 
 exports.request = function (req, res, next) {
-  Activity.request(req.user['@rid'], req.body.rid, function(response){
-    //send email to owner
-    db.query('select email from '+req.body.owner)
-    .then(function(data){
-      var name = req.user.name.split(' ')[0];
-      sendgrid.send({
-        to:       data[0].email,
-        from:     'noreply@friendfinder.io',
-        fromname: 'friendfinder',
-        subject:  'New join request from '+name,
-        text:     name+' wants to join your activity: '+req.body.activityTitle
-      }, function(err, json) {
-        if (err) {
-          console.log('SENDGRID API ERROR: failed to send message ', err);
-          return res.send(404);
-        }
-        return res.send(200);
-      });
-    });
+  var params = {
+    creator: req.body.owner,
+    rid: req.body.rid,
+    title: req.body.activityTitle,
+    from: req.user['@rid'],
+    fromEmail: req.user.email,
+    fromFacebookId: req.user.facebookId,
+    fromName: req.user.name.split(' ')[0]
+  };
+  Activity.request(req.user['@rid'], params, function(response){
+    if(response === 'failed'){
+      return res.send(404);
+    } else {
+      return res.send(200);
+    }
   });
 };
 

@@ -7,10 +7,12 @@ var Message = function(params) {
   this.props.to =               params.to;
   this.props.toEmail =          params.toEmail;
   this.props.toFacebookId =     params.toFacebookId;
+  this.props.toName =           params.toName;
   this.props.from =             params.from;
   this.props.fromEmail =        params.fromEmail;
   this.props.fromFacebookId =   params.fromFacebookId;
-  this.props.timeSent =         params.timeSent;
+  this.props.fromName =         params.fromName;
+  this.props.timeSent =         new Date();
   this.props.timeRead =         params.timeRead;
   this.props.content =          params.content;
 };
@@ -38,17 +40,14 @@ Message.prototype.send = function(cb) {
   var self = this;
   var query = "select from Message where ( to = "+self.props.to+" and from = "+self.props.from+" ) or "+
                                         "( from = "+self.props.to+" and to = "+self.props.from+" )";
-  console.log('f query', query)
   db.query(query)
   .then(function (chatHead) {
     db.insert().into('Message').set(self.props).one()
     .then(function(message){
       if(!chatHead.length){ // first contact
-        console.log('first contact')
         createEdge(self.props.from, message['@rid'], 'sent');
         createEdge(message['@rid'], self.props.to, 'received');
       } else {
-        console.log('adding to thread')
         db.query("traverse out('next') from "+chatHead[0]['@rid']).then(function(last){
           //TODO how to return just one record?
           last = last[last.length-1]

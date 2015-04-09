@@ -56,7 +56,7 @@
                             ng-if='!alreadyRequested(activity)' ng-click='request(activity)'>ask to join</div>
                           <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activity)'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if='!isBookmarked(activity)' ng-click='bookmark(activity)'>bookmark</div>
+                            ng-if="!isBookmarked(activity['@rid'])" ng-click='bookmark(activity)'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -93,7 +93,7 @@
                             ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
                           <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if='!isBookmarked(activities[$index+1])' ng-click='bookmark(activities[$index+1])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+1]['@rid'])" ng-click='bookmark(activities[$index+1])'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -133,7 +133,7 @@
                             ng-if='!alreadyRequested(activity)' ng-click='request(activity)'>ask to join</div>
                           <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activity)'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if='!isBookmarked(activity)' ng-click='bookmark(activity)'>bookmark</div>
+                            ng-if="!isBookmarked(activity['@rid'])" ng-click='bookmark(activity)'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -170,7 +170,7 @@
                             ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
                           <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if='!isBookmarked(activities[$index+1])' ng-click='bookmark(activities[$index+1])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+1]['@rid'])" ng-click='bookmark(activities[$index+1])'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -207,7 +207,7 @@
                             ng-if='!alreadyRequested(activities[$index+2])' ng-click='request(activities[$index+2])'>ask to join</div>
                           <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+2])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if='!isBookmarked(activities[$index+2])' ng-click='bookmark(activities[$index+2])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+2]['@rid'])" ng-click='bookmark(activities[$index+2])'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -229,7 +229,7 @@
 <ng-include src="'app/findactivities/profileModal.html'" onload="linkModal()"></ng-include>
 
 <div class="ui small modal message" style='text-align: center;'>
-  <textarea id='message-area' placeholder='enter message...'></textarea>
+  <textarea id='message-area-findfriends' placeholder='enter message...'></textarea>
   <center>
     <div id='send-message-btn' class="ui green button">
       send

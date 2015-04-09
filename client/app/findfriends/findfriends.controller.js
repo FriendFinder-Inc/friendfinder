@@ -383,12 +383,14 @@ angular.module('friendfinderApp')
     };
 
     $scope.sendMessage = function(){
-      var message = $('#message-text').val();
+      var message = $('#message-area-findacts').val();
       var data =  {
                     to: $scope.selectedUser['@rid'],
                     toEmail: $scope.selectedUser.email,
+                    toName: $scope.selectedUser.name.split(' ')[0],
                     from: $scope.currentUser['@rid'],
                     fromEmail: $scope.currentUser.email,
+                    fromName: $scope.currentUser.name.split(' ')[0],
                     timeSent: new Date(),
                     timeRead: null,
                     content: message,
@@ -397,7 +399,7 @@ angular.module('friendfinderApp')
                   };
 
       Message.send(data).$promise.then(function(res){
-        // TODO success
+        $('#message-area-findacts').val('');
       });
     };
 

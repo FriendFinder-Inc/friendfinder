@@ -1,0 +1,13 @@
+<div class="ui long modal messages-profile">
+  <i class="close icon floated right"></i>
+
+  <ng-include src="'components/profileView.html'"></ng-include>
+
+  <div id='action-buttons-container' class='ui content'>
+    <div id='action-buttons' class='ui center aligned segment'>
+      <div class="ui grey button" ng-click="$parent.hideModal()">
+        close
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,9 +1,12 @@
 <div class='container' ng-controller='MessagesCtrl'>
-  <div class='ui segment'>
-    <div class='ui stackable grid'>
 
-        <!-- left chat heads -->
-      <div class="four wide column" id='chat-heads'>
+  <div class='ui segment'>
+    <div class='ui red button' ng-if='isMobile() && !showChatHeads()' ng-click='toggleChatHeads()'>
+      show all threads
+    </div>
+    <div class='ui stackable grid'>
+      <!-- left chat heads -->
+      <div class="four wide center aligned column" id='chat-heads' ng-class="{workaround: !showChatHeads()}" ng-show='showChatHeads()'>
         <div class="ui pointing secondary menu">
             <a class="active item messages-item" data-tab="active">active</a>
             <a class="item messages-item" data-tab="inactive">inactive</a>
@@ -14,8 +17,10 @@
             <div class="ui circular image">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
-            <div class="content">
-              {{ thread[activeThreads.length].content }}
+            <div id='name'  class="content">
+              <a id='name-link' ng-click="showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from)">
+                {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
+              </a>
             </div>
             <!-- <div class='ui divider'></div> -->
           </div>
@@ -26,8 +31,10 @@
             <div class=" ui circular image">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
-            <div class="content">
-              {{ thread[inactiveThreads.length].content }}
+            <div id='name' class="content">
+              <a id='name-link' ng-click="showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from)">
+                {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
+              </a>
             </div>
           </div>
         </div>
@@ -35,32 +42,46 @@
 
       <div class="twelve wide column">
 
-        <div class='ui center aligned message' ng-show='!threadIsSelected()'>
+        <div style='text-align: center;' class='ui center aligned message' ng-show='!threadIsSelected() && !isMobile()'>
           please select a thread
         </div>
 
-        <!-- message bubble -->
-        <div class='message-row' ng-repeat='message in selectedThread'>
-          <div class=" ui circular image">
-            <img ng-show='!myMessage(message.fromFacebookId)'
-                style='height: 60px;' ng-src="https://graph.facebook.com/{{ message.fromFacebookId }}/picture?width=60&height=60">
-          </div>
-          <div ng-class="{'me-bubble': myMessage(message.fromFacebookId), 'them-bubble': !myMessage(message.fromFacebookId)}" class='message'>
-            {{ message.content }}
+        <div id='thread-scroll-box'>
+          <!-- message bubble -->
+          <div class='message-row' ng-repeat='message in selectedThread'>
+            <div class=" ui circular image" id='image-holder'>
+              <img ng-show='!myMessage(selectedThread[$index].fromFacebookId)'
+                class='profile-pic' ng-src="https://graph.facebook.com/{{ selectedThread[$index].fromFacebookId }}/picture?width=60&height=60">
+            </div><br>
+            <div ng-class="{'me-bubble': myMessage(selectedThread[$index].fromFacebookId), 'them-bubble': !myMessage(selectedThread[$index].fromFacebookId)}" class='message'>
+              <div class='message-holder'>
+                {{ selectedThread[$index].content }}
+              </div>
+            </div>
           </div>
         </div>
-
         <div id='response-container' ng-show='threadIsSelected()'>
-          <div class='ui input'>
-            <input id='response-text-area' type="text-area" placeholder="...">
-          </div>
-          <div class='ui green button' ng-click='sendMessage()'>
-            send
+          <div id='reply-btn' class='ui red button' ng-click='showMessageModal()'>
+            reply
           </div>
         </div>
 
       </div>
 
     </div>
+  </div>
+
+  <ng-include src="'app/me/messages/profileModal.html'" onload="linkModal()"></ng-include>
+
+  <div class="ui small modal message reply" style='text-align: center;'>
+    <textarea id='message-area-messages' placeholder='enter message...'></textarea>
+    <center>
+      <div id='send-message-btn' class="ui green button" ng-click='sendMessage()'>
+        send
+      </div>
+      <div id='cancel-message-btn' class="ui red button" ng-click='hideModal()'>
+        cancel
+      </div>
+    </center>
   </div>
 </div>

@@ -1,6 +1,7 @@
 'use strict';
 
-var Tag = require('../tag/tag.model')
+var Tag = require('../tag/tag.model');
+var Message = require('../message/message.model');
 var config = require('../../config/environment');
 var request = require('request');
 var GoogleLocations = require('google-locations');
@@ -226,8 +227,42 @@ Activity.update = function(rid, params, cb) {
   });
 };
 
-Activity.request = function(fromRid, toRid, cb) {
-  createEdge(fromRid, toRid, 'requested', cb);
+Activity.request = function(fromRid, params, cb) {
+  createEdge(fromRid, params.rid, 'requested', function(){
+    db.query('select name, facebookId, email from '+params.creator)
+    .then(function(user){
+      var data = {
+        to:               params.creator,
+        toEmail:          user[0].email,
+        toFacebookId:     user[0].toFacebookId,
+        toName:           user[0].name.split(' ')[0],
+        from:             params.from,
+        fromEmail:        params.fromEmail,
+        fromFacebookId:   params.fromFacebookId,
+        fromName:         params.fromName,
+        timeSent:         new Date(),
+        timeRead:         null,
+        content:          'Hi '+user[0].name.split(' ')[0]+'! I would love to join you in '+params.title+'.'
+      };
+      var message = new Message(data);
+      message.send(function (message) {
+        if(!message) { return res.send(404); }
+        sendgrid.send({
+          to:       data.toEmail,
+          from:     'noreply@friendfinder.io',
+          fromname: 'friendfinder',
+          subject:  'new message from '+params.fromName,
+          text:     data.content
+        }, function(err, json) {
+          if (err) {
+            console.log('SENDGRID API ERROR: failed to send message ', message['@rid'], err);
+            cb('failed');
+          }
+          cb('success');
+        });
+      });
+    });
+  });
 };
 
 Activity.delete = function(rid, cb) {
