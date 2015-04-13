@@ -36,6 +36,7 @@ angular.module('friendfinderApp', [
           $location.path('/');
           // remove any stale tokens
           $cookieStore.remove('token');
+          $('#navbar').remove();
           return $q.reject(response);
         }
         else {

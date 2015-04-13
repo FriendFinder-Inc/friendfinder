@@ -29,4 +29,8 @@ angular.module('friendfinderApp')
       }, {scope: scope.toString()});
     };
 
+    $scope.showModal = function(){
+      $('.ui.modal.video-intro').modal('show');
+    };
+
   });

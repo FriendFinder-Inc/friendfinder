@@ -64,9 +64,10 @@ exports.connectFacebook = function(facebookId, accessToken, done){
         }
       }); // end FB.get('/me')
     } else {
-      //console.log('update time') //TODO when to update lastOnline?
       User.update(user['@rid'], {fbAccessToken: accessToken}, function(res){
-        return done(user);
+        User.update(user['@rid'], {lastOnline: new Date()}, function(res){
+          return done(user);
+        });
       });
     }
   });

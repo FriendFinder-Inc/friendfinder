@@ -1,5 +1,23 @@
-<div style='text-align: center; margin-top:10%;'>
-  <div class="circular ui icon blue large button blue-glow" ng-click='fbLogin()'>
-    <i class="icon large facebook"></i>
+<div class='main-container'>
+
+  <div class='centered-content'>
+
+    <img src='assets/images/friendfinderLogoGIF.gif'>
+    <div class="ui blue button" ng-click='fbLogin()'>
+      <i class="icon facebook"></i>login with facebook
+    </div>
+    <div id='link-container'>
+      <a id='modal-link' ng-click="showModal()">what is friendfinder?</a>
+    </div>
+
   </div>
+
+
 </div>
+
+  <div class='ui modal video-intro'>
+    <i class="white close icon"></i>
+    <div class='center aligned content'>
+      <iframe width="640" height="390" src="https://www.youtube.com/embed/YRbakPKgU5Y" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
