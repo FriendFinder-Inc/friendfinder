@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('MessagesCtrl', function ($scope, User, Activity, Auth, Message, $window) {
+  .controller('MessagesCtrl', function ($scope, User, Activity, Auth, Message, $window, Profile) {
     $('.messages-item')
     .tab({
       context : '#chat-heads',
@@ -61,7 +61,7 @@ angular.module('friendfinderApp')
       $scope.showAllInterests = false;
       $scope.showMutualFriends = true;
       $scope.showMutualInterests = true;
-      User.getById({rid: rid}).$promise.then(function(user){
+      Profile.getUser(rid, function(user){
         $scope.selectedUser = user;
         $('.ui.modal.messages-profile').modal('setting', {
           onVisible: function(){
@@ -71,98 +71,39 @@ angular.module('friendfinderApp')
             $('.activity-location').textfill({});
           }
         }).modal('show');
-        $scope.getFacebookPhotos(user);
-        $scope.getMutualInterests(user);
-        $scope.getMutualFriends(user);
-        $scope.getMutualMeetups(user);
-        $scope.getUsersActivities(user);
-      });
-    };
-
-    $scope.getMutualInterests = function(user){
-      $scope.mutualInterests = {};
-      $scope.mutualInterests.pages = [];
-      $scope.mutualInterests.tags = [];
-      $scope.mutualInterests.meetups = [];
-      User.mutualinterests({rid: user['@rid']}).$promise.then(function(mutual){
-        var token = {
-          access_token: $scope.currentUser.fbAccessToken
-        };
-        angular.forEach(mutual, function(like){
-          if(like['@class'] === 'Page'){
-            FB.api('/'+like.id, token,function(res){
-              FB.api('/'+like.id+'/picture', token,function(img){
-                $scope.mutualInterests.pages.push({
-                  name: res.name,
-                  link: res.link,
-                  img: img.data.url
-                });
-                $scope.$apply(function(){}); // update for modal
-              });
-            });
-          } else {
-            $scope.mutualInterests.tags.push({name: like.name});
+        Profile.getProfilePhotos(function(imgUrls){
+          $scope.fbPicsUrls = imgUrls;
+        });
+        Profile.getMutualInterests(function(mutualInterests){
+          $scope.mutualInterests = mutualInterests;
+          $scope.$apply(function(){});
+        });
+        Profile.getMutualFriendsOrPath(function(type, res){
+          if(type === 'friends'){
+            $scope.mutualFriends = res;
+          } else{
+            $scope.showMutualFriends = false;
+            $scope.connectionPath = res;
           }
+          setTimeout(function(){
+            $scope.$apply(function(){});
+          }, 1);
+        });
+        Profile.getMutualMeetups(function(mutual){
+          $scope.mutualMeetups = mutual;
+          setTimeout(function(){
+            $scope.$apply(function(){});
+          }, 1);
+        });
+        Profile.getUsersActivities(function(activities){
+          $scope.usersActivities = activities;
+          setTimeout(function(){
+            $scope.$apply(function(){});
+          }, 1);
         });
       });
     };
 
-    $scope.getMutualFriends = function(user){
-      $scope.mutualFriends = [];
-      User.mutualfriends({rid: user['@rid']}).$promise.then(function(mutual){
-        $scope.mutualFriends = mutual;
-        if(!mutual.length){
-          $scope.getConnectionPath(user);
-        }
-      });
-    };
-
-    $scope.getMutualMeetups = function(user){
-      $scope.mutualMeetups = [];
-      User.mutualmeetups({rid: user['@rid']}).$promise.then(function(mutual){
-        $scope.mutualMeetups = mutual;
-      });
-    };
-
-    $scope.getUsersInterests = function(user){
-      User.interests({rid: user['@rid']}).$promise.then(function(likes){
-        angular.forEach(likes, function(like){
-          if(like['@class'] === 'Tag'){
-            $scope.allInterests.tags.push(like);
-          } else {
-            //TODO: show fb likes?
-          }
-        });
-      });
-    };
-
-    $scope.getUsersMeetups = function(user){
-      User.meetups({rid: user['@rid']}).$promise.then(function(meetups){
-        $scope.allInterests.meetups = meetups;
-      });
-    };
-
-    $scope.getUsersActivities = function(user){
-      $scope.usersActivities = [];
-      Activity.get({rid: user['@rid']}).$promise.then(function(activities){
-        $scope.usersActivities = activities;
-      });
-    };
-
-    $scope.getConnectionPath = function(user){
-      $scope.connectionPath = [];
-      User.getConnectionPath({rid: user['@rid']}).$promise.then(function(path){
-        $scope.connectionPath = path;
-      });
-    };
-
-    $scope.getFacebookPhotos = function(user){
-      $scope.fbPicsUrls = [];
-      for(var i = 0; i < 8; i++){
-        var img = $.cloudinary.image(user.facebookId+'/'+i+'.jpg');
-        $scope.fbPicsUrls.push(img[0].src);
-      }
-    };
     $scope.showMutualInterests = true;
     $scope.toggleMutualInterests = function(){
       $scope.showMutualInterests = !$scope.showMutualInterests;
@@ -178,16 +119,18 @@ angular.module('friendfinderApp')
       $scope.showConnectionPath = !$scope.showConnectionPath;
     };
 
-
     $scope.newUser = true;
-    $scope.showAllInterests = false;
     $scope.toggleAllInterests = function(){
       if(!$scope.showAllInterests && $scope.newUser){
         $scope.allInterests = {};
         $scope.allInterests.tags = [];
         $scope.allInterests.meetups = [];
-        $scope.getUsersInterests($scope.selectedUser);
-        $scope.getUsersMeetups($scope.selectedUser);
+        Profile.getUsersInterests(function(interests){
+          $scope.allInterests.tags = interests.tags;
+        });
+        Profile.getUsersMeetups(function(meetups){
+          $scope.allInterests.meetups = meetups;
+        });
         $scope.newUser = false;
       }
       $scope.showAllInterests = !$scope.showAllInterests;
