@@ -90,8 +90,10 @@
     <div class="ui sidebar"></div>
     <!-- TODO -->
     <div class="pusher">
-      <div id='navbar' ng-include="'components/navbar/navbar.html'"></div>
-      <div ui-view=""></div>
+      <div ng-controller='ApplicationCtrl'>
+        <div id='navbar' ng-include="'components/navbar/navbar.html'"></div>
+        <div ui-view=""></div>
+      </div>
     </div>
 
     <!-- Google Analytics -->
@@ -181,6 +183,7 @@
     <!-- build:js({.tmp,client}) app/app.js -->
     <script src="app/app.js"></script>
       <!-- injector:js -->
+      <script src="app/app.controller.js"></script>
       <script src="app/findactivities/findactivities.controller.js"></script>
       <script src="app/findactivities/findactivities.js"></script>
       <script src="app/findfriends/findfriends.controller.js"></script>
@@ -206,6 +209,7 @@
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/services/activity.service.js"></script>
       <script src="components/services/auth.service.js"></script>
+      <script src="components/services/bookmarks.service.js"></script>
       <script src="components/services/message.service.js"></script>
       <script src="components/services/tag.service.js"></script>
       <script src="components/services/user.service.js"></script>

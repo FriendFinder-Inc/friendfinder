@@ -1,51 +1,30 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('BookmarksCtrl', function ($scope, User, Auth, Activity) {
-
-    $scope.users = [];
-    $scope.activities = [];
-    $scope.bookmarks = [];
-    $scope.requests = [];
+  .controller('BookmarksCtrl', function ($scope, User, Auth, Activity, Bookmarks) {
 
     $scope.currentUser = Auth.getCurrentUser();
 
-    User.bookmarks().$promise.then(function(bookmarks){
-      angular.forEach(bookmarks, function(item){
-        if(item['@class'] === 'RegisteredUser'){
-          $scope.users.push(item);
-        } else {
-          $scope.activities.push(item);
-        }
-      });
+    $scope.bookmarks = [];
+    $scope.users = [];
+    $scope.activities = [];
+    Bookmarks.getBookmarkRids(function(rids){
+      $scope.bookmarks = rids;
     });
+    Bookmarks.getUserBookmarks(function(users){
+      $scope.users = users;
+    });
+    Bookmarks.getActivityBookmarks(function(activities){
+      $scope.activities = activities;
+    });
+    $scope.requests = [];
+
 
     User.requests().$promise.then(function(requests){
       angular.forEach(requests, function(item){
         $scope.requests.push(item['@rid']);
       });
     });
-
-    $scope.removeBookmark = function(rid){
-      User.removeBookmark({rid: rid}).$promise.then(function(res){
-        //TODO: filter buttons won't stay in sync on /find views...
-        $scope.users = $scope.users.filter(function(item){
-          if(item['@rid'] != rid){
-            return item;
-          }
-        });
-        $scope.activities = $scope.activities.filter(function(item){
-          if(item['@rid'] != rid){
-            return item;
-          }
-        });
-        $scope.bookmarks = $scope.bookmarks.filter(function(item){
-          if(item != rid){
-            return item;
-          }
-        });
-      });
-    };
 
     $scope.linkModal = function(type) {
       $('.ui.modal').modal({allowMultiple: false});
@@ -57,18 +36,22 @@ angular.module('friendfinderApp')
       }
     };
 
-    User.bookmarks().$promise.then(function(bookmarks){
-      angular.forEach(bookmarks, function(item){
-        $scope.bookmarks.push(item['@rid']);
-      })
-    });
-
     $scope.isBookmarked = function(rid){
-      if(rid && $scope.bookmarks.indexOf(rid) != -1){
-        return true;
-      } else{
-        return false;
-      }
+      return !!$scope.bookmarks.indexOf(rid);
+    };
+
+    $scope.removeBookmark = function(rid){
+      Bookmarks.remove(rid, function(bookmarks){
+        Bookmarks.getBookmarkRids(function(rids){
+          $scope.bookmarks = rids;
+        });
+        Bookmarks.getUserBookmarks(function(users){
+          $scope.users = users;
+        });
+        Bookmarks.getActivityBookmarks(function(activities){
+          $scope.activities = activities;
+        });
+      });
     };
 
     $scope.alreadyRequested = function(item){

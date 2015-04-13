@@ -13,22 +13,6 @@ angular.module('friendfinderApp')
       $scope.toggleMenu();
     });
 
-    if(window.innerWidth < 768){
-      $window.isMobile = true;
-    } else {
-      $window.isMobile = false;
-    }
-
-    $(window).resize(function(){
-      $scope.$apply(function(){
-        if(window.innerWidth < 768){
-          $window.isMobile = true;
-        } else {
-          $window.isMobile = false;
-        }
-      });
-    });
-
     $scope.logout = function() {
       Auth.logout();
       $location.path('/');

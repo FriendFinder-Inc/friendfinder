@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindActivitiesCtrl', function ($scope, $http, $window, Auth, User, Activity, Message) {
+  .controller('FindActivitiesCtrl', function ($scope, $http, $window, Auth, User, Activity, Message, Bookmarks) {
 
     $(window).load(function() {
       setTimeout(function(){
@@ -15,31 +15,20 @@ angular.module('friendfinderApp')
       }, 1);
     });
 
-    // initial query
+    $scope.currentUser = Auth.getCurrentUser();
+
     $scope.bookmarks = [];
     $scope.requests = [];
-    Auth.getCurrentUser()
-    .$promise.then(function(user){
-      $scope.currentUser = user;
-      $scope.filters = [$scope.filterChoices[1]];
-      for(var i in $scope.filters[0].options){
-        // set distance to 25 mi by default
-        $scope.filters[0].options[1].value = true;
-      }
-      $scope.find();
-      User.bookmarks().$promise.then(function(bookmarks){
-        angular.forEach(bookmarks, function(item){
-          $scope.bookmarks.push(item['@rid']);
-        })
-        console.log('bookmarks', $scope.bookmarks);
-      });
-      User.requests().$promise.then(function(requests){
-        angular.forEach(requests, function(item){
-          $scope.requests.push(item['@rid']);
-        })
-      });
+    Bookmarks.getBookmarkRids(function(rids){
+      $scope.bookmarks = rids;
     });
 
+    User.requests().$promise.then(function(requests){
+      angular.forEach(requests, function(item){
+        $scope.requests.push(item['@rid']);
+      })
+    });
+    
     $scope.linkModal = function() {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
@@ -217,12 +206,15 @@ angular.module('friendfinderApp')
     };
 
     $scope.bookmark = function(item){
-      var data = {
-        rid: item['@rid']
-      };
-      User.bookmark(data).$promise.then(function(bookmarks){
-        $scope.bookmarks.push(data.rid);
+      Bookmarks.add(item['@rid'], function(bookmarks){
+        Bookmarks.getBookmarkRids(function(rids){
+          $scope.bookmarks = rids;
+        });
       });
+    };
+
+    $scope.isBookmarked = function(rid){
+      return ($scope.bookmarks.indexOf(rid) != -1);
     };
 
     $scope.request = function(item){
@@ -234,14 +226,6 @@ angular.module('friendfinderApp')
       Activity.request(data).$promise.then(function(bookmarks){
         $scope.requests.push(data.rid);
       });
-    };
-
-    $scope.isBookmarked = function(rid){
-      if(rid && $scope.bookmarks.indexOf(rid) != -1){
-        return true;
-      } else{
-        return false;
-      }
     };
 
     $scope.alreadyRequested = function(item){

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Activity, Message) {
+  .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Activity, Message, Bookmarks) {
 
     $(window).load(function() {
       setTimeout(function(){
@@ -26,23 +26,11 @@ angular.module('friendfinderApp')
       }, 1);
     });
 
-    // initial query
+    $scope.currentUser = Auth.getCurrentUser();
+
     $scope.bookmarks = [];
-    Auth.getCurrentUser()
-    .$promise.then(function(user){
-      $scope.currentUser = user;
-      $scope.filters = [$scope.filterChoices[1]];
-      for(var i in $scope.filters[0].options){
-        // set distance to 25 mi by default
-        $scope.filters[0].options[1].value = true;
-      }
-      $scope.find();
-      User.bookmarks().$promise.then(function(bookmarks){
-        angular.forEach(bookmarks, function(item){
-          $scope.bookmarks.push(item['@rid']);
-        })
-        console.log('bookmarks', $scope.bookmarks);
-      });
+    Bookmarks.getBookmarkRids(function(rids){
+      $scope.bookmarks = rids;
     });
 
     $scope.linkModal = function() {
@@ -120,6 +108,12 @@ angular.module('friendfinderApp')
       option.value = null;
     });
     $scope.orderby[0]['options'][0].value = true;
+
+    $scope.filters = [$scope.filterChoices[1]];
+    for(var i in $scope.filters[0].options){
+      // set distance to 25 mi by default
+      $scope.filters[0].options[1].value = true;
+    }
 
     $scope.getOrderby = function(){
       var option = $scope.orderby[0]['options'].filter(function(item){
@@ -259,20 +253,15 @@ angular.module('friendfinderApp')
     };
 
     $scope.bookmarkUser = function(user){
-      var data = {
-        rid: user['@rid']
-      };
-      User.bookmark(data).$promise.then(function(bookmarks){
-        $scope.bookmarks.push(data.rid);
+      Bookmarks.add(user['@rid'], function(bookmarks){
+        Bookmarks.getBookmarkRids(function(rids){
+          $scope.bookmarks = rids;
+        });
       });
     };
 
     $scope.isBookmarked = function(rid){
-      if(rid && $scope.bookmarks.indexOf(rid) != -1){
-        return true;
-      } else{
-        return false;
-      }
+      return ($scope.bookmarks.indexOf(rid) != -1);
     };
 
     $scope.showProfileModal = function(user){
