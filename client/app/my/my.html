@@ -1,0 +1,34 @@
+<div id='my-container'>
+  <div class="ui pointing secondary menu">
+    <a class="item" data-tab="messages" ui-sref='my.messages'>messages</a>
+    <a class="item" data-tab="bookmarks" ui-sref='my.bookmarks.users'>bookmarks</a>
+    <a class="item" data-tab="activities" ui-sref='my.activities'>activities</a>
+    <a class="item" data-tab="profile" ui-sref='my.profile'>profile</a>
+  </div>
+
+  <div class="ui tab label" data-tab="messages">
+    <ng-include src="'app/my/messages/messages.html'"></ng-include>
+  </div>
+
+  <div class="ui tab label" data-tab="bookmarks">
+    <div class="ui top attached tabular menu">
+      <a class="item" data-tab="bookmarks/users" ui-sref='my.bookmarks.users'>users</a>
+      <a class="item" data-tab="bookmarks/acts" ui-sref='my.bookmarks.acts'>activities</a>
+    </div>
+    <div ng-class="{active: isActive('users')}" class="ui bottom attached tab segment" data-tab="bookmarks/users">
+      <ng-include src="'app/my/bookmarks/bookmarksUsers.html'"></ng-include>
+    </div>
+    <div ng-class="{active: isActive('acts')}" class="ui bottom attached tab segment" data-tab="bookmarks/acts">
+      <ng-include src="'app/my/bookmarks/bookmarksActivities.html'"></ng-include>
+    </div>
+  </div>
+
+  <div class="ui tab label" data-tab="activities">
+    <ng-include src="'app/my/activities/activities.html'"></ng-include>
+  </div>
+
+  <div class="ui tab label" data-tab="profile">
+    <ng-include src="'app/my/profile/profile.html'"></ng-include>
+  </div>
+
+</div>

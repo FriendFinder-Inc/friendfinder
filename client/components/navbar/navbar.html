@@ -29,21 +29,21 @@
         <div id='dropdown-menu-list' class="left menu">
           <div class="ui right pointing dropdown link item">
             <i class="dropdown icon"></i>
-            me
+            my
             <div class="menu">
-              <div class="item" ui-sref="me.messages">
+              <div class="item" ui-sref="my.messages">
                 <i class='minu mail icon'></i>
                 messages
               </div>
-              <div class="item" ui-sref='me.bookmarks.users'>
+              <div class="item" ui-sref='my.bookmarks.users'>
                 <i class='minu bookmark icon'></i>
                 bookmarks
               </div>
-              <div class="item" ui-sref='me.activities'>
+              <div class="item" ui-sref='my.activities'>
                 <i class='minu smile icon'></i>
                 activities
               </div>
-              <div class="item" ui-sref='me.profile'>
+              <div class="item" ui-sref='my.profile'>
                 <i class='minu user icon'></i>
                 profile
               </div>
@@ -78,8 +78,8 @@
       <div id='unread-messages' class='mini ui red button' ng-show='unreadMail()'>
         {{ unreadMessages }}
       </div>
-      <i id='mail-icon' ng-class='{red: unreadMail()}' class='large blue mail icon' ui-sref='me.messages'></i>
-      <img id='dropdown-image' class="ui circular image"
+      <i id='mail-icon' ng-class='{red: unreadMail()}' class='large blue mail icon' ui-sref='my.messages'></i>
+      <img ui-sref='my.profile' id='dropdown-image' class="ui circular image"
           src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=50&height=50">
       <i id='menu-icon' class='big blue dropdown icon' ng-click='toggleMenu()'></i>
 
@@ -90,11 +90,7 @@
   <!-- mobile menu -->
   <div id='mobile-menu' ng-show='isMobile()'>
     <a href="/find/friends" id="mobile-logo"></a>
-    <i id='mobile-show-icon' class='huge blue add circle icon' ng-show='showHidden'
-                          ng-click='showHidden = !showHidden'></i>
-    <i id='mobile-hide-icon' class='huge blue remove circle icon' ng-show='!showHidden'
-                          ng-click='showHidden = !showHidden'></i>
-    <i id='mobile-dropdown-icon' class='huge blue bars icon'
+    <i id='mobile-dropdown-icon' class='big blue bars icon'
                           ng-click='toggleSidebar()' style='float: right;'></i>
 
     <div class="ui right vertical inverted labeled icon sidebar menu">
@@ -106,19 +102,19 @@
         <i class="block search icon"></i>
         find activities
       </a>
-      <a class="item" ui-sref='me.messages' ng-click='toggleSidebar()'>
+      <a class="item" ui-sref='my.messages' ng-click='toggleSidebar()'>
         <i class="block mail icon"></i>
         messages
       </a>
-      <a class="item" ui-sref='me.bookmarks' ng-click='toggleSidebar()'>
+      <a class="item" ui-sref='my.bookmarks' ng-click='toggleSidebar()'>
         <i class="block bookmark icon"></i>
         bookmarks
       </a>
-      <a class="item" ui-sref='me.activities' ng-click='toggleSidebar()'>
+      <a class="item" ui-sref='my.activities' ng-click='toggleSidebar()'>
         <i class="block smile icon"></i>
         my activities
       </a>
-      <a class="item" ui-sref='me.profile' ng-click='toggleSidebar()'>
+      <a class="item" ui-sref='my.profile' ng-click='toggleSidebar()'>
         <i class="block user icon"></i>
         profile
       </a>

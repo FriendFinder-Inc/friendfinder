@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('MeCtrl', function ($scope, User, Auth, $state) {
-    $('.me-container .menu .item')
+  .controller('MyCtrl', function ($scope, User, Auth, $state) {
+    $('.my-container .menu .item')
       .tab({
-        context : '.me-container',
+        context : '.my-container',
         // history: true
     });
 

@@ -3,28 +3,28 @@
 angular.module('friendfinderApp')
   .config(function ($stateProvider) {
     $stateProvider
-      .state('me', {
-        url: '/me',
-        templateUrl: 'app/me/me.html',
-        controller: 'MeCtrl'
+      .state('my', {
+        url: '/my',
+        templateUrl: 'app/my/my.html',
+        controller: 'MyCtrl'
       })
-      .state('me.messages', {
+      .state('my.messages', {
         url: '/messages',
       })
-      .state('me.bookmarks', {
+      .state('my.bookmarks', {
         url: '/bookmarks',
       })
-      .state('me.bookmarks.users', {
+      .state('my.bookmarks.users', {
         url: '/users',
       })
-      .state('me.bookmarks.acts', {
+      .state('my.bookmarks.acts', {
         url: '/activities',
       })
-      .state('me.activities', {
+      .state('my.activities', {
         url: '/activities',
         // authenticate true TODO
       })
-      .state('me.profile', {
+      .state('my.profile', {
         url: '/profile',
       });
   });
