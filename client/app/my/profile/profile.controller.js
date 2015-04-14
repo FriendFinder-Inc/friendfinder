@@ -197,7 +197,7 @@ angular.module('friendfinderApp')
         });
         $('#add-tags-btn').click(function(e){
           if($scope.validateTagInput()){
-            $('#add-tags-input').val('');
+            $('#new-tag-input').val('');
             var add = [];
             var tagNames = $scope.interests.tags.map(function(item){
               return item.name;
@@ -271,7 +271,25 @@ angular.module('friendfinderApp')
     };
 
     $scope.validateTagInput = function(){
-      //todo
+      return true; //TODO: below not working
+      var validations = {
+        title: {
+          identifier: 'new-tag-input',
+          rules: [{
+            type: 'empty',
+            prompt: 'enter a tag'
+          },
+          {
+            type: 'maxLength[2]',
+            prompt: 'too many characters'
+          }]
+        }
+      };
+
+      $('.ui.form.tags').form(validations, {on: 'blur', inline: 'true'});
+
+      var result = $('.ui.form.tags').form('validate form');
+      return result[result.length-1];
     };
 
   });

@@ -12,7 +12,7 @@
             <a class="item messages-item" data-tab="inactive">inactive</a>
         </div>
         <div class="ui active tab segment" data-tab="active">
-          <div class="item chat-head" style='max-height: 60px;'
+          <div class="item" style='max-height: 60px;'
                ng-repeat='thread in activeThreads' ng-click='showThread(thread)'>
             <div class="ui circular image">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
