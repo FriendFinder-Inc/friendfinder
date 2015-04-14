@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('FindActivitiesCtrl', function ($scope, $http, $window, Auth, User, Activity, Message, Bookmarks, Profile) {
+  .controller('FindActivitiesCtrl', function ($scope, $http, $window, Auth, User, Activity, Bookmarks, Profile) {
 
     $(window).load(function() {
       setTimeout(function(){

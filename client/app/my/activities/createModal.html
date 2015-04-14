@@ -54,7 +54,7 @@
               <input id="location" ng-show='false' ng-model='activity.location'>
               <i class="asterisk red icon" ng-show='!locationInput'></i>
             </div>
-            <div class="ui fluid search selection dropdown" style='border: 0px; padding: 0px;'>
+            <div class="ui fluid search selection dropdown location" style='border: 0px; padding: 0px;'>
               <div class="menu">
                 <div ng-class="{'google-powered': place.description === 'googlePowered', header: place.description === 'googlePowered', item: place.description != 'googlePowered'}"
                   class="autocomplete" ng-repeat='place in suggestions' ng-click='setLocation(place)'>

@@ -230,7 +230,7 @@ exports.connectPages = function(user){
 
 exports.uploadFbPhotos = function(user){
 
-  FB.get('/me/albums', {limit: 5}, function (err, albums) {
+  FB.get('/me/albums', {limit: 15}, function (err, albums) {
     if(err) {
       console.log('FB API ERROR: failed to get albums for user:', user.facebookId, err);
       return;

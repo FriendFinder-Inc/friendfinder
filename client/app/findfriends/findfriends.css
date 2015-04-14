@@ -16,16 +16,6 @@
   z-index: 1;
 }
 
-#message-area-findfriends, #message-area-findacts, #message-area-bookmarksusers{
-  width: 100%;
-  min-height: 150px;
-}
-
-#message-area-bookmarksacts, #message-area-messages{
-  width: 100%;
-  min-height: 150px;
-}
-
 .full{
   width: 100% !important;
 }

@@ -7,6 +7,7 @@ angular.module('friendfinderApp')
     $scope.findUsers = [];
     $scope.findActivities = [];
     $scope.bookmarks = [];
+    $scope.requests = [];
 
     $scope.currentUser = Auth.getCurrentUser();
 
@@ -14,25 +15,36 @@ angular.module('friendfinderApp')
       $scope.bookmarks = rids;
     });
 
+    User.requests().$promise.then(function(requests){
+      angular.forEach(requests, function(item){
+        $scope.requests.push(item['@rid']);
+      })
+    });
+
     $scope.linkModal_findfriends = function() {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
-      $('.ui.modal.message').modal('attach events', '.modal.profile .button.message-btn');
+      $('.ui.modal.message.others').modal('attach events', '.modal.profile .button.message-btn');
     };
 
     $scope.linkModal_findactivities = function() {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
-      $('.ui.modal.message').modal('attach events', '.modal.activity-profile .button.message-btn');
+      $('.ui.modal.message.others').modal('attach events', '.modal.activity-profile .button.message-btn');
+    };
+
+    $scope.linkModal_messages = function() {
+      $('.ui.modal').modal({allowMultiple: false});
+      $('.ui.modal').modal('setting', 'transition', 'fade');
     };
 
     $scope.linkModal_bookmarks = function(type) {
       $('.ui.modal').modal({allowMultiple: false});
       $('.ui.modal').modal('setting', 'transition', 'fade');
       if(type === 'users'){
-        $('.ui.modal.message').modal('attach events', '.modal.bookmarks-users-profile .button.message-btn');
+        $('.ui.modal.message.others').modal('attach events', '.modal.bookmarks-users-profile .button.message-btn');
       } else{
-        $('.ui.modal.message').modal('attach events', '.modal.bookmarks-acts-profile .button.message-btn');
+        $('.ui.modal.message.others').modal('attach events', '.modal.bookmarks-acts-profile .button.message-btn');
       }
     };
 
@@ -118,13 +130,27 @@ angular.module('friendfinderApp')
       $scope.showAllInterests = !$scope.showAllInterests;
     };
 
-
-    $scope.bookmarkUser = function(user){
-      Bookmarks.add(user['@rid'], function(bookmarks){
+    $scope.bookmark = function(rid){
+      Bookmarks.add(rid, function(bookmarks){
         Bookmarks.getBookmarkRids(function(rids){
           $scope.bookmarks = rids;
         });
       });
+    };
+
+    $scope.joinRequest = function(activity){
+      var data = {
+        rid: activity['@rid'],
+        owner: activity.creator,
+        activityTitle: activity.title
+      };
+      Activity.request(data).$promise.then(function(bookmarks){
+        $scope.requests.push(data.rid);
+      });
+    };
+
+    $scope.isRequested = function(rid){
+      return ($scope.requests.indexOf(rid) != -1);
     };
 
     $scope.isBookmarked = function(rid){
@@ -154,17 +180,9 @@ angular.module('friendfinderApp')
 
       Message.send(data).$promise.then(function(res){
         $('#message-area').val('');
+        $scope.closeModals();
       });
     };
-
-    $('#send-message-btn').click(function(){
-      $scope.sendMessage();
-      $scope.closeModals();
-    });
-
-    $('#cancel-message-btn').click(function(){
-      $scope.closeModals();
-    });
 
     $scope.prettyDate = function(dateStr){
       return moment(dateStr).format('ll');

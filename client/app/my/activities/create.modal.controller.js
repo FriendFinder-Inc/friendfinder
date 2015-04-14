@@ -33,7 +33,7 @@ angular.module('friendfinderApp')
     $('#location-input-create').on('keyup', function(){
       $scope.activity.location = undefined;
       if($('#location-input-create').val().length > 1){
-        $('.ui.dropdown').dropdown('show');
+        $('.ui.dropdown.location').dropdown('show');
         var input = $('#location-input-create').val();
         var latlong = $scope.currentUser.location.lat+','+$scope.currentUser.location.long;
         Activity.autocomplete({input: input, latlong: latlong}).$promise.then(function(suggestions){
@@ -41,7 +41,7 @@ angular.module('friendfinderApp')
           $scope.suggestions.push({description: 'googlePowered'});
         });
       } else{
-        $('.ui.dropdown').dropdown('hide');
+        $('.ui.dropdown.location').dropdown('hide');
       }
     });
 

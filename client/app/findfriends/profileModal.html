@@ -8,7 +8,7 @@
       <div class="ui red button message-btn">
         message
       </div>
-      <div class="ui teal button" ng-click='$parent.bookmarkUser(selectedUser)'
+      <div class="ui teal button" ng-click="$parent.bookmark(selectedUser['@rid'])"
         ng-if="!$parent.isBookmarked(selectedUser['@rid'])">
         bookmark
       </div>

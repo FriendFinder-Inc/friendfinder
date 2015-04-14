@@ -21,7 +21,7 @@ angular.module('friendfinderApp')
         $http.post('/auth/facebook', {facebookId: response.authResponse.userID,
                                       accessToken: response.authResponse.accessToken })
         .success(function(data, status, headers, config) {
-          $window.location.href = '/me/profile';
+          $window.location.href = '/my/profile';
         })
         .error(function(data, status, headers, config) {
           console.log('error')
@@ -32,5 +32,14 @@ angular.module('friendfinderApp')
     $scope.showModal = function(){
       $('.ui.modal.video-intro').modal('show');
     };
+
+    $('.ui.modal.video-intro').modal('setting', {
+      onHide: function(){
+        console.log('hi')
+        var video = $("#intro-video").attr("src");
+        $("#intro-video").attr("src","");
+        $("#intro-video").attr("src",video);
+      }
+    });
 
   });

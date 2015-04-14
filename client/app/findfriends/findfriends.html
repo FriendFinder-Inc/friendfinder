@@ -38,7 +38,7 @@
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(user.birthday) }} ,
-                          <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ user.location.name || 'location unknown' }}</span>
                           </div>
@@ -52,7 +52,7 @@
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ testStr.substring(0, 700) }}
+                          {{ user.profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -71,7 +71,7 @@
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+1].birthday) }} ,
-                          <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
                           </div>
@@ -85,7 +85,7 @@
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ testStr.substring(0, 700) }}
+                          {{ users[$index+1].profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -108,7 +108,7 @@
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(user.birthday) }} ,
-                          <a ng-href='/user/{{user.facebookId}}/profile' target='_blank' class="header">{{ user.name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ user.location.name || 'location unknown' }}</span>
                           </div>
@@ -122,7 +122,7 @@
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ testStr.substring(0, 700) }}
+                          {{ user.profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -141,7 +141,7 @@
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+1].birthday) }} ,
-                          <a ng-href='/user/{{users[$index+1].facebookId}}/profile' target='_blank' class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
                           </div>
@@ -155,7 +155,7 @@
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ testStr.substring(0, 700) }}
+                          {{ users[$index+1].profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -174,7 +174,7 @@
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+2].birthday) }} ,
-                          <a ng-href='/user/{{users[$index+2].facebookId}}/profile' target='_blank' class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+2]['@rid'], 'profile')" class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+2].location.name || 'location unknown' }}</span>
                           </div>
@@ -188,7 +188,7 @@
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ testStr.substring(0, 700) }}
+                          {{ users[$index+2].profile.intro }}
                         </div>
                       </div>
                     </div>

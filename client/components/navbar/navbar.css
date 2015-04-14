@@ -91,6 +91,10 @@
 	color: #56d1ff !important;
 }
 
+#link-container{
+  transform: translateY(-18%);
+}
+
 #dropdown-image {
 	width: 50px;
 	height: 50px;

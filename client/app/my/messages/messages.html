@@ -18,7 +18,7 @@
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
             <div id='name'  class="content">
-              <a id='name-link' ng-click="showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from)">
+              <a id='name-link' ng-click="$parent.showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from, 'messages-profile')">
                 {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
               </a>
             </div>
@@ -32,7 +32,7 @@
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
             <div id='name' class="content">
-              <a id='name-link' ng-click="showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from)">
+              <a id='name-link' ng-click="$parent.showProfileModal(myMessage(thread[0].fromFacebookId) ? thread[0].to : thread[0].from, 'messages-profile')">
                 {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
               </a>
             </div>
@@ -51,7 +51,7 @@
           <div class='message-row' ng-repeat='message in selectedThread'>
             <div class=" ui circular image" id='image-holder'>
               <img ng-show='!myMessage(selectedThread[$index].fromFacebookId)'
-                class='profile-pic' ng-src="https://graph.facebook.com/{{ selectedThread[$index].fromFacebookId }}/picture?width=60&height=60">
+                class='profile-pic' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div><br>
             <div ng-class="{'me-bubble': myMessage(selectedThread[$index].fromFacebookId), 'them-bubble': !myMessage(selectedThread[$index].fromFacebookId)}" class='message'>
               <div class='message-holder'>

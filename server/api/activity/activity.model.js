@@ -234,7 +234,7 @@ Activity.request = function(fromRid, params, cb) {
       var data = {
         to:               params.creator,
         toEmail:          user[0].email,
-        toFacebookId:     user[0].toFacebookId,
+        toFacebookId:     user[0].facebookId,
         toName:           user[0].name.split(' ')[0],
         from:             params.from,
         fromEmail:        params.fromEmail,
@@ -242,7 +242,7 @@ Activity.request = function(fromRid, params, cb) {
         fromName:         params.fromName,
         timeSent:         new Date(),
         timeRead:         null,
-        content:          'Hi '+user[0].name.split(' ')[0]+'! I would love to join you in '+params.title+'.'
+        content:          'Hi '+user[0].name.split(' ')[0]+"! I would love to join you in '"+params.title+"'."
       };
       var message = new Message(data);
       message.send(function (message) {

@@ -97,11 +97,12 @@
         <ng-include src="'app/findactivities/profileModal.html'" onload="linkModal_findactivities()"></ng-include>
         <ng-include src="'app/my/bookmarks/usersProfileModal.html'" onload="linkModal_bookmarks('users')"></ng-include>
         <ng-include src="'app/my/bookmarks/actsProfileModal.html'" onload="linkModal_bookmarks('acts')"></ng-include>
+        <ng-include src="'app/my/messages/profileModal.html'" onload="linkModal_messages()"></ng-include>
 
-        <div class="ui small modal message" style='text-align: center;'>
+        <div class="ui small modal message others" style='text-align: center;'>
           <textarea id='message-area' placeholder='enter message...'></textarea>
           <center>
-            <div id='send-message-btn' class="ui green button">
+            <div id='send-message-btn' ng-click="sendMessage()" class="ui green button">
               send
             </div>
             <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>

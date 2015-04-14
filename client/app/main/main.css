@@ -17,8 +17,8 @@
   cursor: pointer;
 }
 
-#link-container{
-  transform: translateY(-18%);
+#video-link-container{
+  margin-top: 8px;
 }
 
 .ui.modal.video-intro{
