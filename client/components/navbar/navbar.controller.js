@@ -6,18 +6,22 @@ angular.module('friendfinderApp')
     $scope.user = Auth.getCurrentUser();
     $('.ui.dropdown').dropdown();
 
-    $('#menu-icon').mouseenter(function(e){
-      $scope.toggleMenu();
-    });
-    $('#dropdown-menu-list').mouseleave(function(e){
-      $scope.toggleMenu();
-    });
-
     $scope.logout = function() {
       Auth.logout();
       $location.path('/');
       $window.location.reload();
     };
+
+    $scope.unreadMessages = 0;
+    Auth.getUnreadMessages(function(num){
+      $scope.unreadMessages = num;
+    });
+
+    $scope.$on('messages-updated', function(event, args){
+      Auth.getUnreadMessages(function(num){
+        $scope.unreadMessages = num;
+      });
+    });
 
     $scope.isMobile = function(){
       return $window.isMobile;
@@ -32,7 +36,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.unreadMail = function(){
-      return true;
+      return $scope.unreadMessages;
     };
 
     $scope.nav = function(url){

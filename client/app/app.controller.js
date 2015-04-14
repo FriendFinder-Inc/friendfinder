@@ -6,10 +6,10 @@ angular.module('friendfinderApp')
     // cache query results for efficiency
     $scope.findUsers = [];
     $scope.findActivities = [];
+    $scope.bookmarks = [];
 
     $scope.currentUser = Auth.getCurrentUser();
 
-    $scope.bookmarks = [];
     Bookmarks.getBookmarkRids(function(rids){
       $scope.bookmarks = rids;
     });

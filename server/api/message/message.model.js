@@ -67,6 +67,14 @@ Message.findOne = function(params, cb) {
   });
 };
 
+Message.update = function(rid, params, cb) {
+  db.update(rid).set(params)
+  .scalar()
+  .then(function(total) {
+    cb(total);
+  });
+};
+
 Message.findByFilters = function(params, cb) {
   db.select().from('Message').where(params).all()
   .then(function (messages) {

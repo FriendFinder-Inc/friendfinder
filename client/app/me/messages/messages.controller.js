@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('MessagesCtrl', function ($scope, User, Activity, Auth, Message, $window, Profile) {
+  .controller('MessagesCtrl', function ($rootScope, $scope, User, Activity, Auth, Message, $window, Profile) {
     $('.messages-item')
     .tab({
       context : '#chat-heads',
@@ -34,6 +34,18 @@ angular.module('friendfinderApp')
       });
     });
 
+    $scope.updateTimeRead = function(thread){
+      angular.forEach(thread, function(message){
+        if(message.timeRead === null && message.from != $scope.currentUser['@rid']){
+          message.timeRead = new Date();
+          Message.update({rid: message['@rid'], params: {timeRead: new Date }})
+          .$promise.then(function(res){
+            $rootScope.$broadcast('messages-updated');
+          });
+        }
+      });
+    };
+
     $scope.showMessageModal = function(){
       $('.ui.modal.message.messages').modal('show');
     };
@@ -48,6 +60,7 @@ angular.module('friendfinderApp')
 
     $scope.showThread = function(thread){
       $scope.selectedThread = thread;
+      $scope.updateTimeRead(thread);
       $scope.selectedThreadOwner = (thread[0].to === $scope.currentUser['@rid'] ? thread[0].from :
                                                                     thread[0].to);
       setTimeout(function(){

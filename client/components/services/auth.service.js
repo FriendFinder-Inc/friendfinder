@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .factory('Auth', function Auth($location, $rootScope, $http, User, $cookieStore, $q) {
+  .factory('Auth', function Auth($location, $rootScope, $http, User, Message, $cookieStore, $q) {
     var currentUser = {};
     if($cookieStore.get('token')) {
       currentUser = User.get();
@@ -16,6 +16,21 @@ angular.module('friendfinderApp')
 
       getCurrentUser: function() {
         return currentUser;
+      },
+
+      getUnreadMessages: function(cb){
+        var unread = 0;
+        Message.get().$promise.then(function(threads){
+          angular.forEach(threads, function(thread){
+            for(var i in thread){
+              if(thread[i].timeRead === null && thread[i].from != currentUser['@rid']){
+                unread++;
+                break;
+              }
+            }
+          });
+          cb(unread);
+        });
       },
 
       isLoggedIn: function() {

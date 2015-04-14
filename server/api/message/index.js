@@ -9,5 +9,6 @@ var router = express.Router();
 router.get('/me', auth.isAuthenticated(), controller.all);
 router.post('/', auth.isAuthenticated(), controller.create);
 router.post('/me/send', auth.isAuthenticated(), controller.send);
+router.put('/me/update', auth.isAuthenticated(), controller.update);
 
 module.exports = router;

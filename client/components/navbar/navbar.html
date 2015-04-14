@@ -76,7 +76,7 @@
       <div id='unread-placeholder' ng-show='!unreadMail()'></div>
       {{ unreadMail() }}
       <div id='unread-messages' class='mini ui red button' ng-show='unreadMail()'>
-        99
+        {{ unreadMessages }}
       </div>
       <i id='mail-icon' ng-class='{red: unreadMail()}' class='large blue mail icon' ui-sref='me.messages'></i>
       <img id='dropdown-image' class="ui circular image"

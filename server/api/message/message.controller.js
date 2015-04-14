@@ -47,3 +47,9 @@ exports.create = function(req, res) {
     return res.json(201, message);
   });
 };
+
+exports.update = function(req, res) {
+  Message.update(req.body.rid, req.body.params, function(total) {
+    return res.json(total);
+  });
+};

@@ -19,6 +19,13 @@ angular.module('friendfinderApp')
           id: 'me',
           controller: 'send'
         }
+      },
+      update: {
+        method: 'PUT',
+        params: {
+          id: 'me',
+          controller: 'update'
+        }
       }
 	  });
   });

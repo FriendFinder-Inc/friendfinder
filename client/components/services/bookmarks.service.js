@@ -17,12 +17,16 @@ angular.module('friendfinderApp')
 
       getBookmarkRids: function(cb){
         var rids = [];
-        currentBookmarks.$promise.then(function(bookmarks){
-          angular.forEach(bookmarks, function(item){
-            rids.push(item['@rid']);
+        if(currentBookmarks.$promise){
+          currentBookmarks.$promise.then(function(bookmarks){
+            angular.forEach(bookmarks, function(item){
+              rids.push(item['@rid']);
+            });
+            cb(rids);
           });
+        } else {
           cb(rids);
-        });
+        }
       },
 
       getUserBookmarks: function(cb){
