@@ -161,9 +161,13 @@ angular.module('friendfinderApp')
       $('.ui.modal').modal('hide');
     };
 
+    $scope.closeMessageModal = function(){
+      $('#message-modal').modal('hide');
+    };
+
     $scope.sendMessage = function(){
       var message = $('#message-area').val();
-
+      
       var data =  {
                     to: $scope.selectedUser['@rid'],
                     toEmail: $scope.selectedUser.email,
@@ -180,7 +184,7 @@ angular.module('friendfinderApp')
 
       Message.send(data).$promise.then(function(res){
         $('#message-area').val('');
-        $scope.closeModals();
+        $scope.closeMessageModal();
       });
     };
 

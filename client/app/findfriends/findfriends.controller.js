@@ -19,10 +19,6 @@ angular.module('friendfinderApp')
          maxFont   : 150,
          fontRatio : 12
         });
-        $('.popup.icon').popup({on: 'click'});
-        $('.popup.icon').click(function(e){
-          e.stopPropagation();
-        });
       }, 1);
     });
 
@@ -114,7 +110,11 @@ angular.module('friendfinderApp')
     // appreciate how awesome/convenient angular is!
     $scope.checkboxClicked = function(obj, key, option){
       if((option === 'mutual friends' ||
-          option === 'degrees of separation') &&
+          option === '3rd degree' ||
+          option === '4th degree' ||
+          option === '5th degree' ||
+          option === '6th degree' ||
+          option === '7th degree') &&
           $scope.currentUser.role === 'free'){
         return;
       }
@@ -327,13 +327,22 @@ angular.module('friendfinderApp')
 
     $scope.isLockedFilter = function(key){
       if((key === 'mutual friends' ||
-          key === 'degrees of separation') &&
+          key === '3rd degree') &&
           $scope.currentUser.role === 'free'){
         return true;
       }
     };
 
-    $scope.lockedClicked = function(){
+    $scope.lockedClicked = function(type){
+      $('.lock.popup.icon').popup({on: 'click'});
+      $('.lock.popup.icon').click(function(e){
+        e.stopPropagation();
+      });
+      if(type === 'degree'){
+        $('.lock.popup.icon.degree').popup('show');
+      } else {
+        $('.lock.popup.icon.mutual').popup('show');
+      }
       setTimeout(function(){
         FB.XFBML.parse();
         $('#fb-share-btn').click(function(){

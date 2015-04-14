@@ -98,23 +98,23 @@ var newUser = function(fbData, cb){
     email: fbData.email,
     location: fbData.location,
     birthday: fbData.birthday,
-    fbAccessToken: fbData.accessToken, //TODO: logout? delete?
+    fbAccessToken: fbData.accessToken,
     facebookId: fbData.id,
     preferences: {
       email: {
         whenMessaged: true,
         activityRequest: true,
-        activityInvite: true
-        // weeklyMatch: true
+        activityInvite: true,
+        weeklyMatch: true
       },
       privacy: {
         hiddenFromFriends: false
       }
     },
     profile: {
-      intro: "intro test",
-      idealWeekend: "ideal test",
-      dreamDestination: "dream test"
+      intro: "",
+      idealWeekend: "",
+      dreamDestination: ""
     },
     role: 'free',
     views: 0,

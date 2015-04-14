@@ -50,3 +50,7 @@ h1,h2,h3,h4,h5,h6,p {
   width: 100%;
   min-height: 150px;
 }
+
+body{
+  max-height: 100vh;
+}

@@ -22,7 +22,7 @@
                 {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
               </a>
             </div>
-            <!-- <div class='ui divider'></div> -->
+            <div class='ui divider' style='margin-top: 30px;'></div>
           </div>
         </div>
         <div class="ui tab segment" data-tab="inactive">
@@ -36,6 +36,7 @@
                 {{ myMessage(thread[0].fromFacebookId) ? thread[0].toName : thread[0].fromName }}
               </a>
             </div>
+            <div class='ui divider' style='margin-top: 30px;'></div>
           </div>
         </div>
       </div>
@@ -50,12 +51,12 @@
           <!-- message bubble -->
           <div class='message-row' ng-repeat='message in selectedThread'>
             <div class=" ui circular image" id='image-holder'>
-              <img ng-show='!myMessage(selectedThread[$index].fromFacebookId)'
-                class='profile-pic' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
+              <img ng-show='!myMessage(message.fromFacebookId)'
+                class='profile-pic' ng-src="https://graph.facebook.com/{{ myMessage(message.fromFacebookId) ? message.toFacebookId : message.fromFacebookId }}/picture?width=60&height=60">
             </div><br>
             <div ng-class="{'me-bubble': myMessage(selectedThread[$index].fromFacebookId), 'them-bubble': !myMessage(selectedThread[$index].fromFacebookId)}" class='message'>
               <div class='message-holder'>
-                {{ selectedThread[$index].content }}
+                {{ message.content }}
               </div>
             </div>
           </div>

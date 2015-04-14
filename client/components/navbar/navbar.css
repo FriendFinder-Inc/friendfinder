@@ -77,6 +77,11 @@
 	padding-top: 3px;
 }
 
+#unread-messages:hover{
+	cursor: auto;
+	background-color: #d95c5c;
+}
+
 #mail-icon{
 	float: left;
 	padding-top: 15px;
