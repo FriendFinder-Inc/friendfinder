@@ -8,7 +8,7 @@
             <div class="ui card profile-card">
               <div id='top-half'>
                 <div id='left-side'>
-                  <div class="image" ng-click="showProfileModal(user['@rid'], 'users')">
+                  <div class="image" ng-click="$parent.showProfileModal(user['@rid'], 'bookmarks-users-profile')">
                     <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                   </div>
                 </div>
@@ -41,7 +41,7 @@
             <div class="ui card profile-card" ng-if='users[$index+1]'>
               <div id='top-half'>
                 <div id='left-side'>
-                  <div class="image" ng-click="showProfileModal(users[$index+1]['@rid'], 'users')">
+                  <div class="image" ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'bookmarks-users-profile')">
                     <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
                   </div>
                 </div>
@@ -78,7 +78,7 @@
             <div class="ui card profile-card">
               <div id='top-half'>
                 <div id='left-side'>
-                  <div class="image" ng-click="showProfileModal(user['@rid'], 'users')">
+                  <div class="image" ng-click="$parent.showProfileModal(user['@rid'], 'bookmarks-users-profile')">
                     <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                   </div>
                 </div>
@@ -111,7 +111,7 @@
             <div class="ui card profile-card" ng-if='users[$index+1]'>
               <div id='top-half'>
                 <div id='left-side'>
-                  <div class="image" ng-click="showProfileModal(users[$index+1]['@rid'], 'users')">
+                  <div class="image" ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'bookmarks-users-profile')">
                     <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
                   </div>
                 </div>
@@ -144,7 +144,7 @@
             <div class="ui card profile-card" ng-if='users[$index+2]'>
               <div id='top-half'>
                 <div id='left-side'>
-                  <div class="image" ng-click="showProfileModal(users[$index+2]['@rid'], 'users')">
+                  <div class="image" ng-click="$parent.showProfileModal(users[$index+2]['@rid'], 'bookmarks-users-profile')">
                     <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+2].facebookId }}/picture?width=500&height=500">
                   </div>
                 </div>
@@ -172,19 +172,5 @@
         </div>
       </div>
     </div>
-  </div>
-
-  <ng-include src="'app/me/bookmarks/usersProfileModal.html'" onload="linkModal('users')"></ng-include>
-
-  <div class="ui small modal message" style='text-align: center;'>
-    <textarea id='message-area-bookmarksusers' placeholder='enter message...'></textarea>
-    <center>
-      <div id='send-message-btn' class="ui green button">
-        send
-      </div>
-      <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
-        cancel
-      </div>
-    </center>
   </div>
 </div>

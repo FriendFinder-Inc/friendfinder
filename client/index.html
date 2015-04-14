@@ -93,6 +93,36 @@
       <div ng-controller='ApplicationCtrl'>
         <div id='navbar' ng-include="'components/navbar/navbar.html'"></div>
         <div ui-view=""></div>
+        <ng-include src="'app/findfriends/profileModal.html'" onload="linkModal_findfriends()"></ng-include>
+        <ng-include src="'app/findactivities/profileModal.html'" onload="linkModal_findactivities()"></ng-include>
+        <ng-include src="'app/me/bookmarks/usersProfileModal.html'" onload="linkModal_bookmarks('users')"></ng-include>
+        <ng-include src="'app/me/bookmarks/actsProfileModal.html'" onload="linkModal_bookmarks('acts')"></ng-include>
+
+        <div class="ui small modal message" style='text-align: center;'>
+          <textarea id='message-area' placeholder='enter message...'></textarea>
+          <center>
+            <div id='send-message-btn' class="ui green button">
+              send
+            </div>
+            <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
+              cancel
+            </div>
+          </center>
+        </div>
+
+        <!-- special case -->
+        <div class="ui small modal message messages" style='text-align: center;'>
+          <textarea id='message-area-messages' placeholder='enter message...'></textarea>
+          <center>
+            <div id='send-message-btn-messages' class="ui green button">
+              send
+            </div>
+            <div id='cancel-message-btn' class="ui red button" ng-click='closeModals()'>
+              cancel
+            </div>
+          </center>
+        </div>
+
       </div>
     </div>
 

@@ -7,11 +7,6 @@ angular.module('friendfinderApp')
       context : '#chat-heads',
     });
 
-    $scope.linkModal = function() {
-      $('.ui.modal.messages-profile').modal({allowMultiple: false});
-      $('.ui.modal.messages-profile').modal('setting', 'transition', 'fade');
-    };
-
     $scope.currentUser = Auth.getCurrentUser();
 
     $scope.activeThreads = [];
@@ -31,6 +26,7 @@ angular.module('friendfinderApp')
           }
         })
         if(!active){
+          //TODO fix UI
           $scope.inactiveThreads.push(thread);
         } else {
           $scope.activeThreads.push(thread);
@@ -39,8 +35,12 @@ angular.module('friendfinderApp')
     });
 
     $scope.showMessageModal = function(){
-      $('.ui.small.modal.message.reply').modal('show');
+      $('.ui.modal.message.messages').modal('show');
     };
+
+    $('#send-message-btn-messages').click(function(e){
+      $scope.sendMessage();
+    });
 
     $scope.hideModal = function(){
       $('.ui.modal').modal('hide');
@@ -54,90 +54,6 @@ angular.module('friendfinderApp')
         var div = document.getElementById("thread-scroll-box");
         div.scrollTop = div.scrollHeight;
       }, 1);
-    };
-
-    $scope.showProfileModal = function(rid){
-      $scope.newUser = true;
-      $scope.showAllInterests = false;
-      $scope.showMutualFriends = true;
-      $scope.showMutualInterests = true;
-      Profile.getUser(rid, function(user){
-        $scope.selectedUser = user;
-        $('.ui.modal.messages-profile').modal('setting', {
-          onVisible: function(){
-            // make sure all data is visible
-            $('.activity-title').textfill({});
-            $('.activity-date').textfill({});
-            $('.activity-location').textfill({});
-          }
-        }).modal('show');
-        Profile.getProfilePhotos(function(imgUrls){
-          $scope.fbPicsUrls = imgUrls;
-        });
-        Profile.getMutualInterests(function(mutualInterests){
-          $scope.mutualInterests = mutualInterests;
-          $scope.$apply(function(){});
-        });
-        Profile.getMutualFriendsOrPath(function(type, res){
-          if(type === 'friends'){
-            $scope.mutualFriends = res;
-          } else{
-            $scope.showMutualFriends = false;
-            $scope.connectionPath = res;
-          }
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-        Profile.getMutualMeetups(function(mutual){
-          $scope.mutualMeetups = mutual;
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-        Profile.getUsersActivities(function(activities){
-          $scope.usersActivities = activities;
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-      });
-    };
-
-    $scope.showMutualInterests = true;
-    $scope.toggleMutualInterests = function(){
-      $scope.showMutualInterests = !$scope.showMutualInterests;
-    };
-
-    $scope.showMutualFriends = true;
-    $scope.toggleMutualFriends = function(){
-      $scope.showMutualFriends = !$scope.showMutualFriends;
-    };
-
-    $scope.showConnectionPath = true;
-    $scope.toggleConnectionPath = function(){
-      $scope.showConnectionPath = !$scope.showConnectionPath;
-    };
-
-    $scope.newUser = true;
-    $scope.toggleAllInterests = function(){
-      if(!$scope.showAllInterests && $scope.newUser){
-        $scope.allInterests = {};
-        $scope.allInterests.tags = [];
-        $scope.allInterests.meetups = [];
-        Profile.getUsersInterests(function(interests){
-          $scope.allInterests.tags = interests.tags;
-        });
-        Profile.getUsersMeetups(function(meetups){
-          $scope.allInterests.meetups = meetups;
-        });
-        $scope.newUser = false;
-      }
-      $scope.showAllInterests = !$scope.showAllInterests;
-    };
-
-    $scope.prettyDate = function(dateStr){
-      return moment(dateStr).format('ll');
     };
 
     $scope.sendMessage = function(){

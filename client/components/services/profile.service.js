@@ -9,7 +9,7 @@ angular.module('friendfinderApp')
 
       getUser: function(rid, cb) {
         if(selectedUser['@rid'] === rid){
-          return selectedUser;
+          cb(selectedUser);
         } else {
           User.getById({rid: rid}).$promise.then(function(user){
             selectedUser = user;

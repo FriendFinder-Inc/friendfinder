@@ -237,112 +237,6 @@ angular.module('friendfinderApp')
       }
     };
 
-    $scope.showProfileModal = function(rid){
-      $scope.newUser = true;
-      $scope.showAllInterests = false;
-      $scope.showMutualFriends = true;
-      $scope.showMutualInterests = true;
-      Profile.getUser(rid, function(user){
-        $scope.selectedUser = user;
-        $('.ui.modal.activity-profile').modal('setting', {
-          onVisible: function(){
-            // make sure all data is visible
-            $('.activity-title').textfill({});
-            $('.activity-date').textfill({});
-            $('.activity-location').textfill({});
-          }
-        }).modal('show');
-        Profile.getProfilePhotos(function(imgUrls){
-          $scope.fbPicsUrls = imgUrls;
-        });
-        Profile.getMutualInterests(function(mutualInterests){
-          $scope.mutualInterests = mutualInterests;
-          $scope.$apply(function(){});
-        });
-        Profile.getMutualFriendsOrPath(function(type, res){
-          if(type === 'friends'){
-            $scope.mutualFriends = res;
-          } else{
-            $scope.showMutualFriends = false;
-            $scope.connectionPath = res;
-          }
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-        Profile.getMutualMeetups(function(mutual){
-          $scope.mutualMeetups = mutual;
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-        Profile.getUsersActivities(function(activities){
-          $scope.usersActivities = activities;
-          setTimeout(function(){
-            $scope.$apply(function(){});
-          }, 1);
-        });
-      });
-    };
-
-    $scope.showMutualInterests = true;
-    $scope.toggleMutualInterests = function(){
-      $scope.showMutualInterests = !$scope.showMutualInterests;
-    };
-
-    $scope.showMutualFriends = true;
-    $scope.toggleMutualFriends = function(){
-      $scope.showMutualFriends = !$scope.showMutualFriends;
-    };
-
-    $scope.showConnectionPath = true;
-    $scope.toggleConnectionPath = function(){
-      $scope.showConnectionPath = !$scope.showConnectionPath;
-    };
-
-    $scope.newUser = true;
-    $scope.toggleAllInterests = function(){
-      if(!$scope.showAllInterests && $scope.newUser){
-        $scope.allInterests = {};
-        $scope.allInterests.tags = [];
-        $scope.allInterests.meetups = [];
-        Profile.getUsersInterests(function(interests){
-          $scope.allInterests.tags = interests.tags;
-        });
-        Profile.getUsersMeetups(function(meetups){
-          $scope.allInterests.meetups = meetups;
-        });
-        $scope.newUser = false;
-      }
-      $scope.showAllInterests = !$scope.showAllInterests;
-    };
-
-    $scope.sendMessage = function(){
-      var message = $('#message-area-findfriends').val();
-      var data =  {
-                    to: $scope.selectedUser['@rid'],
-                    toEmail: $scope.selectedUser.email,
-                    toName: $scope.selectedUser.name.split(' ')[0],
-                    from: $scope.currentUser['@rid'],
-                    fromEmail: $scope.currentUser.email,
-                    fromName: $scope.currentUser.name.split(' ')[0],
-                    timeSent: new Date(),
-                    timeRead: null,
-                    content: message,
-                    toFacebookId: $scope.selectedUser.facebookId,
-                    fromFacebookId: $scope.currentUser.facebookId
-                  };
-
-      Message.send(data).$promise.then(function(res){
-        $('#message-area-findfriends').val('');
-      });
-    };
-
-    $scope.birthdayToAge = function(birthday){
-      // moment.js is one of the best js libs ever!
-      return moment().diff(birthday, 'years');
-    };
-
     $scope.closeModals = function(){
       $('.ui.modal').modal('hide');
     };
@@ -375,7 +269,7 @@ angular.module('friendfinderApp')
       }
     };
 
-    $scope.showSideDiv = false;
+    $scope.showSideDiv = true;
     $scope.toggleSideDiv = function(){
       $scope.showSideDiv = !$scope.showSideDiv;
       setTimeout(function(){
@@ -493,36 +387,6 @@ angular.module('friendfinderApp')
       },
       function(response) {
       });
-    };
-
-    $scope.showMutualInterests = true;
-    $scope.toggleMutualInterests = function(){
-      $scope.showMutualInterests = !$scope.showMutualInterests;
-    };
-
-    $scope.showMutualFriends = true;
-    $scope.toggleMutualFriends = function(){
-      $scope.showMutualFriends = !$scope.showMutualFriends;
-    };
-
-    $scope.showConnectionPath = true;
-    $scope.toggleConnectionPath = function(){
-      $scope.showConnectionPath = !$scope.showConnectionPath;
-    };
-
-
-    $scope.newUser = true;
-    $scope.showAllInterests = false;
-    $scope.toggleAllInterests = function(){
-      if(!$scope.showAllInterests && $scope.newUser){
-        $scope.allInterests = {};
-        $scope.allInterests.tags = [];
-        $scope.allInterests.meetups = [];
-        $scope.getUsersInterests($scope.selectedUser);
-        $scope.getUsersMeetups($scope.selectedUser);
-        $scope.newUser = false;
-      }
-      $scope.showAllInterests = !$scope.showAllInterests;
     };
 
     $scope.prettyDate = function(dateStr){
