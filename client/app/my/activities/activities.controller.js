@@ -28,6 +28,11 @@ angular.module('friendfinderApp')
     $scope.showCreate = function(){
       $('.ui.create.modal').modal('show');
     };
+
+    $scope.$on('onRepeatLast', function(scope, element, attrs){
+      $('.activity-title').textfill({});
+      $('.activity-location').textfill({});
+    });
     // $scope.showEdit = function(activity){
     //   $scope.selectedActivity = activity;
     //   console.log('open', $scope.selectedActivity)

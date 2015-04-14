@@ -15,6 +15,11 @@ angular.module('friendfinderApp')
       }, 1);
     });
 
+    $scope.$on('onRepeatLast', function(scope, element, attrs){
+      $('.activity-title').textfill({});
+      $('.activity-location').textfill({});
+    });
+
     $scope.currentUser = Auth.getCurrentUser();
 
     $scope.bookmarks = [];
@@ -28,12 +33,6 @@ angular.module('friendfinderApp')
         $scope.requests.push(item['@rid']);
       })
     });
-
-    $scope.linkModal = function() {
-      $('.ui.modal').modal({allowMultiple: false});
-      $('.ui.modal').modal('setting', 'transition', 'fade');
-      $('.ui.modal.message').modal('attach events', '.modal.activity-profile .button.message-btn');
-    };
 
     $scope.linkAccordion = function(){
       $('.ui.accordion').accordion();

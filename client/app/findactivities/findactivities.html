@@ -25,7 +25,7 @@
         <div id='grid-container'>
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
-              ng-repeat='activity in activities' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
@@ -76,8 +76,8 @@
                           <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
                         </div>
                         <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+1].creator, 'activity-profile')">{{activity.creatorName}}</p>
-                        <div ng-if="activities[$index+1].link" class='activities[$index+1]-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                        <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
+                        <div ng-if="activities[$index+1].link" class='activity-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+1].link" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
                         <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                         <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
                         <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
-              ng-repeat='activity in activities' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
               <div class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>

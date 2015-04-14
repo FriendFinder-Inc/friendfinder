@@ -6,7 +6,7 @@
 
     <div class='ui grid'>
       <div class="doubling two column row" ng-show='isTooSmall() && isDouble($index)'
-        ng-repeat='activity in activities' ng-class="{workaround: 'isTooSmall() && isDouble($index)'}">
+        ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: 'isTooSmall() && isDouble($index)'}">
         <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div class="doubling three column row" ng-show='isTriple($index) && !isTooSmall()'
-        ng-repeat='activity in activities' ng-class="{workaround: 'isTriple($index) && !isTooSmall()'}">
+        ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: 'isTriple($index) && !isTooSmall()'}">
         <div class="center aligned column activities">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
@@ -174,7 +174,7 @@
     </div>
   </div>
 
-  <ng-include src="'app/me/activities/createModal.html'"></ng-include>
+  <ng-include src="'app/my/activities/createModal.html'"></ng-include>
   <!-- <ng-include src="'app/me/activities/editModal.html'"></ng-include> -->
-  <ng-include src="'app/me/activities/deleteModal.html'"></ng-include>
+  <ng-include src="'app/my/activities/deleteModal.html'"></ng-include>
 </div>

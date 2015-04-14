@@ -83,7 +83,7 @@ angular.module('friendfinderApp')
             type: 'empty',
             prompt: 'enter a description'
           },{
-            type: 'maxLength[200]',
+            type: 'maxLength[220]',
             prompt: 'too many characters'
           }]
         },
@@ -144,7 +144,8 @@ angular.module('friendfinderApp')
       $('.ui.form').form(validations, {on: 'blur', inline: 'true'});
 
       var self = this;
-      if (!$('.ui.form').form('validate form')[1]) {
+      var result = $('.ui.form').form('validate form');
+      if (!result[result.length-1]) {
         return;
       }
       this.loading = true;

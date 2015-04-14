@@ -135,6 +135,7 @@
   width: 100%;
   margin: 0px !important;
   overflow: hidden;
+  line-height: 1;
   padding: 4px !important;
 }
 

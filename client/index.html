@@ -95,8 +95,8 @@
         <div ui-view=""></div>
         <ng-include src="'app/findfriends/profileModal.html'" onload="linkModal_findfriends()"></ng-include>
         <ng-include src="'app/findactivities/profileModal.html'" onload="linkModal_findactivities()"></ng-include>
-        <ng-include src="'app/me/bookmarks/usersProfileModal.html'" onload="linkModal_bookmarks('users')"></ng-include>
-        <ng-include src="'app/me/bookmarks/actsProfileModal.html'" onload="linkModal_bookmarks('acts')"></ng-include>
+        <ng-include src="'app/my/bookmarks/usersProfileModal.html'" onload="linkModal_bookmarks('users')"></ng-include>
+        <ng-include src="'app/my/bookmarks/actsProfileModal.html'" onload="linkModal_bookmarks('acts')"></ng-include>
 
         <div class="ui small modal message" style='text-align: center;'>
           <textarea id='message-area' placeholder='enter message...'></textarea>
@@ -236,6 +236,7 @@
       <script src="app/settings/feedback/feedback.controller.js"></script>
       <script src="app/settings/settings.controller.js"></script>
       <script src="app/settings/settings.js"></script>
+      <script src="components/directives/repeatLast.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
       <script src="components/services/activity.service.js"></script>
       <script src="components/services/auth.service.js"></script>
