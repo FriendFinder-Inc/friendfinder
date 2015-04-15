@@ -22,6 +22,23 @@ angular.module('friendfinderApp')
       }, 1);
     });
 
+    setTimeout(function(){
+      $('.intro-wrapper').flowtype({
+       minimum   : 250,
+       maximum   : 800,
+       minFont   : 10,
+       maxFont   : 72,
+       fontRatio : 25
+      });
+      $('.middle').flowtype({
+       minimum   : 80,
+       maximum   : 700,
+       minFont   : 12,
+       maxFont   : 150,
+       fontRatio : 12
+      });
+    }, 1);
+
     $scope.linkAccordion = function(){
       $('.ui.accordion').accordion();
     };

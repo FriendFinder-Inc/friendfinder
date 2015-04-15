@@ -3,6 +3,25 @@
 angular.module('friendfinderApp')
   .controller('BookmarksCtrl', function ($scope, User, Auth, Activity, Bookmarks, Profile) {
 
+    setTimeout(function(){
+      $('.activity-title').textfill({});
+      $('.activity-location').textfill({});
+      $('.popup.icon').popup({on: 'click'});
+      $('.popup.icon').click(function(e){
+        e.stopPropagation();
+      });
+    }, 1);
+
+    $scope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+      if (toState.name === "my.bookmarks.acts") {
+        setTimeout(function(){
+          console.log('a')
+          $('.activity-title').textfill({});
+          $('.activity-location').textfill({maxFontPixels: 12});
+        }, 1);
+      }
+    });
+
     $scope.currentUser = Auth.getCurrentUser();
 
     $scope.bookmarks = [];

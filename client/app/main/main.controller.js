@@ -25,6 +25,7 @@ angular.module('friendfinderApp')
         })
         .error(function(data, status, headers, config) {
           console.log('error')
+          $window.location.href = '/';
         });
       }, {scope: scope.toString()});
     };

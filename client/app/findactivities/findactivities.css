@@ -36,16 +36,21 @@
 .activity-title{
   overflow: hidden;
   margin-top: -8px;
+  height: 28px;
   max-height: 28px;
   font-weight: bold;
+  line-height: 1.0 !important;
 }
 
 .activity-date{
   overflow: hidden;
+  color: red;
 }
 
 .activity-location{
   overflow: hidden;
-  max-height: 42px;
+  height: 33px;
+  max-height: 33px;
   color: darkgray;
+  line-height: 1.0 !important;
 }

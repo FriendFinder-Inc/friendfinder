@@ -6,8 +6,7 @@ angular.module('friendfinderApp')
     $(window).load(function() {
       setTimeout(function(){
         $('.activity-title').textfill({});
-        $('.activity-date').textfill({});
-        $('.activity-location').textfill({});
+        $('.activity-location').textfill({maxFontPixels: 12});
         $('.popup.icon').popup({on: 'click'});
         $('.popup.icon').click(function(e){
           e.stopPropagation();
@@ -15,9 +14,18 @@ angular.module('friendfinderApp')
       }, 1);
     });
 
+    setTimeout(function(){
+      $('.activity-title').textfill({});
+      $('.activity-location').textfill({maxFontPixels: 12});
+      $('.popup.icon').popup({on: 'click'});
+      $('.popup.icon').click(function(e){
+        e.stopPropagation();
+      });
+    }, 1);
+
     $scope.$on('onRepeatLast', function(scope, element, attrs){
       $('.activity-title').textfill({});
-      $('.activity-location').textfill({});
+      $('.activity-location').textfill({maxFontPixels: 12});
     });
 
     $scope.currentUser = Auth.getCurrentUser();
