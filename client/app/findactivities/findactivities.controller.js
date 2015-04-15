@@ -144,8 +144,7 @@ angular.module('friendfinderApp')
 
       // Activity.find(findFilters, function(users){
       Activity.find({}, function(activities){
-        $scope.activities = activities;
-        console.log('ats', activities)
+        $scope.$parent.activities = activities;
         $('.ui.find.button').removeClass('loading');
         $('.popup.icon').popup({on: 'click'});
         $('.popup.icon').click(function(e){

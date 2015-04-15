@@ -144,6 +144,7 @@ User.getMutual = function(edge, ridA, ridB, cb) {
 // Query db for users that match the filters
 // also sort results
 User.findByFilters = function(params, cb) {
+  console.log('filters ', params)
   var buildQuery = function(){
     var query = 'select * from RegisteredUser  ';
     var num = 0;
@@ -155,7 +156,7 @@ User.findByFilters = function(params, cb) {
       var filter = key.split('.')[1];
       var subquery = '';
       switch(filter){
-        case '-ORDER BY':
+        case 'sort':
           subquery = '';
           break;
         case 'last online':

@@ -25,7 +25,7 @@
         <div id='grid-container'>
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
-              ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              ng-repeat='activity in $parent.activities' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
@@ -102,7 +102,7 @@
               </div>
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
-              ng-repeat='activity in activities' on-last-repeat ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              ng-repeat='activity in $parent.activities' on-last-repeat ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
               <div class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>

@@ -25,7 +25,7 @@
         <div id='grid-container'>
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
-              ng-repeat='user in users' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              ng-repeat='user in $parent.users' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
@@ -94,7 +94,7 @@
               </div>
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
-              ng-repeat='user in users' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              ng-repeat='user in $parent.users' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
               {{ user.name }}
               <div class="column">
                 <div id='golden-wrapper'>

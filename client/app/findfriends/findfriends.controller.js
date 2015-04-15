@@ -158,10 +158,14 @@ angular.module('friendfinderApp')
       if($scope.tags.list.length){
         findFilters['tags'] = $scope.tags.list.toString();
       }
+      angular.forEach($scope.orderby[0].options, function(item){
+        if(item.value === true && item.key != '-'){
+          findFilters['sort'] = item.key;
+        }
+      });
 
       User.find(findFilters, function(users){
-        $scope.users = users;
-        console.log('users', users)
+        $scope.$parent.users = users;
         $('.ui.find.button').removeClass('loading');
         setTimeout(function(){
           $('.intro-wrapper').flowtype({
@@ -362,7 +366,7 @@ angular.module('friendfinderApp')
         display       : 'iframe',
         name          : 'friendfinder.io',
         link          : 'https://friendfinder.io',
-        picture       : 'http://i.huffpost.com/gen/964776/images/o-CATS-KILL-BILLIONS-facebook.jpg',
+        picture       : 'http://friendfinder.io/assets/images/friendfinderMobileLogo.png',
         caption       : 'Meet cool people. Do fun things.',
         description   : 'A new website to help you meet new people, through your facebook friends.'
       },

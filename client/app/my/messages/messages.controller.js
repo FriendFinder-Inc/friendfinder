@@ -50,12 +50,8 @@ angular.module('friendfinderApp')
       $('.ui.modal.message.messages').modal('show');
     };
 
-    $('#send-message-btn-messages').click(function(e){
-      $scope.sendMessage();
-    });
-
     $scope.hideModal = function(){
-      $('.ui.modal').modal('hide');
+      $('.ui.modal.message.messages').modal('hide');
     };
 
     $scope.showThread = function(thread){
@@ -69,8 +65,14 @@ angular.module('friendfinderApp')
       }, 1);
     };
 
+    $('#send-message-btn-messages').click(function(e){
+      $scope.sendMessage();
+    });
+
     $scope.sendMessage = function(){
       var message = $('#message-area-messages').val();
+      $('#send-message-btn-messages').addClass('loading');
+      console.log('sending', message)
 
       // extract info from first message in thread
       var firstMessage = $scope.selectedThread[0];
@@ -98,7 +100,6 @@ angular.module('friendfinderApp')
                   };
 
       Message.send(data).$promise.then(function(res){
-        $('#message-area-messages').val('');
         Message.get().$promise.then(function(threads){
           $scope.activeThreads = [];
           $scope.inactiveThreads = [];
@@ -130,7 +131,9 @@ angular.module('friendfinderApp')
               $scope.showThread(thread);
             }
           });
+          $('#send-message-btn-messages').removeClass('loading');
           $scope.hideModal();
+          $('#message-area-messages').val('');
         });
       });
     };

@@ -4,8 +4,8 @@ angular.module('friendfinderApp')
   .controller('ApplicationCtrl', function ($scope, $http, $window, Auth, Profile, User, Activity, Bookmarks, Message) {
 
     // cache query results for efficiency
-    $scope.findUsers = [];
-    $scope.findActivities = [];
+    $scope.users = [];
+    $scope.activities = [];
     $scope.bookmarks = [];
     $scope.requests = [];
 
@@ -165,9 +165,14 @@ angular.module('friendfinderApp')
       $('#message-modal').modal('hide');
     };
 
+    $('#send-message-btn').click(function(e){
+      $scope.sendMessage();
+    });
+
     $scope.sendMessage = function(){
       var message = $('#message-area').val();
-      
+      $('#send-message-btn').addClass('loading');
+
       var data =  {
                     to: $scope.selectedUser['@rid'],
                     toEmail: $scope.selectedUser.email,
@@ -184,6 +189,7 @@ angular.module('friendfinderApp')
 
       Message.send(data).$promise.then(function(res){
         $('#message-area').val('');
+        $('#send-message-btn').removeClass('loading');
         $scope.closeMessageModal();
       });
     };

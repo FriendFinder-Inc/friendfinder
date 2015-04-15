@@ -12,7 +12,7 @@
             <a class="item messages-item" data-tab="inactive">inactive</a>
         </div>
         <div class="ui active tab segment" data-tab="active">
-          <div class="item" style='max-height: 60px;'
+          <div id='chat-head' class="item" style='max-height: 60px;'
                ng-repeat='thread in activeThreads' ng-click='showThread(thread)'>
             <div class="ui circular image">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
@@ -26,7 +26,7 @@
           </div>
         </div>
         <div class="ui tab segment" data-tab="inactive">
-          <div class="item" style='max-height: 60px;'
+          <div id='chat-head' class="item" style='max-height: 60px;'
                ng-repeat='thread in inactiveThreads' ng-click='showThread(thread)'>
             <div class=" ui circular image">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
@@ -49,14 +49,14 @@
 
         <div id='thread-scroll-box'>
           <!-- message bubble -->
-          <div class='message-row' ng-repeat='message in selectedThread'>
+          <div class='message-row' ng-repeat='key in selectedThread'>
             <div class=" ui circular image" id='image-holder'>
-              <img ng-show='!myMessage(message.fromFacebookId)'
-                class='profile-pic' ng-src="https://graph.facebook.com/{{ myMessage(message.fromFacebookId) ? message.toFacebookId : message.fromFacebookId }}/picture?width=60&height=60">
+              <img ng-show='!myMessage(selectedThread[$index].fromFacebookId)'
+                class='profile-pic' ng-src="https://graph.facebook.com/{{ myMessage(selectedThread[$index].fromFacebookId) ? selectedThread[$index].toFacebookId : selectedThread[$index].fromFacebookId }}/picture?width=60&height=60">
             </div><br>
             <div ng-class="{'me-bubble': myMessage(selectedThread[$index].fromFacebookId), 'them-bubble': !myMessage(selectedThread[$index].fromFacebookId)}" class='message'>
               <div class='message-holder'>
-                {{ message.content }}
+                {{ selectedThread[$index].content }}
               </div>
             </div>
           </div>
