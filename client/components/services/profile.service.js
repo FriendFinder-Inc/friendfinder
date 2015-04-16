@@ -51,7 +51,7 @@ angular.module('friendfinderApp')
                 });
               });
             } else { //tag
-              $scope.mutualInterests.tags.push({name: like.name});
+              mutualInterests.tags.push({name: like.name});
               if(++count === mutual.length){
                 cb(mutualInterests);
               }

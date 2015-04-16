@@ -59,6 +59,20 @@
       <input type='text' ng-list ng-model='$parent.tags.list'>
     </div>
   </div>
+  <div ng-class='{disabled: chooseFilter}' class="title" ng-if="$parent.showDateRange">
+    <i class="dropdown icon"></i>
+      date range :
+    <i class="ui large close icon link icon" style='float:right;'
+       ng-click="$parent.hideDateRange()"></i>
+  </div>
+  <div class="content" ng-if="$parent.showDateRange">
+    <div class='ui input'>
+      <input id='start-date' type='text' ng-model='$parent.dateRange.start' placeholder='start'>
+    </div>
+    <div class='ui input' style='margin-top: 4px;'>
+      <input id='end-date' type='text' ng-model='$parent.dateRange.end' placeholder='end'>
+    </div>
+  </div>
 </div>
 
 <!-- order by -->

@@ -15,18 +15,25 @@ exports.send = function(req, res) {
   var message = new Message(req.body);
   message.send(function (message) {
     if(!message) { return res.send(404); }
-    sendgrid.send({
-      to:       req.body.toEmail,
-      from:     'noreply@friendfinder.io',
-      fromname: 'friendfinder',
-      subject:  'new message from '+req.user.name.split(' ')[0],
-      text:     req.body.content
-    }, function(err, json) {
-      if (err) {
-        console.log('SENDGRID API ERROR: failed to send message ', message['@rid'], err);
-        return res.send(404);
+    db.query('select preferences from '+req.body.to)
+    .then(function(user){
+      if(user[0].preferences.email.whenMessaged){
+        sendgrid.send({
+          to:       req.body.toEmail,
+          from:     'noreply@friendfinder.io',
+          fromname: 'friendfinder',
+          subject:  'new message from '+req.user.name.split(' ')[0],
+          text:     req.body.content
+        }, function(err, json) {
+          if (err) {
+            console.log('SENDGRID API ERROR: failed to send message ', message['@rid'], err);
+            return res.send(404);
+          }
+          return res.send(200);
+        });
+      } else{
+        res.send(200);
       }
-      return res.send(200);
     });
   });
 };

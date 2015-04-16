@@ -33,9 +33,9 @@ angular.module('friendfinderApp', [
       //TODO
       responseError: function(response) {
         if(response.status === 401) {
-          $location.path('/');
           // remove any stale tokens
           $cookieStore.remove('token');
+          $location.path('/');
           $('#navbar').remove();
           return $q.reject(response);
         }
@@ -46,14 +46,14 @@ angular.module('friendfinderApp', [
     };
   })
 
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location, Auth, $cookieStore) {
     $rootScope.$on('$stateChangeStart', function (event, next) {
       Auth.isLoggedInAsync(function(loggedIn) {
         if (next.authenticate && !loggedIn) {
           $location.path('/');
         }
         // don't let user go back to login if already logged in
-        if (next.url === '/' && loggedIn) {
+        if (next.url === '/' && $cookieStore.get('token')) {
           $location.path('/my/profile');
         }
         // kind of hacky, but if removed there is a benign UI bug on the sidebar

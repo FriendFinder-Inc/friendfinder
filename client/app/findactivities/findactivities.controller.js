@@ -44,20 +44,14 @@ angular.module('friendfinderApp')
 
     $scope.linkAccordion = function(){
       $('.ui.accordion').accordion();
+      $('#start-date').pickadate();
+      $('#end-date').pickadate();
     };
-
-    $('#send-message-btn').click(function(){
-      $scope.sendMessage();
-      $scope.closeModals();
-    });
-
-    $('#cancel-message-btn').click(function(){
-      $scope.closeModals();
-    });
 
     $scope.tags = {};
     $scope.tags.list = [];
     $scope.showTags = true;
+    $scope.showDateRange = false;
 
     $scope.orderby = [{'key':'orderby', 'options':['-', 'distance', 'creation date']}];
 
@@ -158,9 +152,9 @@ angular.module('friendfinderApp')
         $('.popup.icon').click(function(e){
           e.stopPropagation();
         });
+        $scope.showSideDiv = false;
       });
     }
-
 
     // initialize a list of just the filter names for display
     $scope.filterNames = [];
@@ -183,12 +177,26 @@ angular.module('friendfinderApp')
       $scope.filterNames.push('tags');
     };
 
+    $scope.hideDateRange = function(){
+      $scope.showDateRange = false;
+      $scope.filterNames.push('date range');
+    };
+
     $scope.addFilter = function(name){
       if(name === 'tags'){
         $scope.showTags = true;
         var index = $scope.filterNames.indexOf(name);
         $scope.filterNames.splice(index, 1);
         $scope.chooseFilter = !$scope.chooseFilter;
+        return;
+      }
+      if(name === 'date range'){
+        $scope.showDateRange = true;
+        var index = $scope.filterNames.indexOf(name);
+        $scope.filterNames.splice(index, 1);
+        $scope.chooseFilter = !$scope.chooseFilter;
+        $('#start-date').pickadate();
+        $('#end-date').pickadate();
         return;
       }
       angular.forEach($scope.filterChoices, function(filter){
@@ -241,10 +249,6 @@ angular.module('friendfinderApp')
       } else{
         return false;
       }
-    };
-
-    $scope.closeModals = function(){
-      $('.ui.modal').modal('hide');
     };
 
     $scope.isMobile = function(){
@@ -323,76 +327,6 @@ angular.module('friendfinderApp')
 
     $scope.doWorkaround = function(){
       return true;
-    };
-
-    $scope.isPersonality = function(key){
-      if(key === 'personality'){
-        $('.popup.icon').popup({on: 'click'});
-        $('.popup.icon').click(function(e){
-          e.stopPropagation();
-        });
-        return true;
-      }
-    };
-
-    $scope.isLockedFilter = function(key){
-      if((key === 'mutual friends' ||
-          key === 'degrees of separation') &&
-          $scope.currentUser.role === 'free'){
-        return true;
-      }
-    };
-
-    $scope.lockedClicked = function(){
-      setTimeout(function(){
-        FB.XFBML.parse();
-        $('#fb-share-btn').click(function(){
-          $scope.facebookShare();
-        });
-        $('#fb-invite-btn').click(function(){
-          $scope.facebookInvite();
-        });
-      }, 1);
-    };
-
-    $scope.facebookShare = function(){
-      //TODO: will this work with v2.0?
-      FB.ui(
-      {
-        method        : 'feed',
-        display       : 'iframe',
-        name          : 'friendfinder.io',
-        link          : 'https://friendfinder.io',
-        picture       : 'http://i.huffpost.com/gen/964776/images/o-CATS-KILL-BILLIONS-facebook.jpg',
-        caption       : 'Meet cool people. Do fun things.',
-        description   : 'A new website to help you meet new people, through your facebook friends.'
-      },
-      function(response) {
-        if (response && response.post_id) {
-          User.update({role: 'paid'}).$promise.then(function(res){
-            if(!res[0] === 1){
-              alert('failed to update your profile, please email support@friendfinder.io'+
-                'or try refreshing and sharing again. (you can delete the second post afterwards)');
-            } else{
-              $scope.currentUser = Auth.getCurrentUser();
-              $scope.currentUser.role = 'paid';
-            }
-          });
-        } else {
-          // do not unlock
-        }
-      });
-    };
-
-    $scope.facebookInvite = function(){
-      //TODO: will this work with v2.0?
-      FB.ui(
-      {
-        method        : 'apprequests',
-        message       : 'Check out this awesome new website I just discovered!'
-      },
-      function(response) {
-      });
     };
 
     $scope.prettyDate = function(dateStr){

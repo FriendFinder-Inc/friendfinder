@@ -213,6 +213,7 @@ Activity.bookmark = function(fromRid, toRid, cb) {
 };
 
 Activity.getAll = function(rid, cb) {
+  console.log('tooth', rid)
   db.query("select expand( out ) from ( select out('created') from "+rid+" )")
   .then(function (activities) {
     cb(activities);
@@ -229,7 +230,7 @@ Activity.update = function(rid, params, cb) {
 
 Activity.request = function(fromRid, params, cb) {
   createEdge(fromRid, params.rid, 'requested', function(){
-    db.query('select name, facebookId, email from '+params.creator)
+    db.query('select name, facebookId, email, preferences from '+params.creator)
     .then(function(user){
       var data = {
         to:               params.creator,
@@ -247,19 +248,23 @@ Activity.request = function(fromRid, params, cb) {
       var message = new Message(data);
       message.send(function (message) {
         if(!message) { return res.send(404); }
-        sendgrid.send({
-          to:       data.toEmail,
-          from:     'noreply@friendfinder.io',
-          fromname: 'friendfinder',
-          subject:  'new message from '+params.fromName,
-          text:     data.content
-        }, function(err, json) {
-          if (err) {
-            console.log('SENDGRID API ERROR: failed to send message ', message['@rid'], err);
-            cb('failed');
-          }
+        if(user[0].preferences.email.activityRequest){
+          sendgrid.send({
+            to:       data.toEmail,
+            from:     'noreply@friendfinder.io',
+            fromname: 'friendfinder',
+            subject:  'new message from '+params.fromName,
+            text:     data.content
+          }, function(err, json) {
+            if (err) {
+              console.log('SENDGRID API ERROR: failed to send message ', message['@rid'], err);
+              cb('failed');
+            }
+            cb('success');
+          });
+        } else{
           cb('success');
-        });
+        }
       });
     });
   });

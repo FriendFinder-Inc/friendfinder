@@ -8,13 +8,13 @@
       <!-- left chat heads -->
       <div class="four wide center aligned column" id='chat-heads' ng-class="{workaround: !showChatHeads()}" ng-show='showChatHeads()'>
         <div class="ui pointing secondary menu">
-            <a class="active item messages-item" data-tab="active">active</a>
-            <a class="item messages-item" data-tab="inactive">inactive</a>
+            <a id='active-tab' class="active item messages-item" data-tab="active">active</a>
+            <a id='inactive-tab' class="item messages-item" data-tab="inactive">inactive</a>
         </div>
-        <div class="ui active tab segment" data-tab="active">
+        <div id='active-segment' class="ui active tab segment" data-tab="active">
           <div id='chat-head' class="item" style='max-height: 60px;'
                ng-repeat='thread in activeThreads' ng-click='showThread(thread)'>
-            <div class="ui circular image">
+            <div class="ui circular image" ng-class="{unread: hasUnreadMessage(thread)}">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
             <div id='name'  class="content">
@@ -25,10 +25,10 @@
             <div class='ui divider' style='margin-top: 30px;'></div>
           </div>
         </div>
-        <div class="ui tab segment" data-tab="inactive">
+        <div id='inactive-segment' class="ui tab segment" data-tab="inactive">
           <div id='chat-head' class="item" style='max-height: 60px;'
                ng-repeat='thread in inactiveThreads' ng-click='showThread(thread)'>
-            <div class=" ui circular image">
+            <div class=" ui circular image" ng-class="{unread: hasUnreadMessage(thread)}">
               <img style='height: 60px;' ng-src="https://graph.facebook.com/{{ myMessage(thread[0].fromFacebookId) ? thread[0].toFacebookId : thread[0].fromFacebookId }}/picture?width=60&height=60">
             </div>
             <div id='name' class="content">

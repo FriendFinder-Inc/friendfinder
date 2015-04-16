@@ -26,13 +26,49 @@ angular.module('friendfinderApp')
           }
         })
         if(!active){
-          //TODO fix UI
           $scope.inactiveThreads.push(thread);
         } else {
           $scope.activeThreads.push(thread);
         }
       });
+
+      if($scope.activeThreads.length){
+        $('#active-tab').addClass('active');
+        $('#active-segment').addClass('active');
+        $('#inactive-tab').removeClass('active');
+        $('#inactive-segment').removeClass('active');
+      } else{
+        $('#inactive-tab').addClass('active');
+        $('#inactive-segment').addClass('active');
+        $('#active-tab').removeClass('active');
+        $('#active-segment').removeClass('active');
+      }
     });
+
+    $scope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
+      if (toState.name === "my.messages") {
+        if($scope.activeThreads.length){
+          $('#active-tab').addClass('active');
+          $('#active-segment').addClass('active');
+          $('#inactive-tab').removeClass('active');
+          $('#inactive-segment').removeClass('active');
+        } else{
+          $('#inactive-tab').addClass('active');
+          $('#inactive-segment').addClass('active');
+          $('#active-tab').removeClass('active');
+          $('#active-segment').removeClass('active');
+        }
+      }
+    });
+
+    $scope.hasUnreadMessage = function(thread){
+      angular.forEach(thread, function(message){
+        if(message.timeRead === null && message.from != $scope.currentUser['@rid']){
+          return true;
+        }
+      });
+      return false;
+    };
 
     $scope.updateTimeRead = function(thread){
       angular.forEach(thread, function(message){

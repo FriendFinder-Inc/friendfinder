@@ -197,9 +197,9 @@ angular.module('friendfinderApp')
         $('.popup.icon').click(function(e){
           e.stopPropagation();
         });
+        $scope.showSideDiv = false;
       });
-    }
-
+    };
 
     // initialize a list of just the filter names for display
     $scope.filterNames = [];
