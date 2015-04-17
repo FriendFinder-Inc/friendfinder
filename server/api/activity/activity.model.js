@@ -111,11 +111,9 @@ Activity.prototype.create = function(cb) {
     request(options, function(error, response, body) {
       if (!error && response.statusCode == 200) {
         var result = JSON.parse(body).result;
-        self.props.location = {
-          name: result.formatted_address,
-          lat: result.geometry.location.lat,
-          long: result.geometry.location.lng
-        };
+        self.props.location = result.formatted_address;
+        self.props.lat = result.geometry.location.lat;
+        self.props.long = result.geometry.location.lng;
         // then shorten the urls if they exist
         var count = (self.props.url ? 1 : 0) + (self.props.img ? 1 : 0);
         var i = 0;
