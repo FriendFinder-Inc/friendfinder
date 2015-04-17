@@ -35,7 +35,7 @@ angular.module('friendfinderApp')
       if($('#location-input-create').val().length > 1){
         $('.ui.dropdown.location').dropdown('show');
         var input = $('#location-input-create').val();
-        var latlong = $scope.currentUser.location.lat+','+$scope.currentUser.location.long;
+        var latlong = $scope.currentUser.lat+','+$scope.currentUser.long;
         Activity.autocomplete({input: input, latlong: latlong}).$promise.then(function(suggestions){
           $scope.suggestions = suggestions;
           $scope.suggestions.push({description: 'googlePowered'});

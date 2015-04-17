@@ -176,7 +176,7 @@ User.findByFilters = function(user, params, cb) {
       }
       var query = "select from ( select from RegisteredUser where "
         +"distance(lat, long, "
-        +user.location.lat+', '+user.location.long+") <= "+milesToKm[params.details.distance[0]]+')';
+        +user.lat+', '+user.long+") <= "+milesToKm[params.details.distance[0]]+')';
       // handle all the profile detail filters
       if(Object.keys(params.details).length-1){
         var count = 1;

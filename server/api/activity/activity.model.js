@@ -30,9 +30,9 @@ var Activity = function(params) {
   this.props = {};
   this.props.title =       params.title;
   this.props.description = params.description;
-  this.props.location =    params.location.name;
-  this.props.lat =         params.location.lat;
-  this.props.long =        params.location.long;
+  this.props.location =    params.location;
+  this.props.lat =         null;
+  this.props.long =        null;
   this.props.tags =        params.tags;
   this.props.isEvent =     params.isEvent;
   this.props.created =     new Date();
@@ -170,11 +170,9 @@ Activity.prototype.create = function(cb) {
         console.log('GOOGLE API ERROR: failed to get lat/long for place: ', self.props.location, err);
         cb('failure');
       }
-      self.props.location = {
-        name: details.result.formatted_address,
-        lat: details.result.geometry.location.lat,
-        long: details.result.geometry.location.lng
-      };
+      self.props.location = details.result.formatted_address;
+      self.props.lat = details.result.geometry.location.lat;
+      self.props.long = details.result.geometry.location.lng;
       // then shorten the urls if they exist
       var count = (self.props.url ? 1 : 0) + (self.props.img ? 1 : 0);
       var i = 0;
