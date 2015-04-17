@@ -43,4 +43,8 @@ angular.module('friendfinderApp')
       }
     });
 
+    $scope.isMobile = function(){
+      return $window.isMobile;
+    };
+
   });

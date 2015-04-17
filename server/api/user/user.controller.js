@@ -31,7 +31,7 @@ exports.delete = function(req, res) {
  * Most important method of the website!
  */
 exports.find = function(req, res, next) {
-  User.findByFilters(req.query, function(users){
+  User.findByFilters(req.user, req.query, function(users){
     res.json(users);
   });
 };

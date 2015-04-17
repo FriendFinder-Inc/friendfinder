@@ -58,7 +58,7 @@ angular.module('friendfinderApp')
     $scope.filterChoices =
      [{'key':'distance',           'options':['5mi', '25mi', '50mi', '100mi', 'anywhere']},
       {'key':'date range',         'options':['start', 'end']},
-      {'key':'creation date',      'options':['today', 'this week', 'this month', 'anytime']},
+      // {'key':'creation date',      'options':['today', 'this week', 'this month', 'anytime']},
       {'key':'events only',        'options':['true']}];
 
     angular.forEach($scope.filterChoices, function(filter){

@@ -142,59 +142,92 @@ User.getMutual = function(edge, ridA, ridB, cb) {
 
 
 // Query db for users that match the filters
-// also sort results
-User.findByFilters = function(params, cb) {
-  console.log('filters ', params)
-  var buildQuery = function(){
-    var query = 'select * from RegisteredUser  ';
-    var num = 0;
-    for(var key in params){
-      if(key === 'tags'){
-        continue;
+// This function is the whole point of the website!
+User.findByFilters = function(user, params, cb) {
+  var PAGE_SIZE = 30;
+  var milesToKm = { // why are we still not on the metric system?...
+    '5mi': 8,
+    '25mi': 40,
+    '50mi': 80,
+    '100mi': 120,
+    'anywhere': 40000
+  };
+  var makeString = function(list){
+    var str = '';
+    for(var i = 0; i < list.length; i++){
+      str += "'"+list[i]+"'";
+      if(i+1 != list.length){
+        str += ', ';
       }
-      var values = params[key];
-      var filter = key.split('.')[1];
-      var subquery = '';
-      switch(filter){
-        case 'sort':
-          subquery = '';
-          break;
-        case 'last online':
-          subquery = '';
-          break;
-        case 'distance':
-          subquery = '';
-          break;
-        default:
-          if(typeof values === 'string'){ // single filter value
-            var valuesString = '"'+values+'"';
-          } else { // array
-            var valuesString = '';
-            for(var i = 0; i < values.length; i++){
-              if(values.length === 1 || i === values.length-1){
-                valuesString += '"'+values[i]+'"';
-              } else {
-                valuesString += '"'+values[i]+'",';
-              }
+    }
+    return str;
+  }
+  console.log('FILTERS:   ', params)
+  var buildQuery = function(){
+    if(params.details){
+      params.details = JSON.parse(params.details);
+    }
+
+    if(params.sort === 'distance'){
+      if(!params.details.distance){
+        params.details.distance = ['anywhere'];
+      }
+      var query = "select from ( select from RegisteredUser where "
+        +"distance(lat, long, "
+        +user.location.lat+', '+user.location.long+") <= "+milesToKm[params.details.distance[0]]+')';
+      // handle all the profile detail filters
+      if(Object.keys(params.details).length-1){
+        var count = 1;
+        query += ' where';
+        for(var key in params.details){
+          if(key != 'distance'){
+            query += " details."+key+".value in [ "+makeString(params.details[key])+" ] ";
+            if(count++ < Object.keys(params.details).length-1){
+              query += ' and';
             }
           }
-          subquery = 'details.'+filter+'.value'+' in ['+valuesString+']';
-          break;
+        }
       }
-      if(num === 0 || num === Object.keys(params).length-1){
-        query += subquery;
+      // handle all the keyword filters
+      if(params.tags){
+        if(Object.keys(params.details).length-1){
+          query += 'and';
+        } else {
+          query += ' where';
+        }
+        params.tags = params.tags.split(',');
+        for(var i = 0; i < params.tags.length; i++){
+          query += " '"+params.tags[i]+"' in out('likes').name"
+          if(i+1 != params.tags.length){
+            query += ' and';
+          }
+        }
+      }
+      query += ' order by distance';
+      query += ' skip '+PAGE_SIZE*params.page;
+      query += ' limit '+PAGE_SIZE;
+      return query;
+    } else { // mutual friends or interests
+      var edge = (params.sort === 'mutual friends') ? 'friends' : 'likes';
+      if(edge === 'friends' && params.excludeFriends){
+        //TODO
       } else {
-        query += subquery+' AND ';
+        var query = "select *, count(*) from ("+
+                      "select expand( list( both('"+edge+"') ).both('"+edge+"').remove( @this ) ) from "+user['@rid']+
+                        ") where @class = 'RegisteredUser' group by name order by count desc";
+        return query;
       }
-      num++;
     }
-    return query;
   };
 
   var query = buildQuery();
-  console.log('query', query)
+  console.log('FINAL QUERY', query)
   db.query(query)
   .then(function (users) {
+    if(params.sort != 'distance'){
+      // don't include yourself, TODO fix
+      users.shift();
+    }
     cb(users);
   });
 };

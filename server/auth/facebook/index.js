@@ -96,7 +96,9 @@ var newUser = function(fbData, cb){
     },
     name: fbData.name,
     email: fbData.email,
-    location: fbData.location,
+    location: fbData.location.name,
+    lat: fbData.location.lat,
+    long: fbData.location.long,
     birthday: fbData.birthday,
     fbAccessToken: fbData.accessToken,
     facebookId: fbData.id,
@@ -122,7 +124,20 @@ var newUser = function(fbData, cb){
     lastOnline: new Date()
   });
   user.create(function(user) {
-    exports.connectFriends(user);
+    // create a nrUser for ourselves
+    NrUser.findOne({id: user.facebookId}, function(me){
+      if(!me){
+        var newMe = new NrUser({
+          name: user.name,
+          id: user.facebookId
+        });
+        newMe.create(function(created){
+          exports.connectFriends(user, created);
+        });
+      } else{
+        exports.connectFriends(user, me);
+      }
+    });
     exports.connectPages(user);
     exports.uploadFbPhotos(user);
     return cb(user);
@@ -146,7 +161,7 @@ var createEdge = function(from, to, type){
 
 // TODO: before April 30th 2015 this will need to be refactored
 // as we will no longer have access to non registered users
-exports.connectFriends = function(user){
+exports.connectFriends = function(user, nrUser){
   FB.get('/me/friends', function (err, res) {
     if(err) {
       console.log('FB API ERROR: failed to get friends for user: ', user.facebookId, err);
@@ -164,9 +179,24 @@ exports.connectFriends = function(user){
               });
               newFriend.create(function(createdFriend){
                 createEdge(user, createdFriend, 'friends');
+                createEdge(createdFriend, user, 'friends');
+                createEdge(nrUser, createdFriend, 'friends');
+                createEdge(createdFriend, nrUser, 'friends');
               });
             } else{
               createEdge(user, foundFriend, 'friends');
+              createEdge(foundFriend, user, 'friends');
+              createEdge(nrUser, foundFriend, 'friends');
+              createEdge(foundFriend, nrUser, 'friends');
+            }
+          });
+        })(friend);
+        // link to RegisteredUsers as well
+        (function(friend){
+          User.findOne({facebookId: friend.id}, function(foundFriend){
+            if(foundFriend){
+              createEdge(user, foundFriend, 'friends');
+              createEdge(foundFriend, user, 'friends');
             }
           });
         })(friend);

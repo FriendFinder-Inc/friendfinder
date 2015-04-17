@@ -13,14 +13,14 @@
               <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
-                  <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
+                  <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
                   <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
                   <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
                   <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
-                  <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                  <div class='activity-location'><span>{{ activity.location}}</div></span>
                 </div>
               </div>
               <div class='activity-bottom-half'>
@@ -45,14 +45,14 @@
               <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
-                  <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                  <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
                   <div ng-if="activities[$index+1].link" class='activities[$index+1]-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
                   <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
-                  <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
                 </div>
               </div>
               <div class='activity-bottom-half'>
@@ -80,14 +80,14 @@
               <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
-                  <img class='square-100px' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
+                  <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
                   <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
                   <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
                   <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
-                  <div class='activity-location'><span>{{ activity.location.name}}</div></span>
+                  <div class='activity-location'><span>{{ activity.location}}</div></span>
                 </div>
               </div>
               <div class='activity-bottom-half'>
@@ -112,14 +112,14 @@
               <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
-                  <img class='square-100px' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                  <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
                   <div ng-if="activities[$index+1].link" class='activity-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
                   <div ng-if="!activities[$index+1].link" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
-                  <div class='activity-location'><span>{{ activities[$index+1].location.name}}</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
                 </div>
               </div>
               <div class='activity-bottom-half'>
@@ -144,14 +144,14 @@
               <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
-                  <img class='square-100px' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                  <img class='square-100px-activity' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
                   <div ng-if="activities[$index+2].link" class='activity-title'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
                   <div ng-if="!activities[$index+2].link" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
-                  <div class='activity-location'><span>{{ activities[$index+2].location.name}}</div></span>
+                  <div class='activity-location'><span>{{ activities[$index+2].location}}</div></span>
                 </div>
               </div>
               <div class='activity-bottom-half'>

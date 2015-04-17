@@ -1,8 +1,20 @@
 <div class='main-container'>
 
-  <div class='centered-content'>
+  <div class='centered-content' ng-if="!isMobile()">
 
     <img src='assets/images/friendfinderLogoGIF.gif'>
+    <div class="ui blue button" ng-click='fbLogin()'>
+      <i class="icon facebook"></i>login with facebook
+    </div>
+    <div id='video-link-container'>
+      <a id='modal-link' ng-click="showModal()">what is friendfinder?</a>
+    </div>
+
+  </div>
+
+  <div class='centered-content-mobile' ng-if="isMobile()">
+
+    <img src='assets/images/friendfinderLogoGIFMobile.gif'>
     <div class="ui blue button" ng-click='fbLogin()'>
       <i class="icon facebook"></i>login with facebook
     </div>

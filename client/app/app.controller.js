@@ -11,6 +11,10 @@ angular.module('friendfinderApp')
 
     $scope.currentUser = Auth.getCurrentUser();
 
+    // retain mem for db pagination
+    $scope.usersPageFilters = {};
+    $scope.usersActivityFilters = {};
+
     Bookmarks.getBookmarkRids(function(rids){
       $scope.bookmarks = rids;
     });
@@ -172,6 +176,7 @@ angular.module('friendfinderApp')
     $scope.sendMessage = function(){
       var message = $('#message-area').val();
       $('#send-message-btn').addClass('loading');
+      console.log('sending message')
 
       var data =  {
                     to: $scope.selectedUser['@rid'],

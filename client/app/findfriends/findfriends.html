@@ -40,12 +40,12 @@
                           {{ birthdayToAge(user.birthday) }} ,
                           <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ user.location.name || 'location unknown' }}</span>
+                            <span>{{ user.location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            55mi
+                            {{ user.count }}
                           </div>
                         </div>
                       </div>
@@ -73,12 +73,12 @@
                           {{ birthdayToAge(users[$index+1].birthday) }} ,
                           <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
+                            <span>{{ users[$index+1].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            55mi
+                            {{ users[$index+1].count }}
                           </div>
                         </div>
                       </div>
@@ -110,12 +110,12 @@
                           {{ birthdayToAge(user.birthday) }} ,
                           <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ user.location.name || 'location unknown' }}</span>
+                            <span>{{ user.location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            55mi
+                            {{ user.count }}
                           </div>
                         </div>
                       </div>
@@ -143,12 +143,12 @@
                           {{ birthdayToAge(users[$index+1].birthday) }} ,
                           <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+1].location.name || 'location unknown' }}</span>
+                            <span>{{ users[$index+1].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            55mi
+                            {{ users[$index+1].count }}
                           </div>
                         </div>
                       </div>
@@ -176,12 +176,12 @@
                           {{ birthdayToAge(users[$index+2].birthday) }} ,
                           <a ng-click="$parent.showProfileModal(users[$index+2]['@rid'], 'profile')" class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+2].location.name || 'location unknown' }}</span>
+                            <span>{{ users[$index+2].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            55mi
+                            {{ users[$index+2].count }}
                           </div>
                         </div>
                       </div>

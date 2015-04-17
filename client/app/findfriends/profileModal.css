@@ -71,6 +71,15 @@
   height: 100px;
 }
 
+.square-100px-activity{
+  width: 100px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  display: block;
+  height: auto !important;
+}
+
 .new-square-100px{
   max-width: 100px;
   max-height: 100px;

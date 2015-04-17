@@ -47,19 +47,19 @@ angular.module('friendfinderApp')
     $scope.tags.list = [];
     $scope.showTags = true;
 
-    $scope.orderby = [{'key':'orderby', 'options':['-', 'distance', 'last online',
+    $scope.orderby = [{'key':'orderby', 'options':['distance',
                       'shared interests', 'mutual friends']}];
 
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},
       {'key':'distance',         'options':['5mi', '25mi', '50mi', '100mi', 'anywhere']},
       {'key':'orientation',      'options':['hetero', 'homo', 'bi', 'other']},
-      {'key':'last online',      'options':['online now', 'past week', 'past month']},
+      // {'key':'last online',      'options':['online now', 'past week', 'past month']},
       {'key':'smokes',           'options':['never', 'occassionally', 'often']},
-      {'key':'activities',       'options':['has activities']},
-      {'key':'meetup.com',       'options':['member of same group(s)']},
+      // {'key':'activities',       'options':['has activities']},
+      // {'key':'meetup.com',       'options':['member of same group(s)']},
       {'key':'drinks',           'options':['never', 'occassionally', 'often']},
-      {'key':'connection',       'options':['3rd degree', '4th degree', '5th degree', '6th degree', '7th degree']},
+      // {'key':'connection',       'options':['3rd degree', '4th degree', '5th degree', '6th degree', '7th degree']},
       {'key':'drugs',            'options':['never', 'occassionally', 'often']},
       {'key':'education',        'options':['some highschool', 'highschool', 'some college', 'associates',
         'bachelors', 'masters', 'doctorate']},
@@ -154,6 +154,22 @@ angular.module('friendfinderApp')
       }
     };
 
+    $scope.loadMoreUsers = function(){
+      $scope.$parent.usersPageFilters.page++;
+      User.find($scope.$parent.usersPageFilters, function(users){
+        $scope.$parent.users.push(users);
+        setTimeout(function(){
+          $('.intro-wrapper').flowtype({
+           minimum   : 250,
+           maximum   : 800,
+           minFont   : 10,
+           maxFont   : 72,
+           fontRatio : 25
+          });
+        }, 1);
+      });
+    };
+
     $scope.find = function(){
       $('.ui.find.button').addClass('loading');
       var findFilters = {};
@@ -165,9 +181,13 @@ angular.module('friendfinderApp')
             if(filter.key === 'meetup.com' || filter.key === 'activities'){
               findFilters[filter.key] = true;
             } else {
-              findFilters['details.'+filter.key] ?
-                findFilters['details.'+filter.key].push(key) :
-                findFilters['details.'+filter.key] = [key];
+              if(!findFilters.hasOwnProperty('details')){
+                findFilters.details = {};
+              }
+              if(!findFilters.details[filter.key]){
+                findFilters.details[filter.key] = [];
+              }
+              findFilters.details[filter.key].push(key);
             }
           }
         }
@@ -176,12 +196,15 @@ angular.module('friendfinderApp')
         findFilters['tags'] = $scope.tags.list.toString();
       }
       angular.forEach($scope.orderby[0].options, function(item){
-        if(item.value === true && item.key != '-'){
+        if(item.value === true){
           findFilters['sort'] = item.key;
         }
       });
 
+      findFilters.page = 0;
+      $scope.$parent.usersPageFilters = findFilters;
       User.find(findFilters, function(users){
+        $scope.$parent.page = 0;
         $scope.$parent.users = users;
         $('.ui.find.button').removeClass('loading');
         setTimeout(function(){
@@ -219,11 +242,13 @@ angular.module('friendfinderApp')
 
     $scope.hideTags = function(){
       $scope.showTags = false;
-      $scope.filterNames.push('tags');
+      $('#keywords-input').val('');
+      $scope.tags.list = [];
+      $scope.filterNames.push('keywords');
     };
 
     $scope.addFilter = function(name){
-      if(name === 'tags'){
+      if(name === 'keywords'){
         $scope.showTags = true;
         var index = $scope.filterNames.indexOf(name);
         $scope.filterNames.splice(index, 1);
