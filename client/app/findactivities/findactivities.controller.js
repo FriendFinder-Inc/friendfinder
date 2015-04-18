@@ -53,11 +53,11 @@ angular.module('friendfinderApp')
     $scope.showTags = true;
     $scope.showDateRange = false;
 
-    $scope.orderby = [{'key':'orderby', 'options':['-', 'distance', 'creation date']}];
+    $scope.orderby = [{'key':'orderby', 'options':['distance', 'creation date']}];
 
     $scope.filterChoices =
      [{'key':'distance',           'options':['5mi', '25mi', '50mi', '100mi', 'anywhere']},
-      {'key':'date range',         'options':['start', 'end']},
+      // {'key':'date range',         'options':['start', 'end']},
       // {'key':'creation date',      'options':['today', 'this week', 'this month', 'anytime']},
       {'key':'events only',        'options':['true']}];
 
@@ -81,6 +81,12 @@ angular.module('friendfinderApp')
       option.value = null;
     });
     $scope.orderby[0]['options'][0].value = true;
+
+    $scope.filters = [$scope.filterChoices[0]];
+    for(var i in $scope.filters[0].options){
+      // set distance to 25 mi by default
+      $scope.filters[0].options[1].value = true;
+    }
 
     $scope.getOrderby = function(){
       var option = $scope.orderby[0]['options'].filter(function(item){
@@ -121,7 +127,6 @@ angular.module('friendfinderApp')
       }
     };
 
-    $scope.filters = [];
     $scope.find = function(){
       $('.ui.find.button').addClass('loading');
       var findFilters = {};
@@ -130,22 +135,31 @@ angular.module('friendfinderApp')
           var key = filter.options[i].key;
           var val = filter.options[i].value;
           if(val === true){
-            if(filter.key === 'meetup.com' || filter.key === 'activities'){
+            if(filter.key === 'events only'){
               findFilters[filter.key] = true;
-            } else {
-              findFilters['details.'+filter.key] ?
-                findFilters['details.'+filter.key].push(key) :
-                findFilters['details.'+filter.key] = [key];
             }
+            if(!findFilters.hasOwnProperty('details')){
+              findFilters.details = {};
+            }
+            if(!findFilters.details[filter.key]){
+              findFilters.details[filter.key] = [];
+            }
+            findFilters.details[filter.key].push(key);
           }
         }
       });
       if($scope.tags.list.length){
         findFilters['tags'] = $scope.tags.list.toString();
       }
+      angular.forEach($scope.orderby[0].options, function(item){
+        if(item.value === true){
+          findFilters['sort'] = item.key;
+        }
+      });
 
-      // Activity.find(findFilters, function(users){
-      Activity.find({}, function(activities){
+      findFilters.page = 0;
+      $scope.$parent.activitiesPageFilters = findFilters;
+      Activity.find(findFilters, function(activities){
         $scope.$parent.activities = activities;
         $('.ui.find.button').removeClass('loading');
         $('.popup.icon').popup({on: 'click'});
@@ -215,7 +229,6 @@ angular.module('friendfinderApp')
           $scope.filters.splice(index, 1);
           $scope.filterNames.push(key);
           $scope.filterNames.sort();
-          //TODO: update filters model as well!
         }
       });
     };

@@ -410,7 +410,7 @@ angular.module('friendfinderApp')
         link          : 'https://friendfinder.io',
         picture       : 'http://friendfinder.io/assets/images/friendfinderMobileLogo.png',
         caption       : 'Meet cool people. Do fun things.',
-        description   : 'A new website to help you meet new people, through your facebook friends.'
+        description   : 'A new website to help you meet new people through your facebook friends, and do the things you want to.'
       },
       function(response) {
         if (response && response.post_id) {
@@ -442,6 +442,10 @@ angular.module('friendfinderApp')
 
     $scope.prettyDate = function(dateStr){
       return moment(dateStr).format('ll');
+    };
+
+    $scope.kmToMiles = function(km){
+      return Math.floor(km*0.62137);
     };
 
   });

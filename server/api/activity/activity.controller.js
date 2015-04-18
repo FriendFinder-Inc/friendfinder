@@ -82,12 +82,9 @@ exports.delete = function(req, res) {
 };
 
 
-/**
- * Most important method of the website!
- */
 exports.find = function(req, res, next) {
-  Activity.findByFilters(req.query, function(Activitys){
-    res.json(Activitys);
+  Activity.findByFilters(req.user, req.query, function(Activities){
+    res.json(Activities);
   });
 };
 

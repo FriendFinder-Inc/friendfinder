@@ -60,7 +60,7 @@ Tag.prototype.getOrCreate = function(cb) {
   })
 };
 
-Tag.update = function(fromRid, params, cb) {
+Tag.update = function(fromRid, params, edge, cb) {
   var count = 0; // closure variable so we know when to return
   var tags = params.add.concat(params.remove);
 
@@ -72,7 +72,7 @@ Tag.update = function(fromRid, params, cb) {
       created: new Date()
     });
     newTag.getOrCreate(function(tag){
-      createEdge(fromRid, tag['@rid'], 'likes', cb);
+      createEdge(fromRid, tag['@rid'], edge, cb);
       count++;
       if(count === tags.length){
         cb('success');
@@ -82,8 +82,8 @@ Tag.update = function(fromRid, params, cb) {
 
   // remove tags from user (and delete tag if no other user has it)
   var removeEdge = function(tagRid){
-    deleteEdge(fromRid, tagRid, 'likes', function(res){
-      var query = "select expand( in ) ( select in('likes') from "+tagRid+" )";
+    deleteEdge(fromRid, tagRid, edge, function(res){
+      var query = "select expand( in ) ( select in('"+edge+"') from "+tagRid+" )";
       db.query(query).then(function(users){
         if(!users.length){
           // tag has no edges, delete it (save storage space)

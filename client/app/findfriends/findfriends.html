@@ -45,7 +45,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ user.count }}
+                            {{ user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -78,7 +78,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+1].count }}
+                            {{ users[$index+1].count || kmToMiles(users[$index+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -115,7 +115,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ user.count }}
+                            {{ user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -148,7 +148,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+1].count }}
+                            {{ users[$index+1].count || kmToMiles(users[$index+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -181,7 +181,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+2].count }}
+                            {{ users[$index+2].count || kmToMiles(users[$index+2].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>

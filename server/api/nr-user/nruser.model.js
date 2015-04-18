@@ -5,8 +5,8 @@
 var NrUser = function(params) {
   params = params || {};
   this.props = {};
-  this.props.name =     params.name;
-  this.props.id =       params.id;
+  this.props.name =         params.name;
+  this.props.facebookId =   params.facebookId;
 };
 
 NrUser.prototype.create = function(cb) {

@@ -164,19 +164,18 @@ User.findByFilters = function(user, params, cb) {
     }
     return str;
   }
-  console.log('FILTERS:   ', params)
+  // console.log('FILTERS:   ', params)
   var buildQuery = function(){
     if(params.details){
       params.details = JSON.parse(params.details);
     }
-
     if(params.sort === 'distance'){
       if(!params.details.distance){
         params.details.distance = ['anywhere'];
       }
-      var query = "select from ( select from RegisteredUser where "
-        +"distance(lat, long, "
-        +user.lat+', '+user.long+") <= "+milesToKm[params.details.distance[0]]+')';
+      var query = "select from ( select *, $distance from RegisteredUser where "
+        +"[lat, long, $spatial] near ["
+        +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}]';
       // handle all the profile detail filters
       if(Object.keys(params.details).length-1){
         var count = 1;
@@ -209,13 +208,16 @@ User.findByFilters = function(user, params, cb) {
       query += ' skip '+PAGE_SIZE*params.page;
       query += ' limit '+PAGE_SIZE;
       return query;
-    } else { // mutual friends or interests
+    }
+    // mutual friends or interests
+    else {
       var edge = (params.sort === 'mutual friends') ? 'friends' : 'likes';
+      var dir = (params.sort === 'mutual friends') ? 'out' : 'both';
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
         var query = "select *, count(*) from ("+
-                      "select expand( list( both('"+edge+"') ).both('"+edge+"').remove( @this ) ) from "+user['@rid']+
+                      "select expand( list( "+dir+"('"+edge+"') )."+dir+"('"+edge+"').remove( @this ) ) from "+user['@rid']+
                         ") where @class = 'RegisteredUser' group by name order by count desc";
         return query;
       }
@@ -223,13 +225,11 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  console.log('FINAL QUERY', query)
+  // console.log('FINAL QUERY', query)
   db.query(query)
   .then(function (users) {
-    if(params.sort != 'distance'){
-      // don't include yourself, TODO fix
-      users.shift();
-    }
+    // don't include yourself, TODO fix in query
+    users.shift();
     cb(users);
   });
 };

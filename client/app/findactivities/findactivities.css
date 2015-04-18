@@ -49,8 +49,8 @@
 
 .activity-location{
   overflow: hidden;
-  height: 33px;
-  max-height: 33px;
+  height: 24px;
+  max-height: 24px;
   color: darkgray;
-  line-height: 1.0 !important;
+  line-height: 0.8 !important;
 }

@@ -21,7 +21,7 @@ exports.create = function(req, res) {
 
 // Updates an existing tag in the DB.
 exports.update = function(req, res) {
-  Tag.update(req.user['@rid'], req.body, function(result){
+  Tag.update(req.user['@rid'], req.body, 'likes', function(result){
     res.send(200);
   });
 };

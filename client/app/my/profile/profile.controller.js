@@ -2,7 +2,13 @@
 
 angular.module('friendfinderApp')
   .controller('ProfileCtrl', function ($scope, User, Auth, Tag, $state) {
-    $('.ui.selection.dropdown.details').dropdown();
+
+    $(window).load(function() {
+      setTimeout(function(){
+        $('.ui.selection.dropdown.details').dropdown();
+      }, 1);
+    });
+
     $scope.currentUser = {};
     $scope.interests = {};
     $scope.interests.tags = [];

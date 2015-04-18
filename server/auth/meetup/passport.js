@@ -83,10 +83,11 @@ exports.sendMeetupData = function(rid, meetupId, newTags, groups, done){
   .scalar()
   .then(function (total) {
     Meetup.addGroups(rid, groups, function(res){
+      // tag the user's profile with meetup categories
       Tag.update(rid, {
           add: newTags,
           remove: []
-        }, function(res){
+        }, 'likes', function(res){
           done(null, res);
       });
     });

@@ -125,7 +125,7 @@ var newUser = function(fbData, cb){
   });
   user.create(function(user) {
     // create a nrUser for ourselves
-    NrUser.findOne({id: user.facebookId}, function(me){
+    NrUser.findOne({facebookId: user.facebookId}, function(me){
       if(!me){
         var newMe = new NrUser({
           name: user.name,
@@ -171,11 +171,11 @@ exports.connectFriends = function(user, nrUser){
       for(var i =0; i < res.data.length; i++){
         var friend = res.data[i];
         (function(friend){
-          NrUser.findOne({id: friend.id}, function(foundFriend){
+          NrUser.findOne({facebookId: friend.id}, function(foundFriend){
             if(!foundFriend){
               var newFriend = new NrUser({
                 name: friend.name,
-                id: friend.id
+                facebookId: friend.id
               });
               newFriend.create(function(createdFriend){
                 createEdge(user, createdFriend, 'friends');
