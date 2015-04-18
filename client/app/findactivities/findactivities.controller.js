@@ -130,6 +130,7 @@ angular.module('friendfinderApp')
     $scope.find = function(){
       $('.ui.find.button').addClass('loading');
       var findFilters = {};
+      findFilters.details = {};
       $scope.filters.map(function(filter){
         for(var i in filter.options){
           var key = filter.options[i].key;
@@ -137,9 +138,6 @@ angular.module('friendfinderApp')
           if(val === true){
             if(filter.key === 'events only'){
               findFilters[filter.key] = true;
-            }
-            if(!findFilters.hasOwnProperty('details')){
-              findFilters.details = {};
             }
             if(!findFilters.details[filter.key]){
               findFilters.details[filter.key] = [];
@@ -188,7 +186,7 @@ angular.module('friendfinderApp')
 
     $scope.hideTags = function(){
       $scope.showTags = false;
-      $scope.filterNames.push('tags');
+      $scope.filterNames.push('keywords');
     };
 
     $scope.hideDateRange = function(){
@@ -197,7 +195,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.addFilter = function(name){
-      if(name === 'tags'){
+      if(name === 'keywords'){
         $scope.showTags = true;
         var index = $scope.filterNames.indexOf(name);
         $scope.filterNames.splice(index, 1);

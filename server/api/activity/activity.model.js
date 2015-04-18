@@ -211,7 +211,6 @@ Activity.bookmark = function(fromRid, toRid, cb) {
 };
 
 Activity.getAll = function(rid, cb) {
-  console.log('tooth', rid)
   db.query("select expand( out ) from ( select out('created') from "+rid+" )")
   .then(function (activities) {
     cb(activities);
@@ -285,60 +284,46 @@ Activity.findByFilters = function(user, params, cb) {
     '100mi': 120,
     'anywhere': 40000
   };
-  var makeString = function(list){
-    var str = '';
-    for(var i = 0; i < list.length; i++){
-      str += "'"+list[i]+"'";
-      if(i+1 != list.length){
-        str += ', ';
-      }
-    }
-    return str;
-  }
-  // console.log('FILTERS:   ', params)
   var buildQuery = function(){
     if(params.details){
       params.details = JSON.parse(params.details);
     }
-    if(params.sort === 'distance'){
-      if(!params.details.distance){
-        params.details.distance = ['anywhere'];
+    if(!params.details.distance){
+      params.details.distance = ['anywhere'];
+    }
+    var query = "select from ( select *, $distance from Activity where "
+      +"[lat, long, $spatial] near ["
+      +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}]';
+    // handle all the profile detail filters
+    if(Object.keys(params.details).length-1){ //TODO make more robust
+      query += ' and isEvent = true';
+    }
+    // handle all the keyword filters
+    if(params.tags){
+      if(Object.keys(params.details).length-1){
+        query += ' and';
+      } else {
+        query += ' where';
       }
-      var query = "select from ( select *, $distance from Activity where "
-        +"[lat, long, $spatial] near ["
-        +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}]';
-      // handle all the profile detail filters
-      if(Object.keys(params.details).length-1){ //TODO make more robust
-        query += ' and isEvent = true';
-      }
-      // handle all the keyword filters
-      if(params.tags){
-        if(Object.keys(params.details).length-1){
+      params.tags = params.tags.split(',');
+      for(var i = 0; i < params.tags.length; i++){
+        query += " '"+params.tags[i]+"' in out('tagged').name"
+        if(i+1 != params.tags.length){
           query += ' and';
-        } else {
-          query += ' where';
-        }
-        params.tags = params.tags.split(',');
-        for(var i = 0; i < params.tags.length; i++){
-          query += " '"+params.tags[i]+"' in out('tagged').name"
-          if(i+1 != params.tags.length){
-            query += ' and';
-          }
         }
       }
+    }
+    if(params.sort === 'distance'){
       query += ' ) order by distance';
-      query += ' skip '+PAGE_SIZE*params.page;
-      query += ' limit '+PAGE_SIZE;
-      return query;
+    } else {
+      query += ' ) order by created desc'; //newest on top
     }
-    // order by creation date
-    else {
-
-    }
+    query += ' skip '+PAGE_SIZE*params.page;
+    query += ' limit '+PAGE_SIZE;
+    return query;
   };
 
   var query = buildQuery();
-  // console.log('FINAL QUERY', query)
   db.query(query)
   .then(function (activities) {
     cb(activities);

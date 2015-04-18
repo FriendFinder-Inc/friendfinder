@@ -134,8 +134,9 @@ User.getConnectionPath = function(ridFrom, ridTo, cb) {
 User.getMutual = function(edge, ridA, ridB, cb) {
 
   var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
-              "let $userA = ( select expand(both('"+edge+"')) from "+ridA+" ), "+
-                   "$userB = ( select expand(both('"+edge+"')) from "+ridB+" ))";
+              "let $userA = ( select expand(out('"+edge+"')) from "+ridA+" ), "+
+                   "$userB = ( select expand(out('"+edge+"')) from "+ridB+" ))";
+                  //  console.log('q', query)
   db.query(query)
   .then(function(mutual){
     cb(mutual);
@@ -204,7 +205,7 @@ User.findByFilters = function(user, params, cb) {
           }
         }
       }
-      query += ' order by distance';
+      query += ' ) order by distance';
       query += ' skip '+PAGE_SIZE*params.page;
       query += ' limit '+PAGE_SIZE;
       return query;
@@ -225,7 +226,7 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  // console.log('FINAL QUERY', query)
+  console.log('FINAL QUERY', query)
   db.query(query)
   .then(function (users) {
     // don't include yourself, TODO fix in query

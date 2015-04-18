@@ -32,6 +32,9 @@ angular.module('friendfinderApp')
         }
       });
 
+      $scope.sortByUnread($scope.activeThreads);
+      $scope.sortByUnread($scope.inactiveThreads);
+
       if($scope.activeThreads.length){
         $('#active-tab').addClass('active');
         $('#active-segment').addClass('active');
@@ -61,13 +64,39 @@ angular.module('friendfinderApp')
       }
     });
 
-    $scope.hasUnreadMessage = function(thread){
-      angular.forEach(thread, function(message){
-        if(message.timeRead === null && message.from != $scope.currentUser['@rid']){
-          return true;
+    // move unread threads to top
+    $scope.sortByUnread = function(threads){
+      var swap = function(i, j){
+        var temp = threads[i];
+        threads[i] = threads[j];
+        threads[j] = temp;
+      };
+      var indexes = {};
+      angular.forEach(threads, function(thread, index){
+        if($scope.hasUnreadMessage(thread)){
+          var swapped = false;
+          var i = 0;
+          while(!swapped){
+            if(indexes[i] === true){
+              i++;
+            } else {
+              swap(i, index);
+              indexes[i] = true;
+              swapped = true;
+            }
+          }
         }
       });
-      return false;
+    };
+
+    $scope.hasUnreadMessage = function(thread){
+      var res = false;
+      angular.forEach(thread, function(message){
+        if(message.timeRead === null && message.from != $scope.currentUser['@rid']){
+          res = true;
+        }
+      });
+      return res;
     };
 
     $scope.updateTimeRead = function(thread){

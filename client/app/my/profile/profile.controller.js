@@ -6,7 +6,7 @@ angular.module('friendfinderApp')
     $(window).load(function() {
       setTimeout(function(){
         $('.ui.selection.dropdown.details').dropdown();
-      }, 1);
+      }, 10);
     });
 
     $scope.currentUser = {};

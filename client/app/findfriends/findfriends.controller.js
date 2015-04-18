@@ -173,6 +173,7 @@ angular.module('friendfinderApp')
     $scope.find = function(){
       $('.ui.find.button').addClass('loading');
       var findFilters = {};
+      findFilters.details = {};
       $scope.filters.map(function(filter){
         for(var i in filter.options){
           var key = filter.options[i].key;
@@ -181,9 +182,6 @@ angular.module('friendfinderApp')
             if(filter.key === 'meetup.com' || filter.key === 'activities'){
               findFilters[filter.key] = true;
             } else {
-              if(!findFilters.hasOwnProperty('details')){
-                findFilters.details = {};
-              }
               if(!findFilters.details[filter.key]){
                 findFilters.details[filter.key] = [];
               }
