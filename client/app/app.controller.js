@@ -8,6 +8,7 @@ angular.module('friendfinderApp')
     $scope.activities = [];
     $scope.bookmarks = [];
     $scope.requests = [];
+    $scope.myActivities = [];
 
     $scope.currentUser = Auth.getCurrentUser();
 
@@ -24,6 +25,14 @@ angular.module('friendfinderApp')
         $scope.requests.push(item['@rid']);
       })
     });
+
+    if($scope.currentUser.$promise){
+      $scope.currentUser.$promise.then(function(user){
+        Activity.get({rid: $scope.currentUser['@rid']}).$promise.then(function(activities){
+          $scope.myActivities = activities;
+        });
+      });
+    }
 
     $scope.linkModal_findfriends = function() {
       $('.ui.modal').modal({allowMultiple: false});
@@ -159,6 +168,10 @@ angular.module('friendfinderApp')
 
     $scope.isBookmarked = function(rid){
       return ($scope.bookmarks.indexOf(rid) != -1);
+    };
+
+    $scope.addActivity = function(item){
+      $scope.activities.push(item);
     };
 
     $scope.closeModals = function(){

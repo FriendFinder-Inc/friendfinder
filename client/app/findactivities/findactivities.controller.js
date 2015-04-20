@@ -158,7 +158,12 @@ angular.module('friendfinderApp')
       findFilters.page = 0;
       $scope.$parent.activitiesPageFilters = findFilters;
       Activity.find(findFilters, function(activities){
-        $scope.$parent.activities = activities;
+        $scope.$parent.activities = activities.filter(function(item){
+          if(item.creator != $scope.currentUser['@rid']){
+            //TODO: fix query
+            return item;
+          }
+        });
         $('.ui.find.button').removeClass('loading');
         $('.popup.icon').popup({on: 'click'});
         $('.popup.icon').click(function(e){
@@ -166,7 +171,7 @@ angular.module('friendfinderApp')
         });
         $scope.showSideDiv = false;
       });
-    }
+    };
 
     // initialize a list of just the filter names for display
     $scope.filterNames = [];

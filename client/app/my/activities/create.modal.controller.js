@@ -58,10 +58,12 @@ angular.module('friendfinderApp')
     var today = new Date();
     $('#date').pickadate({min: today});
 
+    $('#date-input').click(function(e){
+      $('.picker__holder').css('display', 'inline');
+    });
+
     $('.picker__wrap').click(function(e){
-      $('.ui.create.modal').focus();
-      //TODO focus bug
-      $('body').focus();
+      $('.picker__holder').css('display', 'none');
     });
 
     $scope.create = function () {
@@ -161,9 +163,9 @@ angular.module('friendfinderApp')
         img: $scope.activity.img
       };
       Activity.create({data: activity}).$promise.then(function(res){
-        $scope.$parent.addActivity(res);
+        $scope.$parent.$parent.addActivity(res);
         self.loading = false;
-        $scope.$parent.hideModal();
+        $scope.$parent.closeModals();
         $scope.activity = {};
         $scope.activity.isEvent = 'false';
         $('#location-input-create').val(undefined);

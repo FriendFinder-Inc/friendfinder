@@ -5,8 +5,9 @@ angular.module('friendfinderApp')
 
     $scope.activities = [];
     $scope.currentUser = Auth.getCurrentUser();
-    Activity.get({rid: $scope.currentUser['@rid']}).$promise.then(function(activities){
-      $scope.activities = activities;
+
+    $scope.$parent.$parent.$watch('myActivities', function(newVal, oldVal){
+      $scope.activities = newVal;
     });
 
     $scope.isTriple = function(i){
@@ -47,10 +48,6 @@ angular.module('friendfinderApp')
       $scope.activities = $scope.activities.filter(function(item){
         return item['@rid'] != rid;
       });
-    };
-
-    $scope.addActivity = function(item){
-      $scope.activities.push(item);
     };
 
     $scope.isMobile = function(){

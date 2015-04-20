@@ -36,6 +36,7 @@
 .activity-title{
   overflow: hidden;
   margin-top: -8px;
+  color: black;
   height: 28px;
   max-height: 28px;
   font-weight: bold;

@@ -102,3 +102,11 @@
 .activity-top-right.my-activity{
   margin-top: 30px;
 }
+
+.title-link{
+  color: blue !important;
+}
+
+.title-link:hover{
+  color: #56d1ff !important;
+}

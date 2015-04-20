@@ -140,7 +140,6 @@ angular.module('friendfinderApp')
 
       // extract info from first message in thread
       var firstMessage = $scope.selectedThread[0];
-      console.log('st', $scope.selectedThread, firstMessage)
       var toRid = (firstMessage.to === $scope.currentUser['@rid'] ? firstMessage.from :
                                                                     firstMessage.to);
       var toEmail = (firstMessage.toEmail === $scope.currentUser.email ? firstMessage.fromEmail :

@@ -16,8 +16,8 @@
                   <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
-                  <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
-                  <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
+                  <div ng-if="activity.url" class='activity-title'><span><a class='title-link' ng-href="{{activity.url}}" target="_blank">{{ activity.title }}</div></a></span>
+                  <div ng-if="!activity.url" class='activity-title'><span>{{ activity.title }}</div></span>
                   <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
                   <div class='activity-location'><span>{{ activity.location}}</div></span>
@@ -48,8 +48,8 @@
                   <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
-                  <div ng-if="activities[$index+1].link" class='activities[$index+1]-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                  <div ng-if="!activities[$index+1].link" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
+                  <div ng-if="activities[$index+1].url" class='activities[$index+1]-title'><span><a class='title-link' ng-href="{{activities[$index+1].url}}" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                  <div ng-if="!activities[$index+1].url" class='activities[$index+1]-title'><span>{{ activities[$index+1].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
                   <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
@@ -83,8 +83,8 @@
                   <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
-                  <div ng-if="activity.link" class='activity-title'><span><a ng-href="activity.link" target="_blank">{{ activity.title }}</div></a></span>
-                  <div ng-if="!activity.link" class='activity-title'><span>{{ activity.title }}</div></span>
+                  <div ng-if="activity.url" class='activity-title'><span><a class='title-link' ng-href="{{activity.url}}" target="_blank">{{ activity.title }}</div></a></span>
+                  <div ng-if="!activity.url" class='activity-title'><span>{{ activity.title }}</div></span>
                   <div class='activity-date'><span ng-show="activity.date">{{ prettyDate(activity.date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activity.date">anytime</div></span>
                   <div class='activity-location'><span>{{ activity.location}}</div></span>
@@ -115,8 +115,8 @@
                   <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
-                  <div ng-if="activities[$index+1].link" class='activity-title'><span><a ng-href="activities[$index+1].link" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                  <div ng-if="!activities[$index+1].link" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
+                  <div ng-if="activities[$index+1].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+1].url}}" target="_blank">{{ activities[$index+1].title }}</div></a></span>
+                  <div ng-if="!activities[$index+1].url" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
                   <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
@@ -147,8 +147,8 @@
                   <img class='square-100px-activity' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
                 </div>
                 <div class='activity-top-right my-activity'>
-                  <div ng-if="activities[$index+2].link" class='activity-title'><span><a ng-href="activities[$index+2].link" target="_blank">{{ activities[$index+2].title }}</div></a></span>
-                  <div ng-if="!activities[$index+2].link" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
+                  <div ng-if="activities[$index+2].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+2].url}}" target="_blank">{{ activities[$index+2].title }}</div></a></span>
+                  <div ng-if="!activities[$index+2].url" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
                   <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
                   <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
                   <div class='activity-location'><span>{{ activities[$index+2].location}}</div></span>
@@ -174,7 +174,6 @@
     </div>
   </div>
 
-  <ng-include src="'app/my/activities/createModal.html'"></ng-include>
   <!-- <ng-include src="'app/me/activities/editModal.html'"></ng-include> -->
   <ng-include src="'app/my/activities/deleteModal.html'"></ng-include>
 </div>
