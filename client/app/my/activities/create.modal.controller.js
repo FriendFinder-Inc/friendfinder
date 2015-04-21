@@ -62,7 +62,7 @@ angular.module('friendfinderApp')
       $('.picker__holder').css('display', 'inline');
     });
 
-    $('.picker__wrap').click(function(e){
+    $('.picker__day').click(function(e){
       $('.picker__holder').css('display', 'none');
     });
 
@@ -164,6 +164,10 @@ angular.module('friendfinderApp')
       };
       Activity.create({data: activity}).$promise.then(function(res){
         $scope.$parent.$parent.addActivity(res);
+        setTimeout(function(){
+        $scope.$parent.$parent.$apply(function(){});
+
+        })
         self.loading = false;
         $scope.$parent.closeModals();
         $scope.activity = {};

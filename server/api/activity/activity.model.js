@@ -81,6 +81,8 @@ Activity.autoComplete = function(input, latlong, cb){
 Activity.prototype.create = function(cb) {
 
   var saveActivity = function(){
+    for (var i = 0; i < 200; i++){
+      self.props.creator = i;
     db.insert().into('Activity').set(self.props).one()
     .then(function (activity) {
       var params = {
@@ -93,6 +95,7 @@ Activity.prototype.create = function(cb) {
         });
       });
     });
+    }
   };
 
   var self = this;

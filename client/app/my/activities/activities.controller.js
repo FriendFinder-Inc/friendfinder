@@ -3,7 +3,7 @@
 angular.module('friendfinderApp')
   .controller('ActivitiesCtrl', function ($scope, $window, User, Auth, Activity) {
 
-    $scope.activities = [];
+    $scope.activities = $scope.$parent.$parent.myActivities;
     $scope.currentUser = Auth.getCurrentUser();
 
     $scope.$parent.$parent.$watch('myActivities', function(newVal, oldVal){

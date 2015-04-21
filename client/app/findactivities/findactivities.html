@@ -25,11 +25,11 @@
         <div id='grid-container'>
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
-              ng-repeat='activity in $parent.activities' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              ng-repeat='activity in $parent.activities | offset:startIndex | limitTo:30' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
                         <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -66,7 +66,7 @@
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
                         <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -102,11 +102,11 @@
               </div>
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
-              ng-repeat='activity in $parent.activities' on-last-repeat ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              ng-repeat='activity in $parent.activities | offset:startIndex | limitTo:30' on-last-repeat ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
               <div class="center aligned column activities">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activity.isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
                         <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -143,7 +143,7 @@
               <div class="center aligned column activities" ng-if="activities[$index+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
                         <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -180,7 +180,7 @@
               <div class="center aligned column activities" ng-if="activities[$index+2]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
                         <img class='square-100px-activity' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -215,7 +215,17 @@
                 </div>
               </div>
             </div>
-
+            <div id='prev-next-buttons' ng-if='$parent.activities.length'>
+              <div class="ui labeled icon green button"
+                ng-class="{large: !isMobile(), disabled: $parent.activities.length <= 30 || startIndex-30 < 0}" ng-click='previousPage()'>
+                <i class="left arrow icon"></i>
+                Previous
+              </div>
+              <div class="ui right labeled icon green button"
+                ng-class="{large: !isMobile(), loading: loading, disabled: loading || !$parent.activities[startIndex+30]}" ng-click='nextPage()'>
+                <i class="right arrow icon"></i>
+                Next
+              </div>
             </div>
           </div>
         </div>

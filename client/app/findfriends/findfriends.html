@@ -25,7 +25,7 @@
         <div id='grid-container'>
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
-              ng-repeat='user in $parent.users' ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
+              ng-repeat="user in $parent.users | offset:startIndex | limitTo:30" ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
@@ -62,30 +62,30 @@
               <div ng-attr-id="{{'half-'+makeHalf()}}" class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
-                    <div class="ui card profile-card" ng-if='users[$index+1]'>
+                    <div class="ui card profile-card" ng-if='users[$index+startIndex+1]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')">
-                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')">
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+1].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
-                          {{ birthdayToAge(users[$index+1].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          {{ birthdayToAge(users[$index+startIndex+1].birthday) }} ,
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+1].location || 'location unknown' }}</span>
+                            <span>{{ users[$index+startIndex+1].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+1].count || kmToMiles(users[$index+1].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ users[$index+1].profile.intro }}
+                          {{ users[$index+startIndex+1].profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -94,8 +94,8 @@
               </div>
             </div>
             <div class="doubling three column row" ng-show='!showSideDiv && isTriple($index) && !isTooSmall()'
-              ng-repeat='user in $parent.users' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
-              {{ user.name }}
+              ng-repeat='user in $parent.users | offset:startIndex | limitTo:30' ng-class="{workaround: '!showSideDiv && isTriple($index) && !isTooSmall()'}">
+              {{ user.name }} {{ startIndex}}
               <div class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
@@ -132,30 +132,30 @@
               <div class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
-                    <div class="ui card profile-card" ng-if='users[$index+1]'>
+                    <div class="ui card profile-card" ng-if='users[$index+startIndex+1]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')">
-                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+1].facebookId }}/picture?width=500&height=500">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')">
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+1].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
-                          {{ birthdayToAge(users[$index+1].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+1]['@rid'], 'profile')" class="header">{{ users[$index+1].name.split(' ')[0] }}</a>
+                          {{ birthdayToAge(users[$index+startIndex+1].birthday) }} ,
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+1].location || 'location unknown' }}</span>
+                            <span>{{ users[$index+startIndex+1].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+1].count || kmToMiles(users[$index+1].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ users[$index+1].profile.intro }}
+                          {{ users[$index+startIndex+1].profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -165,30 +165,30 @@
               <div class="column">
                 <div id='golden-wrapper'>
                   <div id='card-container'>
-                    <div class="ui card profile-card" ng-if='users[$index+2]'>
+                    <div class="ui card profile-card" ng-if='users[$index+startIndex+2]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+2]['@rid'], 'profile')">
-                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+2].facebookId }}/picture?width=500&height=500">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+2]['@rid'], 'profile')">
+                            <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+2].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
-                          {{ birthdayToAge(users[$index+2].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+2]['@rid'], 'profile')" class="header">{{ users[$index+2].name.split(' ')[0] }}</a>
+                          {{ birthdayToAge(users[$index+startIndex+2].birthday) }} ,
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+2]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+2].name.split(' ')[0] }}</a>
                           <div class="meta">
-                            <span>{{ users[$index+2].location || 'location unknown' }}</span>
+                            <span>{{ users[$index+startIndex+2].location || 'location unknown' }}</span>
                           </div>
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+2].count || kmToMiles(users[$index+2].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+2].count || kmToMiles(users[$index+startIndex+2].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
                       <div class="ui fitted divider"></div>
                       <div id='bottom-half'>
                         <div class='intro-wrapper ellipsis'>
-                          {{ users[$index+2].profile.intro }}
+                          {{ users[$index+startIndex+2].profile.intro }}
                         </div>
                       </div>
                     </div>
@@ -196,12 +196,23 @@
                 </div>
               </div>
             </div>
-
+          </div>
+          <div id='prev-next-buttons' ng-if='$parent.users.length'>
+            <div class="ui labeled icon blue button"
+              ng-class="{large: !isMobile(), disabled: $parent.users.length <= 30 || startIndex-30 < 0}" ng-click='previousPage()'>
+              <i class="left arrow icon"></i>
+              Previous
+            </div>
+            <div class="ui right labeled icon blue button"
+              ng-class="{large: !isMobile(), loading: loading, disabled: loading || !$parent.users[startIndex+30]}" ng-click='nextPage()'>
+              <i class="right arrow icon"></i>
+              Next
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
   </div>
 </div>

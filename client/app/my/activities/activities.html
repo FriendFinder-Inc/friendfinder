@@ -10,7 +10,7 @@
         <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
-              <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+              <i class='ui large calendar icon is-event' ng-show="activity.isEvent === 'true'"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
                   <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -42,7 +42,7 @@
         <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+1]">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
-              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
                   <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -77,7 +77,7 @@
         <div class="center aligned column activities">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
-              <i class='ui large calendar icon is-event' ng-show="activity.isEvent"></i>
+              <i class='ui large calendar icon is-event' ng-show="activity.isEvent === 'true'"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
                   <img class='square-100px-activity' ng-src="{{activity.img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -109,7 +109,7 @@
         <div class="center aligned column activities" ng-if="activities[$index+1]">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
-              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent"></i>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
                   <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
@@ -141,7 +141,7 @@
         <div class="center aligned column activities" ng-if="activities[$index+2]">
           <div id='my-activity-wrapper' class='ui segment'>
             <div class='activity-container'>
-              <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent"></i>
+              <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent === 'true'"></i>
               <div class='activity-top-half'>
                 <div class='activity-top-left'>
                   <img class='square-100px-activity' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">

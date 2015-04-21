@@ -1,6 +1,14 @@
 'use strict';
 
 angular.module('friendfinderApp')
+  .filter('offset', function() { //limitTo:x:begin not working...
+    return function(input, start) {
+      start = parseInt(start, 10);
+      return input.slice(start);
+    };
+  });
+
+angular.module('friendfinderApp')
   .controller('FindFriendsCtrl', function ($scope, $http, $window, Auth, User, Profile) {
 
     $(window).load(function() {
@@ -154,10 +162,19 @@ angular.module('friendfinderApp')
       }
     };
 
+    $scope.loading = false;
     $scope.loadMoreUsers = function(){
-      $scope.$parent.usersPageFilters.page++;
       User.find($scope.$parent.usersPageFilters, function(users){
-        $scope.$parent.users.push(users);
+        $scope.$parent.usersPageFilters.pageRid = users[users.length-1]['@rid'];
+        $scope.$parent.usersPageFilters.page++;
+        angular.forEach(users, function(item){
+          if(item['@rid'] != $scope.currentUser['@rid']){
+            $scope.$parent.users.push(item);
+            return;
+          }
+        });
+        $scope.loading = false;
+
         setTimeout(function(){
           $('.intro-wrapper').flowtype({
            minimum   : 250,
@@ -168,6 +185,18 @@ angular.module('friendfinderApp')
           });
         }, 1);
       });
+    };
+
+    $scope.previousPage = function(){
+      $scope.startIndex -= 30;
+      $scope.scrollTop();
+    };
+
+    $scope.nextPage = function(){
+      $scope.scrollTop();
+      $scope.loading = true;
+      $scope.startIndex += 30;
+      $scope.loadMoreUsers();
     };
 
     $scope.find = function(){
@@ -199,11 +228,17 @@ angular.module('friendfinderApp')
         }
       });
 
+      findFilters.pageRid = '#-1:-1';
       findFilters.page = 0;
       $scope.$parent.usersPageFilters = findFilters;
       User.find(findFilters, function(users){
-        $scope.$parent.page = 0;
-        $scope.$parent.users = users;
+        $scope.startIndex = 0;
+        angular.forEach(users, function(item){
+          if(item['@rid'] != $scope.currentUser['@rid']){
+            $scope.$parent.users.push(item);
+            return;
+          }
+        });
         $('.ui.find.button').removeClass('loading');
         setTimeout(function(){
           $('.intro-wrapper').flowtype({
@@ -219,6 +254,9 @@ angular.module('friendfinderApp')
           e.stopPropagation();
         });
         $scope.showSideDiv = false;
+        $scope.$parent.usersPageFilters.pageRid = users[users.length-1]['@rid'];
+        $scope.$parent.usersPageFilters.page++;
+        $scope.loadMoreUsers();
       });
     };
 

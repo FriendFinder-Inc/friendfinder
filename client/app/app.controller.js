@@ -171,7 +171,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.addActivity = function(item){
-      $scope.activities.push(item);
+      $scope.myActivities.push(item);
     };
 
     $scope.closeModals = function(){

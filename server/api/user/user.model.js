@@ -205,8 +205,7 @@ User.findByFilters = function(user, params, cb) {
           }
         }
       }
-      query += ' ) order by distance';
-      query += ' skip '+PAGE_SIZE*params.page;
+      query += ' ) where @rid > '+params.pageRid+' order by distance';
       query += ' limit '+PAGE_SIZE;
       return query;
     }
@@ -219,18 +218,23 @@ User.findByFilters = function(user, params, cb) {
       } else {
         var query = "select *, count(*) from ("+
                       "select expand( list( "+dir+"('"+edge+"') )."+dir+"('"+edge+"').remove( @this ) ) from "+user['@rid']+
-                        ") where @class = 'RegisteredUser' group by name order by count desc";
+                        ") where @class = 'RegisteredUser' ";
+        if(params.details.distance && params.details.distance[0] != 'anywhere'){
+          query += " and distance(lat, long, "+user.lat+', '+user.long+") < "+milesToKm[params.details.distance[0]];
+        }
+        query += " group by name order by count desc";
+        query += " skip "+params.page*PAGE_SIZE;
+        query += " limit 30";
         return query;
       }
     }
   };
 
   var query = buildQuery();
-  console.log('FINAL QUERY', query)
+  // console.log('FINAL QUERY', query)
   db.query(query)
   .then(function (users) {
     // don't include yourself, TODO fix in query
-    users.shift();
     cb(users);
   });
 };

@@ -127,6 +127,43 @@ angular.module('friendfinderApp')
       }
     };
 
+    $scope.loading = false;
+    $scope.loadMoreActivities = function(){
+      Activity.find($scope.$parent.activitiesPageFilters, function(activities){
+        $scope.$parent.activitiesPageFilters.pageRid = activities[activities.length-1]['@rid'];
+        $scope.$parent.activitiesPageFilters.page++;
+        angular.forEach(activities, function(item){
+          if(item.creator != $scope.currentUser['@rid']){
+            $scope.$parent.activities.push(item);
+            return;
+          }
+        });
+        $scope.loading = false;
+
+        setTimeout(function(){
+          $('.intro-wrapper').flowtype({
+           minimum   : 250,
+           maximum   : 800,
+           minFont   : 10,
+           maxFont   : 72,
+           fontRatio : 25
+          });
+        }, 1);
+      });
+    };
+
+    $scope.previousPage = function(){
+      $scope.startIndex -= 30;
+      $scope.scrollTop();
+    };
+
+    $scope.nextPage = function(){
+      $scope.scrollTop();
+      $scope.loading = true;
+      $scope.startIndex += 30;
+      $scope.loadMoreActivities();
+    };
+
     $scope.find = function(){
       $('.ui.find.button').addClass('loading');
       var findFilters = {};
@@ -156,8 +193,10 @@ angular.module('friendfinderApp')
       });
 
       findFilters.page = 0;
+      findFilters.pageRid = '#-1:-1';
       $scope.$parent.activitiesPageFilters = findFilters;
       Activity.find(findFilters, function(activities){
+        $scope.startIndex = 0;
         $scope.$parent.activities = activities.filter(function(item){
           if(item.creator != $scope.currentUser['@rid']){
             //TODO: fix query
@@ -170,6 +209,9 @@ angular.module('friendfinderApp')
           e.stopPropagation();
         });
         $scope.showSideDiv = false;
+        $scope.$parent.activitiesPageFilters.pageRid = activities[activities.length-1]['@rid'];
+        $scope.$parent.activitiesPageFilters.page++;
+        $scope.loadMoreActivities();
       });
     };
 
