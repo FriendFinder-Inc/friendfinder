@@ -97,6 +97,9 @@ Message.getAll = function(rid, cb) {
         }
       });
     };
+    if(!chatHeads.length){
+      cb([]);
+    }
     for(var i = 0; i < chatHeads.length; i++){
       var query = "traverse out('next') from "+chatHeads[i];
       getThread(i, query);
