@@ -224,7 +224,7 @@ User.findByFilters = function(user, params, cb) {
       if(params.sort === 'mutual meetups'){
         edge = 'member';
       }
-      var dir = (params.sort === 'mutual interests') ? 'both' : 'out';
+      var dir = (params.sort === 'mutual friends') ? 'out' : 'both';
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
@@ -259,7 +259,7 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  // console.log('FINAL QUERY', query);
+  console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (users) {
     cb(users);
