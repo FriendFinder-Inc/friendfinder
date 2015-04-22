@@ -83,8 +83,8 @@ angular.module('friendfinderApp')
       //   "5'6''", "5'7''", "5'8''", "5'9''", "5'10''", "5'11''", "6'0''", "6'1''", "6'2''", "6'3''", ">6'4''"]},
       {'key':'ethnicity',        'options':['white', 'black', 'hispanic/latin', 'asian', 'indian', 'middle eastern',
         'native american', 'pacific islander', 'other']},
-      {'key':'personality',      'options':['INTJ', 'INTP', 'INFJ', 'INFP',
-                                            'ISFJ', 'ISFP', 'ISTJ', 'ISTP']}];
+      {'key':'personality',      'options':['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP',
+                                            'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP']}];
 
     angular.forEach($scope.filterChoices, function(filter){
       var options = [];

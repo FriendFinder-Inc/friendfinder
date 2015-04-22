@@ -39,8 +39,8 @@ angular.module('friendfinderApp')
       //                     "5'6''", "5'7''", "5'8''", "5'9''", "5'10''", "5'11''", "6'0''", "6'1''", "6'2''", "6'3''", ">6'4''"],
       ethnicity        :['white', 'black', 'hispanic/latin', 'asian', 'indian', 'eastern',
                           'native american', 'pacific islander', 'other', '-'],
-      personality      :['INTJ', 'INTP', 'INFJ', 'INFP',
-                          'ISFJ', 'ISFP', 'ISTJ', 'ISTP', '-']
+      personality      :['INTJ', 'INTP', 'ENTJ', 'ENTP', 'INFJ', 'INFP', 'ENFJ', 'ENFP',
+                         'ISTJ', 'ISFJ', 'ESTJ', 'ESFJ', 'ISTP', 'ISFP', 'ESTP', 'ESFP', '-']
     };
 
 
