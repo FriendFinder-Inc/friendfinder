@@ -284,6 +284,7 @@ Activity.findByFilters = function(user, params, cb) {
     '100mi': 120,
     'anywhere': 40000
   };
+  // console.log('PARAMS', params);
   var buildQuery = function(){
     if(params.details){
       params.details = JSON.parse(params.details);
@@ -293,30 +294,23 @@ Activity.findByFilters = function(user, params, cb) {
     }
     var query = "select from ( select *, $distance from Activity where "
       +"[lat, long, $spatial] near ["
-      +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}]';
+      +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]
+      +'}] ) where creator <> '+user['@rid'];
     // handle all the profile detail filters
     if(Object.keys(params.details).length-1){ //TODO make more robust
       query += ' and isEvent = true';
     }
     // handle all the keyword filters
     if(params.tags){
-      if(Object.keys(params.details).length-1){
-        query += ' and';
-      } else {
-        query += ' where';
-      }
       params.tags = params.tags.split(',');
       for(var i = 0; i < params.tags.length; i++){
-        query += " '"+params.tags[i]+"' in out('tagged').name"
-        if(i+1 != params.tags.length){
-          query += ' and';
-        }
+        query += " and '"+params.tags[i]+"' in out('tagged').name"
       }
     }
     if(params.sort === 'distance'){
-      query += ' ) order by distance';
+      query += ' order by distance';
     } else {
-      query += ' ) order by created desc'; //newest on top
+      query += ' order by created desc'; //newest on top
     }
     query += ' skip '+PAGE_SIZE*params.page;
     query += ' limit '+PAGE_SIZE;
@@ -324,6 +318,7 @@ Activity.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
+  // console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (activities) {
     cb(activities);

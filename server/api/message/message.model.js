@@ -82,30 +82,25 @@ Message.findByFilters = function(params, cb) {
   });
 };
 
-//TODO: refactor queries
 Message.getAll = function(rid, cb) {
-  rid = '#'+rid.cluster +':'+rid.position;
-  var query = "select expand( out ) from ("+
-                  "select out('sent') from "+rid+" )";
-  db.query(query).then(function (chatHeadsOut) {
-    var query = "select expand( in ) from ("+
-                    "select in('received') from "+rid+" )";
-    db.query(query).then(function(chatHeadsIn){
-      var chatHeads = chatHeadsOut.concat(chatHeadsIn);
-      var threads = [];
-      var getThread = function(i, query){
-        db.query(query).then(function(thread){
-          threads.push(thread);
-          if(i === chatHeads.length-1){
-            cb(threads);
-          }
-        });
-      };
-      for(var i = 0; i < chatHeads.length; i++){
-        var query = "traverse out('next') from "+chatHeads[i]['@rid'];
-        getThread(i, query);
-      }
-    });
+  var query = "select both('sent', 'received') from "+rid;
+  //TODO: rebuild threads on client!
+  // var query = "traverse out('next') from (select both('sent', 'received') from #30:3)";
+  db.query(query).then(function (chatHeads) {
+    chatHeads = chatHeads[0].both;
+    var threads = [];
+    var getThread = function(i, query){
+      db.query(query).then(function(thread){
+        threads.push(thread);
+        if(i === chatHeads.length-1){
+          cb(threads);
+        }
+      });
+    };
+    for(var i = 0; i < chatHeads.length; i++){
+      var query = "traverse out('next') from "+chatHeads[i];
+      getThread(i, query);
+    }
   });
 };
 

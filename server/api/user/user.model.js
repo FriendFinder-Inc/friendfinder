@@ -132,11 +132,16 @@ User.getConnectionPath = function(ridFrom, ridTo, cb) {
 };
 
 User.getMutual = function(edge, ridA, ridB, cb) {
-
-  var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
-              "let $userA = ( select expand(out('"+edge+"')) from "+ridA+" ), "+
-                   "$userB = ( select expand(out('"+edge+"')) from "+ridB+" ))";
-                  //  console.log('q', query)
+  //TODO: after 30th how do we handle this???
+  if(edge === 'friends'){
+    var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
+                "let $userA = (select from ( select expand(out('"+edge+"')) from "+ridA+" ) where @class = 'NonregisteredUser'), "+
+                    "$userB = (select from ( select expand(out('"+edge+"')) from "+ridB+" ) where @class = 'NonregisteredUser'))";
+  } else {
+    var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
+                "let $userA = ( select expand(out('"+edge+"')) from "+ridA+" ), "+
+                    "$userB = ( select expand(out('"+edge+"')) from "+ridB+" ))";
+  }
   db.query(query)
   .then(function(mutual){
     cb(mutual);
@@ -170,17 +175,20 @@ User.findByFilters = function(user, params, cb) {
     if(params.details){
       params.details = JSON.parse(params.details);
     }
+
     if(params.sort === 'distance'){
       if(!params.details.distance){
         params.details.distance = ['anywhere'];
       }
       var query = "select from ( select *, $distance from RegisteredUser where "
         +"[lat, long, $spatial] near ["
-        +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}]';
+        +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}] ) ';
+        query += ' where @rid <> '+user['@rid'];
+
       // handle all the profile detail filters
       if(Object.keys(params.details).length-1){
         var count = 1;
-        query += ' where';
+        query += ' and';
         for(var key in params.details){
           if(key != 'distance'){
             query += " details."+key+".value in [ "+makeString(params.details[key])+" ] ";
@@ -195,7 +203,7 @@ User.findByFilters = function(user, params, cb) {
         if(Object.keys(params.details).length-1){
           query += 'and';
         } else {
-          query += ' where';
+          query += ' and';
         }
         params.tags = params.tags.split(',');
         for(var i = 0; i < params.tags.length; i++){
@@ -205,20 +213,40 @@ User.findByFilters = function(user, params, cb) {
           }
         }
       }
-      query += ' ) where @rid > '+params.pageRid+' order by distance';
+      query += ' ) order by distance';
+      query += " skip "+params.page*PAGE_SIZE;
       query += ' limit '+PAGE_SIZE;
       return query;
     }
     // mutual friends or interests
     else {
       var edge = (params.sort === 'mutual friends') ? 'friends' : 'likes';
-      var dir = (params.sort === 'mutual friends') ? 'out' : 'both';
+      if(params.sort === 'mutual meetups'){
+        edge = 'member';
+      }
+      var dir = (params.sort === 'mutual interests') ? 'both' : 'out';
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
         var query = "select *, count(*) from ("+
-                      "select expand( list( "+dir+"('"+edge+"') )."+dir+"('"+edge+"').remove( @this ) ) from "+user['@rid']+
+                      "select expand( "+dir+"('"+edge+"')."+dir+"('"+edge+"').removeAll(@this)) from "+user['@rid']+
                         ") where @class = 'RegisteredUser' ";
+
+        // handle all the profile detail filters
+        if(Object.keys(params.details).length){
+          for(var key in params.details){
+            if(key != 'distance'){
+              query += " and details."+key+".value in [ "+makeString(params.details[key])+" ] ";
+            }
+          }
+        }
+        // handle all the keyword filters
+        if(params.tags){
+          params.tags = params.tags.split(',');
+          for(var i = 0; i < params.tags.length; i++){
+            query += " and '"+params.tags[i]+"' in out('likes').name"
+          }
+        }
         if(params.details.distance && params.details.distance[0] != 'anywhere'){
           query += " and distance(lat, long, "+user.lat+', '+user.long+") < "+milesToKm[params.details.distance[0]];
         }
@@ -231,10 +259,9 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  // console.log('FINAL QUERY', query)
+  // console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (users) {
-    // don't include yourself, TODO fix in query
     cb(users);
   });
 };

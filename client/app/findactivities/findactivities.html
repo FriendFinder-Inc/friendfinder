@@ -63,37 +63,37 @@
                   </div>
                 </div>
               </div>
-              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+1]">
+              <div ng-attr-id="{{'half-'+makeHalf()}}" class="center aligned column activities" ng-if="activities[$index+startIndex+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+startIndex+1].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
-                        <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                        <img class='square-100px-activity' ng-src="{{activities[$index+startIndex+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                       </div>
                       <div class='activity-top-right'>
                         <div class='ui circular image creator-img'>
-                          <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+startIndex+1].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+1].creator, 'activity-profile')">{{activities[$index+1].creatorName}}</p>
-                        <div ng-if="activities[$index+1].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+1].url}}" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                        <div ng-if="!activities[$index+1].url" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
-                        <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
-                        <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
-                        <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
+                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+startIndex+1].creator, 'activity-profile')">{{activities[$index+startIndex+1].creatorName}}</p>
+                        <div ng-if="activities[$index+startIndex+1].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+startIndex+1].url}}" target="_blank">{{ activities[$index+startIndex+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+startIndex+1].url" class='activity-title'><span>{{ activities[$index+startIndex+1].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+startIndex+1].date">{{ prettyDate(activities[$index+startIndex+1].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+startIndex+1].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+startIndex+1].location}}</div></span>
                       </div>
                     </div>
                     <div class='activity-bottom-half'>
                       <div class='ui segment activity-description'>
-                        {{activities[$index+1].description}}
+                        {{activities[$index+startIndex+1].description}}
                       </div>
                       <div class='activity-buttons'>
                         <div class='ui fluid buttons'>
                           <div class='ui red button' style='width: 50%;'
-                            ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
-                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
+                            ng-if='!alreadyRequested(activities[$index+startIndex+1])' ng-click='request(activities[$index+startIndex+1])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+startIndex+1])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if="!isBookmarked(activities[$index+1]['@rid'])" ng-click='bookmark(activities[$index+1])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+startIndex+1]['@rid'])" ng-click='bookmark(activities[$index+startIndex+1])'>bookmark</div>
                         </div>
                       </div>
                     </div>
@@ -140,74 +140,74 @@
                   </div>
                 </div>
               </div>
-              <div class="center aligned column activities" ng-if="activities[$index+1]">
+              <div class="center aligned column activities" ng-if="activities[$index+startIndex+1]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+1].isEvent === 'true'"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+startIndex+1].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
-                        <img class='square-100px-activity' ng-src="{{activities[$index+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                        <img class='square-100px-activity' ng-src="{{activities[$index+startIndex+1].img || 'assets/images/friendfinderMobileLogo.png'}}">
                       </div>
                       <div class='activity-top-right'>
                         <div class='ui circular image creator-img'>
-                          <img ng-src="https://graph.facebook.com/{{ activities[$index+1].creatorFbId }}/picture?width=30&height=30">
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+startIndex+1].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+1].creator, 'activity-profile')">{{activities[$index+1].creatorName}}</p>
-                        <div ng-if="activities[$index+1].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+1].url}}" target="_blank">{{ activities[$index+1].title }}</div></a></span>
-                        <div ng-if="!activities[$index+1].url" class='activity-title'><span>{{ activities[$index+1].title }}</div></span>
-                        <div class='activity-date'><span ng-show="activities[$index+1].date">{{ prettyDate(activities[$index+1].date)}}</div></span>
-                        <div class='activity-date'><span ng-show="!activities[$index+1].date">anytime</div></span>
-                        <div class='activity-location'><span>{{ activities[$index+1].location}}</div></span>
+                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+startIndex+1].creator, 'activity-profile')">{{activities[$index+startIndex+1].creatorName}}</p>
+                        <div ng-if="activities[$index+startIndex+1].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+startIndex+1].url}}" target="_blank">{{ activities[$index+startIndex+1].title }}</div></a></span>
+                        <div ng-if="!activities[$index+startIndex+1].url" class='activity-title'><span>{{ activities[$index+startIndex+1].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+startIndex+1].date">{{ prettyDate(activities[$index+startIndex+1].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+startIndex+1].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+startIndex+1].location}}</div></span>
                       </div>
                     </div>
                     <div class='activity-bottom-half'>
                       <div class='ui segment activity-description'>
-                        {{activities[$index+1].description}}
+                        {{activities[$index+startIndex+1].description}}
                       </div>
                       <div class='activity-buttons'>
                         <div class='ui fluid buttons'>
                           <div class='ui red button' style='width: 50%;'
-                            ng-if='!alreadyRequested(activities[$index+1])' ng-click='request(activities[$index+1])'>ask to join</div>
-                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+1])'>requested</div>
+                            ng-if='!alreadyRequested(activities[$index+startIndex+1])' ng-click='request(activities[$index+startIndex+1])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+startIndex+1])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if="!isBookmarked(activities[$index+1]['@rid'])" ng-click='bookmark(activities[$index+1])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+startIndex+1]['@rid'])" ng-click='bookmark(activities[$index+startIndex+1])'>bookmark</div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="center aligned column activities" ng-if="activities[$index+2]">
+              <div class="center aligned column activities" ng-if="activities[$index+startIndex+2]">
                 <div id='activity-wrapper' class='ui segment'>
                   <div class='activity-container'>
-                    <i class='ui large calendar icon is-event' ng-show="activities[$index+2].isEvent === 'true'"></i>
+                    <i class='ui large calendar icon is-event' ng-show="activities[$index+startIndex+2].isEvent === 'true'"></i>
                     <div class='activity-top-half'>
                       <div class='activity-top-left'>
-                        <img class='square-100px-activity' ng-src="{{activities[$index+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
+                        <img class='square-100px-activity' ng-src="{{activities[$index+startIndex+2].img || 'assets/images/friendfinderMobileLogo.png'}}">
                       </div>
                       <div class='activity-top-right'>
                         <div class='ui circular image creator-img'>
-                          <img ng-src="https://graph.facebook.com/{{ activities[$index+2].creatorFbId }}/picture?width=30&height=30">
+                          <img ng-src="https://graph.facebook.com/{{ activities[$index+startIndex+2].creatorFbId }}/picture?width=30&height=30">
                         </div>
-                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+2].creator, 'activity-profile')">{{activities[$index+2].creatorName}}</p>
-                        <div ng-if="activities[$index+2].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+2].url}}" target="_blank">{{ activities[$index+2].title }}</div></a></span>
-                        <div ng-if="!activities[$index+2].url" class='activity-title'><span>{{ activities[$index+2].title }}</div></span>
-                        <div class='activity-date'><span ng-show="activities[$index+2].date">{{ prettyDate(activities[$index+2].date)}}</div></span>
-                        <div class='activity-date'><span ng-show="!activities[$index+2].date">anytime</div></span>
-                        <div class='activity-location'><span>{{ activities[$index+2].location}}</div></span>
+                        <p class='creator-name' ng-click="$parent.showProfileModal(activities[$index+startIndex+2].creator, 'activity-profile')">{{activities[$index+startIndex+2].creatorName}}</p>
+                        <div ng-if="activities[$index+startIndex+2].url" class='activity-title'><span><a class='title-link' ng-href="{{activities[$index+startIndex+2].url}}" target="_blank">{{ activities[$index+startIndex+2].title }}</div></a></span>
+                        <div ng-if="!activities[$index+startIndex+2].url" class='activity-title'><span>{{ activities[$index+startIndex+2].title }}</div></span>
+                        <div class='activity-date'><span ng-show="activities[$index+startIndex+2].date">{{ prettyDate(activities[$index+startIndex+2].date)}}</div></span>
+                        <div class='activity-date'><span ng-show="!activities[$index+startIndex+2].date">anytime</div></span>
+                        <div class='activity-location'><span>{{ activities[$index+startIndex+2].location}}</div></span>
                       </div>
                     </div>
                     <div class='activity-bottom-half'>
                       <div class='ui segment activity-description'>
-                        {{activities[$index+2].description}}
+                        {{activities[$index+startIndex+2].description}}
                       </div>
                       <div class='activity-buttons'>
                         <div class='ui fluid buttons'>
                           <div class='ui red button' style='width: 50%;'
-                            ng-if='!alreadyRequested(activities[$index+2])' ng-click='request(activities[$index+2])'>ask to join</div>
-                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+2])'>requested</div>
+                            ng-if='!alreadyRequested(activities[$index+startIndex+2])' ng-click='request(activities[$index+startIndex+2])'>ask to join</div>
+                          <div class='ui disabled button' style='width: 50%;' ng-if='alreadyRequested(activities[$index+startIndex+2])'>requested</div>
                           <div class='ui teal button' style='width: 50%;'
-                            ng-if="!isBookmarked(activities[$index+2]['@rid'])" ng-click='bookmark(activities[$index+2])'>bookmark</div>
+                            ng-if="!isBookmarked(activities[$index+startIndex+2]['@rid'])" ng-click='bookmark(activities[$index+startIndex+2])'>bookmark</div>
                         </div>
                       </div>
                     </div>

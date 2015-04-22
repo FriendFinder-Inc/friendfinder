@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('friendfinderApp')
-  .controller('ApplicationCtrl', function ($scope, $http, $window, Auth, Profile, User, Activity, Bookmarks, Message) {
+  .controller('ApplicationCtrl', function ($rootScope, $scope, $http, $window, Auth, Profile, User, Activity, Bookmarks, Message) {
 
     // cache query results for efficiency
     $scope.users = [];
@@ -9,6 +9,8 @@ angular.module('friendfinderApp')
     $scope.bookmarks = [];
     $scope.requests = [];
     $scope.myActivities = [];
+
+    $scope.showSideDiv = true;
 
     $scope.currentUser = Auth.getCurrentUser();
 

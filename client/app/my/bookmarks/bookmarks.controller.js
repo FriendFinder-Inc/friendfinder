@@ -15,7 +15,6 @@ angular.module('friendfinderApp')
     $scope.$on("$stateChangeSuccess", function(event, toState, toParams, fromState, fromParams) {
       if (toState.name === "my.bookmarks.acts") {
         setTimeout(function(){
-          console.log('a')
           $('.activity-title').textfill({});
           $('.activity-location').textfill({maxFontPixels: 12});
         }, 1);

@@ -56,26 +56,25 @@ angular.module('friendfinderApp')
     $scope.showTags = true;
 
     $scope.orderby = [{'key':'orderby', 'options':['distance',
-                      'shared interests', 'mutual friends']}];
+                      'shared interests', 'mutual friends', 'mutual meetups']}];
 
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},
       {'key':'distance',         'options':['5mi', '25mi', '50mi', '100mi', 'anywhere']},
-      {'key':'orientation',      'options':['hetero', 'homo', 'bi', 'other']},
+      {'key':'orientation',      'options':['straight', 'gay', 'bi', 'other']},
       // {'key':'last online',      'options':['online now', 'past week', 'past month']},
       {'key':'smokes',           'options':['never', 'occassionally', 'often']},
       // {'key':'activities',       'options':['has activities']},
-      // {'key':'meetup.com',       'options':['member of same group(s)']},
       {'key':'drinks',           'options':['never', 'occassionally', 'often']},
       // {'key':'connection',       'options':['3rd degree', '4th degree', '5th degree', '6th degree', '7th degree']},
       {'key':'drugs',            'options':['never', 'occassionally', 'often']},
       {'key':'education',        'options':['some highschool', 'highschool', 'some college', 'associates',
         'bachelors', 'masters', 'doctorate']},
       {'key':'diet',             'options':['vegan', 'vegetarian', 'anything', 'Halal', 'Kosher', 'other']},
-      {'key':'job',              'options':["Administration", "Art / Music / Writing", "Banking / Finance", "Construction",
-                                            "Education", "Entertainment / Media", "Food", "Hospitality", "Law", "Management", "Medicine",
-                                            "Military", "Politics / Government", "Retail", "Sales / Marketing", "Science / Engineering",
-                                            "Student", "Technology", "Transportation", "other"]},
+      {'key':'job',              'options':["administration", "art / music / writing", "banking / finance", "construction",
+                                    "education", "entertainment / media", "food", "hospitality", "law", "management", "medicine",
+                                    "military", "politics / government", "retail", "sales / marketing", "science / engineering",
+                                    "student", "technology", "transportation", "other"]},
       {'key':'religion',         'options':['christian', 'hindu', 'jewish', 'muslim', 'buddhist', 'atheist',
         'agnostic', 'spiritual but not religious', 'other']},
       {'key':'politics',         'options':['republican', 'democrat', 'independent', 'libertarian', 'other']},
@@ -165,25 +164,23 @@ angular.module('friendfinderApp')
     $scope.loading = false;
     $scope.loadMoreUsers = function(){
       User.find($scope.$parent.usersPageFilters, function(users){
-        $scope.$parent.usersPageFilters.pageRid = users[users.length-1]['@rid'];
-        $scope.$parent.usersPageFilters.page++;
-        angular.forEach(users, function(item){
-          if(item['@rid'] != $scope.currentUser['@rid']){
+        if(users.length){
+          angular.forEach(users, function(item){
             $scope.$parent.users.push(item);
-            return;
-          }
-        });
-        $scope.loading = false;
-
-        setTimeout(function(){
-          $('.intro-wrapper').flowtype({
-           minimum   : 250,
-           maximum   : 800,
-           minFont   : 10,
-           maxFont   : 72,
-           fontRatio : 25
           });
-        }, 1);
+          $scope.$parent.usersPageFilters.page++;
+          $scope.loading = false;
+
+          setTimeout(function(){
+            $('.intro-wrapper').flowtype({
+             minimum   : 250,
+             maximum   : 800,
+             minFont   : 10,
+             maxFont   : 72,
+             fontRatio : 25
+            });
+          }, 1);
+        }
       });
     };
 
@@ -228,17 +225,11 @@ angular.module('friendfinderApp')
         }
       });
 
-      findFilters.pageRid = '#-1:-1';
       findFilters.page = 0;
       $scope.$parent.usersPageFilters = findFilters;
       User.find(findFilters, function(users){
+        $scope.$parent.users = users;
         $scope.startIndex = 0;
-        angular.forEach(users, function(item){
-          if(item['@rid'] != $scope.currentUser['@rid']){
-            $scope.$parent.users.push(item);
-            return;
-          }
-        });
         $('.ui.find.button').removeClass('loading');
         setTimeout(function(){
           $('.intro-wrapper').flowtype({
@@ -253,8 +244,7 @@ angular.module('friendfinderApp')
         $('.popup.icon').click(function(e){
           e.stopPropagation();
         });
-        $scope.showSideDiv = false;
-        $scope.$parent.usersPageFilters.pageRid = users[users.length-1]['@rid'];
+        $scope.$parent.showSideDiv = false;
         $scope.$parent.usersPageFilters.page++;
         $scope.loadMoreUsers();
       });
@@ -307,7 +297,6 @@ angular.module('friendfinderApp')
           $scope.filters.splice(index, 1);
           $scope.filterNames.push(key);
           $scope.filterNames.sort();
-          //TODO: update filters model as well!
         }
       });
     };
@@ -340,7 +329,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.showRightSide = function(){
-      if(!$scope.showSideDiv){
+      if(!$scope.$parent.showSideDiv){
         return true;
       } else if ($scope.isMobile()){
         return false;
@@ -349,9 +338,8 @@ angular.module('friendfinderApp')
       }
     };
 
-    $scope.showSideDiv = true;
     $scope.toggleSideDiv = function(){
-      $scope.showSideDiv = !$scope.showSideDiv;
+      $scope.$parent.showSideDiv = !$scope.$parent.showSideDiv;
       setTimeout(function(){
         // hacky, for line 28 of findfriends.html TODO
         $('.intro-wrapper').trunk8({lines:4, tooltip:false});
@@ -379,7 +367,7 @@ angular.module('friendfinderApp')
     });
 
     $scope.updateScroll = function(){
-      if($scope.showSideDiv){
+      if($scope.$parent.showSideDiv){
         return;
       }
       if($('#grid-container').scrollTop() > 400){
@@ -483,5 +471,25 @@ angular.module('friendfinderApp')
     $scope.kmToMiles = function(km){
       return Math.floor(km*0.62137);
     };
+
+    $scope.$on('onRepeatLast', function(scope, element, attrs){
+      $scope.$apply(function(){});
+      setTimeout(function(){
+        $('.intro-wrapper').flowtype({
+         minimum   : 250,
+         maximum   : 800,
+         minFont   : 10,
+         maxFont   : 72,
+         fontRatio : 25
+        });
+        $('.middle').flowtype({
+         minimum   : 80,
+         maximum   : 700,
+         minFont   : 12,
+         maxFont   : 150,
+         fontRatio : 12
+        });
+      }, 1);
+    });
 
   });

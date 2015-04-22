@@ -56,7 +56,7 @@
   </div>
   <div class="content" ng-if="$parent.showTags">
     <div class='ui input'>
-      <input type='text' ng-list ng-model='$parent.tags.list'>
+      <input id='keywords-input' type='text' ng-list ng-model='$parent.tags.list'>
     </div>
   </div>
   <div ng-class='{disabled: chooseFilter}' class="title" ng-if="$parent.showDateRange">

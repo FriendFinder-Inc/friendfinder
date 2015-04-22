@@ -130,25 +130,17 @@ angular.module('friendfinderApp')
     $scope.loading = false;
     $scope.loadMoreActivities = function(){
       Activity.find($scope.$parent.activitiesPageFilters, function(activities){
-        $scope.$parent.activitiesPageFilters.pageRid = activities[activities.length-1]['@rid'];
-        $scope.$parent.activitiesPageFilters.page++;
-        angular.forEach(activities, function(item){
-          if(item.creator != $scope.currentUser['@rid']){
+        if(activities.length){
+          angular.forEach(activities, function(item){
             $scope.$parent.activities.push(item);
-            return;
-          }
-        });
-        $scope.loading = false;
-
-        setTimeout(function(){
-          $('.intro-wrapper').flowtype({
-           minimum   : 250,
-           maximum   : 800,
-           minFont   : 10,
-           maxFont   : 72,
-           fontRatio : 25
           });
-        }, 1);
+          $scope.$parent.activitiesPageFilters.page++;
+          $scope.loading = false;
+          setTimeout(function(){
+            $('.activity-title').textfill({});
+            $('.activity-location').textfill({maxFontPixels: 12});
+          }, 1);
+        }
       });
     };
 
@@ -193,23 +185,16 @@ angular.module('friendfinderApp')
       });
 
       findFilters.page = 0;
-      findFilters.pageRid = '#-1:-1';
       $scope.$parent.activitiesPageFilters = findFilters;
       Activity.find(findFilters, function(activities){
+        $scope.$parent.activities = activities;
         $scope.startIndex = 0;
-        $scope.$parent.activities = activities.filter(function(item){
-          if(item.creator != $scope.currentUser['@rid']){
-            //TODO: fix query
-            return item;
-          }
-        });
         $('.ui.find.button').removeClass('loading');
         $('.popup.icon').popup({on: 'click'});
         $('.popup.icon').click(function(e){
           e.stopPropagation();
         });
-        $scope.showSideDiv = false;
-        $scope.$parent.activitiesPageFilters.pageRid = activities[activities.length-1]['@rid'];
+        $scope.$parent.showSideDiv = false;
         $scope.$parent.activitiesPageFilters.page++;
         $scope.loadMoreActivities();
       });
@@ -233,6 +218,7 @@ angular.module('friendfinderApp')
 
     $scope.hideTags = function(){
       $scope.showTags = false;
+      $scope.tags.list = [];
       $scope.filterNames.push('keywords');
     };
 
@@ -328,7 +314,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.showRightSide = function(){
-      if(!$scope.showSideDiv){
+      if(!$scope.$parent.showSideDiv){
         return true;
       } else if ($scope.isMobile()){
         return false;
@@ -337,9 +323,8 @@ angular.module('friendfinderApp')
       }
     };
 
-    $scope.showSideDiv = true;
     $scope.toggleSideDiv = function(){
-      $scope.showSideDiv = !$scope.showSideDiv;
+      $scope.$parent.showSideDiv = !$scope.$parent.showSideDiv;
       setTimeout(function(){
         // hacky, for line 28 of findfriends.html TODO
         $('.intro-wrapper').trunk8({lines:4, tooltip:false});
@@ -367,7 +352,7 @@ angular.module('friendfinderApp')
     });
 
     $scope.updateScroll = function(){
-      if($scope.showSideDiv){
+      if($scope.$parent.showSideDiv){
         return;
       }
       if($('#grid-container').scrollTop() > 400){
