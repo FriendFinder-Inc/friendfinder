@@ -62,7 +62,7 @@ angular.module('friendfinderApp')
       $('.picker__holder').css('display', 'inline');
     });
 
-    $('.picker__day').click(function(e){
+    $scope.$watch('activity.date', function(a, b){
       $('.picker__holder').css('display', 'none');
     });
 

@@ -3,10 +3,10 @@
 angular.module('friendfinderApp')
   .controller('ProfileCtrl', function ($scope, User, Auth, Tag, $state) {
 
-    $(window).load(function() {
+    $scope.$on('onRepeatLast', function(scope, element, attrs){
       setTimeout(function(){
         $('.ui.selection.dropdown.details').dropdown();
-      }, 10);
+      }, 1);
     });
 
     $scope.currentUser = {};
@@ -77,9 +77,9 @@ angular.module('friendfinderApp')
         $scope.firstCallProfile = false;
       }, true);
 
-      $scope.interestsCounter = 0;
+      $scope.firstCallInterests = true;
       $scope.$watch('interests', function(newVal){
-        if($scope.interestsCounter > 1+($scope.interests.tags.length?0:1)+($scope.interests.meetups.length?0:1)){
+        if(!$scope.firstCallInterests){
           var tagNames = $scope.interests.tags.map(function(item){
             return item.name;
           });
@@ -97,7 +97,7 @@ angular.module('friendfinderApp')
             $scope.meetupsModified = false;
           }
         }
-        $scope.interestsCounter++;
+        $scope.firstCallInterests = false;
       }, true);
 
     });
@@ -128,17 +128,22 @@ angular.module('friendfinderApp')
         $scope.profileModified = false;
         $scope.initialProfile = angular.copy($scope.currentUser.profile);
         $scope.initialDetails = angular.copy($scope.currentUser.details);
+        $scope.loading = false;
       });
     };
 
+    $scope.loading = false;
     $scope.saveChanges = function(){
       if($scope.profileModified){
+        $scope.loading = true;
         $scope.updateProfile();
       }
       if($scope.tagsModified){
+        $scope.loading = true;
         $scope.updateTags();
       }
       if($scope.meetupsModified){
+        $scope.loading = true;
         $scope.updateMeetups();
       }
     };
@@ -239,6 +244,7 @@ angular.module('friendfinderApp')
       };
       Tag.update(data).$promise.then(function(){
         $scope.getUsersTags();
+        $scope.loading = false;
       });
     };
 
@@ -246,6 +252,7 @@ angular.module('friendfinderApp')
     $scope.updateMeetups = function(){
       User.removemeetups({rids: $scope.deletedMeetups}).$promise.then(function(){
         $scope.getUsersMeetups();
+        $scope.loading = false;
       });
     };
 

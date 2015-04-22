@@ -12,7 +12,8 @@
                            tagsModified,
                     disabled: !(profileModified ||
                                 meetupsModified ||
-                                tagsModified)}'
+                                tagsModified),
+                    loading: loading}'
          class='ui green button save-btn'
          ng-click='saveChanges()'>
       save changes
@@ -74,6 +75,7 @@
           <div class='ui bottom attached segment'>
               <div class="row-container"
                    ng-repeat='(key, value) in currentUser.details'
+                   on-last-repeat
                    ng-show="key != 'hometown' &&
                             key != 'employer' &&
                             key != 'school'">
@@ -166,7 +168,8 @@
                            tagsModified,
                     disabled: !(profileModified ||
                                 meetupsModified ||
-                                tagsModified)}'
+                                tagsModified),
+                    loading: loading}'
          class='ui green button save-btn'
          ng-click='saveChanges()'>
       save changes
