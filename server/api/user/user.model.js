@@ -259,7 +259,7 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  console.log('FINAL QUERY', query);
+  // console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (users) {
     cb(users);

@@ -19,6 +19,24 @@ angular.module('friendfinderApp')
           $('.activity-location').textfill({maxFontPixels: 12});
         }, 1);
       }
+      if (toState.name === "my.bookmarks.users") {
+        setTimeout(function(){
+          $('.intro-wrapper').flowtype({
+           minimum   : 250,
+           maximum   : 800,
+           minFont   : 10,
+           maxFont   : 72,
+           fontRatio : 25
+          });
+          $('.middle').flowtype({
+           minimum   : 80,
+           maximum   : 700,
+           minFont   : 12,
+           maxFont   : 150,
+           fontRatio : 12
+          });
+        }, 1);
+      }
     });
 
     $scope.currentUser = Auth.getCurrentUser();

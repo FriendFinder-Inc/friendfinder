@@ -9,17 +9,17 @@
   <div class='ui grid'>
     <div id='mutual-container' class='doubling two column row'>
       <div id='mutual-friends' class='center aligned column profile-view-column'
-        ng-if="mutualFriends.length">
+        ng-if="$parent.mutualFriends.length">
         <h5 class="ui top attached header profile-view-header">
           <div id='hide-btn' class='ui mini red button' ng-click="toggleMutualFriends()">
-            <p ng-show="showMutualFriends">hide</p>
-            <p ng-show="!showMutualFriends">show</p>
+            <p ng-show="$parent.showMutualFriends">hide</p>
+            <p ng-show="!$parent.showMutualFriends">show</p>
           </div>
-          mutual friends ({{ mutualFriends.length }})
+          mutual friends ({{ $parent.mutualFriends.length }})
         </h5>
-        <div class='ui bottom attached segment' ng-show="showMutualFriends">
+        <div class='ui bottom attached segment' ng-show="$parent.showMutualFriends">
           <div class='scroll-box'>
-            <div id='friend-container' ng-repeat='friend in mutualFriends'>
+            <div id='friend-container' ng-repeat='friend in $parent.mutualFriends'>
               <div class='friend'>
                 <img class='square-100px' ng-src="https://graph.facebook.com/{{ friend.facebookId }}/picture?width=100&height=100">
                 <p style='text-align: center;'>{{friend.name.split(' ')[0]}}</p>
@@ -30,7 +30,7 @@
       </div>
       <!-- if no mutual friends, try to show connection path -->
       <div id='connection-path' class='center aligned column profile-view-column'
-        ng-if="!mutualFriends.length">
+        ng-if="!$parent.mutualFriends.length">
         <h5 class="ui top attached header profile-view-header">
           <div id='hide-btn' class='ui mini red button' ng-click="toggleConnectionPath()">
             <p ng-show="showConnectionPath">hide</p>
@@ -57,14 +57,14 @@
       <div id='mutual-interests' class='center aligned column profile-view-column'>
         <h5 class="ui top attached header profile-view-header">
           <div id='hide-btn' class='ui mini red button' ng-click="toggleMutualInterests()">
-            <p ng-show="showMutualInterests">hide</p>
-            <p ng-show="!showMutualInterests">show</p>
+            <p ng-show="$parent.showMutualInterests">hide</p>
+            <p ng-show="!$parent.showMutualInterests">show</p>
           </div>
-          mutual interests ({{ mutualInterests.pages.length + mutualInterests.tags.length + mutualMeetups.length }})
+          mutual interests ({{ $parent.mutualInterests.pages.length + $parent.mutualInterests.tags.length + mutualMeetups.length }})
         </h5>
-        <div class='ui bottom attached segment' ng-show="showMutualInterests">
+        <div class='ui bottom attached segment' ng-show="$parent.showMutualInterests">
           <div class='scroll-box'>
-            <div id='page-container' ng-repeat='page in mutualInterests.pages'>
+            <div id='page-container' ng-repeat='page in $parent.mutualInterests.pages'>
               <div class='page'>
                 <a ng-href="{{page.link}}" target="_blank">
                   <img class='square-100px' ng-src="{{page.img}}">
@@ -72,13 +72,13 @@
                 <p style='text-align: center;'>{{page.name}}</p>
               </div>
             </div>
-            <div id='tag-container' ng-repeat='tag in mutualInterests.tags'>
+            <div id='tag-container' ng-repeat='tag in $parent.mutualInterests.tags'>
               <div class='tag-holder square-100px'>
                 <span id='red-tag' class="ui tag label red-square-tag">{{ tag.name }}</span>
               </div>
               <p style='visibility: hidden;'>placeholder</p>
             </div>
-            <div id='meetup-container' ng-repeat='meetup in mutualMeetups'>
+            <div id='meetup-container' ng-repeat='meetup in $parent.mutualMeetups'>
               <div class='meetup'>
                 <a ng-href="{{meetup.link}}" target="_blank">
                   <img class='square-100px' ng-src="{{meetup.img || 'assets/images/meetupLogo.png'}}">

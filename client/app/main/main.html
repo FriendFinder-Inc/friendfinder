@@ -28,8 +28,12 @@
 </div>
 
   <div class='ui modal video-intro'>
-    <i class="white close icon"></i>
+    <i class="white close icon" ng-if='!isMobile()'></i>
     <div class='center aligned content'>
-      <iframe id='intro-video' width="640" height="390" src="https://www.youtube.com/embed/QRBt0LQO5KA" frameborder="0" allowfullscreen></iframe>
+      <div class="auto-resizable-iframe">
+        <div>
+          <iframe frameborder="0" allowfullscreen=""  id='intro-video' width="640" height="390" src="https://www.youtube.com/embed/QRBt0LQO5KA" frameborder="0" allowfullscreen></iframe>
+        </div>
+      </div>
     </div>
   </div>

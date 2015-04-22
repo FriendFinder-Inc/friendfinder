@@ -69,6 +69,9 @@ angular.module('friendfinderApp')
       $scope.showMutualFriends = true;
       $scope.showMutualInterests = true;
 
+      $scope.mutualFriends = [];
+      $scope.mutualInterests = [];
+
       Profile.getUser(rid, function(user){
         $scope.selectedUser = user;
         $('.ui.modal.'+modalName).modal('setting', {
@@ -85,13 +88,16 @@ angular.module('friendfinderApp')
         });
         Profile.getMutualInterests(function(mutualInterests){
           $scope.mutualInterests = mutualInterests;
-          $scope.$apply(function(){});
+          setTimeout(function(){
+            $scope.$apply(function(){});
+          }, 1);
         });
         Profile.getMutualFriendsOrPath(function(type, res){
           if(type === 'friends'){
             $scope.mutualFriends = res;
           } else{
             $scope.showMutualFriends = false;
+            $scope.mutualFriends = [];
             $scope.connectionPath = res;
           }
           setTimeout(function(){

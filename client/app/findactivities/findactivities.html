@@ -217,12 +217,12 @@
             </div>
             <div id='prev-next-buttons' ng-if='$parent.activities.length'>
               <div class="ui labeled icon green button"
-                ng-class="{large: !isMobile(), disabled: $parent.activities.length <= 30 || startIndex-30 < 0}" ng-click='previousPage()'>
+                ng-class="{large: !isMobile(), small: isMobile(), disabled: $parent.activities.length <= 30 || startIndex-30 < 0}" ng-click='previousPage()'>
                 <i class="left arrow icon"></i>
                 Previous
               </div>
               <div class="ui right labeled icon green button"
-                ng-class="{large: !isMobile(), loading: loading, disabled: loading || !$parent.activities[startIndex+30]}" ng-click='nextPage()'>
+                ng-class="{large: !isMobile(), small: isMobile(), loading: loading, disabled: loading || !$parent.activities[startIndex+30]}" ng-click='nextPage()'>
                 <i class="right arrow icon"></i>
                 Next
               </div>

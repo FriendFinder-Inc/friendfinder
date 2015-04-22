@@ -57,6 +57,9 @@ angular.module('friendfinderApp')
               }
             }
           });
+          if(!mutual.length){
+            cb([]);
+          }
         });
       },
 
