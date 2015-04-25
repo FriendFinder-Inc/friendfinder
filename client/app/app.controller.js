@@ -12,29 +12,30 @@ angular.module('friendfinderApp')
 
     $scope.showSideDiv = true;
 
-    $scope.currentUser = Auth.getCurrentUser();
-
     // retain mem for db pagination
     $scope.usersPageFilters = {};
     $scope.usersActivityFilters = {};
 
-    Bookmarks.getBookmarkRids(function(rids){
-      $scope.bookmarks = rids;
-    });
+    $scope.currentUser = Auth.getCurrentUser();
 
-    User.requests().$promise.then(function(requests){
-      angular.forEach(requests, function(item){
-        $scope.requests.push(item['@rid']);
-      })
-    });
+    Auth.isLoggedInAsync(function(loggedIn){
+      if(loggedIn){
 
-    if($scope.currentUser.$promise){
-      $scope.currentUser.$promise.then(function(user){
+        User.requests().$promise.then(function(requests){
+          angular.forEach(requests, function(item){
+            $scope.requests.push(item['@rid']);
+          });
+        });
+
+        Bookmarks.getBookmarkRids(function(rids){
+          $scope.bookmarks = rids;
+        });
+
         Activity.get({rid: $scope.currentUser['@rid']}).$promise.then(function(activities){
           $scope.myActivities = activities;
         });
-      });
-    }
+      }
+    });
 
     $scope.linkModal_findfriends = function() {
       $('.ui.modal').modal({allowMultiple: false});

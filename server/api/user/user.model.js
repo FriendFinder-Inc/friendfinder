@@ -158,7 +158,7 @@ User.findByFilters = function(user, params, cb) {
     '25mi': 40,
     '50mi': 80,
     '100mi': 120,
-    'anywhere': 40000
+    'anywhere': 41000
   };
   var makeString = function(list){
     var str = '';
@@ -180,7 +180,7 @@ User.findByFilters = function(user, params, cb) {
       if(!params.details.distance){
         params.details.distance = ['anywhere'];
       }
-      var query = "select from ( select *, $distance from RegisteredUser where "
+      var query = "select from ( select @rid, name, location, profile.intro, birthday, facebookId, $distance from RegisteredUser where "
         +"[lat, long, $spatial] near ["
         +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}] ) ';
         query += ' where @rid <> '+user['@rid'];
@@ -228,7 +228,7 @@ User.findByFilters = function(user, params, cb) {
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
-        var query = "select *, count(*) from ("+
+        var query = "select @rid, name, location, profile.intro, birthday, facebookId count(*) from ("+
                       "select expand( "+dir+"('"+edge+"')."+dir+"('"+edge+"').removeAll(@this)) from "+user['@rid']+
                         ") where @class = 'RegisteredUser' ";
 

@@ -31,15 +31,8 @@ angular.module('friendfinderApp')
     $scope.currentUser = Auth.getCurrentUser();
 
     $scope.bookmarks = [];
-    $scope.requests = [];
     Bookmarks.getBookmarkRids(function(rids){
       $scope.bookmarks = rids;
-    });
-
-    User.requests().$promise.then(function(requests){
-      angular.forEach(requests, function(item){
-        $scope.requests.push(item['@rid']);
-      })
     });
 
     $scope.linkAccordion = function(){
@@ -282,13 +275,16 @@ angular.module('friendfinderApp')
         owner: item.creator,
         activityTitle: item.title
       };
-      Activity.request(data).$promise.then(function(bookmarks){
-        $scope.requests.push(data.rid);
+      Activity.request(data).$promise.then(function(res){
+        $scope.$parent.requests.push(data.rid);
+        setTimeout(function(){
+          $scope.$apply(function(){});
+        }, 1);
       });
     };
 
     $scope.alreadyRequested = function(item){
-      if(item && $scope.requests.indexOf(item['@rid']) != -1){
+      if(item && $scope.$parent.requests.indexOf(item['@rid']) != -1){
         return true;
       } else{
         return false;

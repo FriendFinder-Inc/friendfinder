@@ -53,14 +53,6 @@ angular.module('friendfinderApp')
     Bookmarks.getActivityBookmarks(function(activities){
       $scope.activities = activities;
     });
-    $scope.requests = [];
-
-
-    User.requests().$promise.then(function(requests){
-      angular.forEach(requests, function(item){
-        $scope.requests.push(item['@rid']);
-      });
-    });
 
     $scope.isBookmarked = function(rid){
       return !!$scope.bookmarks.indexOf(rid);
@@ -81,7 +73,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.alreadyRequested = function(item){
-      if(item && $scope.requests.indexOf(item['@rid']) != -1){
+      if(item && $scope.$parent.$parent.requests.indexOf(item['@rid']) != -1){
         return true;
       } else{
         return false;
@@ -94,8 +86,11 @@ angular.module('friendfinderApp')
         owner: item.creator,
         activityTitle: item.title
       };
-      Activity.request(data).$promise.then(function(bookmarks){
-        $scope.requests.push(data.rid);
+      Activity.request(data).$promise.then(function(res){
+        $scope.$parent.$parent.requests.push(data.rid);
+        setTimeout(function(){
+          $scope.$apply(function(){});
+        }, 1);
       });
     };
 

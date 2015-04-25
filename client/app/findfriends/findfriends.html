@@ -32,13 +32,13 @@
                     <div class="ui card profile-card">
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(user['@rid'], 'profile')">
+                          <div class="image" ng-click="$parent.showProfileModal(user.rid, 'profile')">
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(user.birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(user.rid, 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ user.location || 'location unknown' }}</span>
                           </div>
@@ -65,13 +65,13 @@
                     <div class="ui card profile-card" ng-if='users[$index+startIndex+1]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1].rid, 'profile')">
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+1].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+startIndex+1].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1].rid, 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+startIndex+1].location || 'location unknown' }}</span>
                           </div>
@@ -102,13 +102,13 @@
                     <div class="ui card profile-card">
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(user['@rid'], 'profile')">
+                          <div class="image" ng-click="$parent.showProfileModal(user.rid, 'profile')">
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ user.facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(user.birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(user['@rid'], 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(user.rid, 'profile')" class="header">{{ user.name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ user.location || 'location unknown' }}</span>
                           </div>
@@ -135,13 +135,13 @@
                     <div class="ui card profile-card" ng-if='users[$index+startIndex+1]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+1].rid, 'profile')">
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+1].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+startIndex+1].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+1].rid, 'profile')" class="header">{{ users[$index+startIndex+1].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+startIndex+1].location || 'location unknown' }}</span>
                           </div>
@@ -168,13 +168,13 @@
                     <div class="ui card profile-card" ng-if='users[$index+startIndex+2]'>
                       <div id='top-half'>
                         <div id='left-side'>
-                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+2]['@rid'], 'profile')">
+                          <div class="image" ng-click="$parent.showProfileModal(users[$index+startIndex+2].rid, 'profile')">
                             <img class='card-photo' ng-src="https://graph.facebook.com/{{ users[$index+startIndex+2].facebookId }}/picture?width=500&height=500">
                           </div>
                         </div>
                         <div class='middle'>
                           {{ birthdayToAge(users[$index+startIndex+2].birthday) }} ,
-                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+2]['@rid'], 'profile')" class="header">{{ users[$index+startIndex+2].name.split(' ')[0] }}</a>
+                          <a ng-click="$parent.showProfileModal(users[$index+startIndex+2].rid, 'profile')" class="header">{{ users[$index+startIndex+2].name.split(' ')[0] }}</a>
                           <div class="meta">
                             <span>{{ users[$index+startIndex+2].location || 'location unknown' }}</span>
                           </div>

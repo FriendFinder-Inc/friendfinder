@@ -282,7 +282,7 @@ Activity.findByFilters = function(user, params, cb) {
     '25mi': 40,
     '50mi': 80,
     '100mi': 120,
-    'anywhere': 40000
+    'anywhere': 41000
   };
   // console.log('PARAMS', params);
   var buildQuery = function(){

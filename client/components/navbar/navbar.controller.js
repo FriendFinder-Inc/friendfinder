@@ -13,8 +13,12 @@ angular.module('friendfinderApp')
     };
 
     $scope.unreadMessages = 0;
-    Auth.getUnreadMessages(function(num){
-      $scope.unreadMessages = num;
+    Auth.isLoggedInAsync(function(loggedIn){
+      if(loggedIn){
+        Auth.getUnreadMessages(function(num){
+          $scope.unreadMessages = num;
+        });
+      }
     });
 
     $scope.$on('messages-updated', function(event, args){
