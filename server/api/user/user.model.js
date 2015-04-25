@@ -183,7 +183,7 @@ User.findByFilters = function(user, params, cb) {
       var query = "select from ( select @rid, name, location, profile.intro, birthday, facebookId, $distance from RegisteredUser where "
         +"[lat, long, $spatial] near ["
         +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}] ) ';
-        query += ' where @rid <> '+user['@rid'];
+        query += ' where rid <> '+user['@rid'];
 
       // handle all the profile detail filters
       if(Object.keys(params.details).length-1){

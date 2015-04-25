@@ -171,6 +171,12 @@ angular.module('friendfinderApp')
       });
     };
 
+    $scope.removeActivity = function(rid){
+      $scope.myActivities = $scope.myActivities.filter(function(item){
+        return item['@rid'] != rid;
+      });
+    };
+
     $scope.isRequested = function(rid){
       return ($scope.requests.indexOf(rid) != -1);
     };

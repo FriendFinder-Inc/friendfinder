@@ -25,7 +25,7 @@ angular.module('friendfinderApp')
          maximum   : 700,
          minFont   : 12,
          maxFont   : 150,
-         fontRatio : 12
+         fontRatio : 14
         });
       }, 1);
     });
@@ -43,7 +43,7 @@ angular.module('friendfinderApp')
        maximum   : 700,
        minFont   : 12,
        maxFont   : 150,
-       fontRatio : 12
+       fontRatio : 14
       });
     }, 1);
 
@@ -169,7 +169,6 @@ angular.module('friendfinderApp')
             $scope.$parent.users.push(item);
           });
           $scope.$parent.usersPageFilters.page++;
-          $scope.loading = false;
 
           setTimeout(function(){
             $('.intro-wrapper').flowtype({
@@ -181,6 +180,7 @@ angular.module('friendfinderApp')
             });
           }, 1);
         }
+        $scope.loading = false;
       });
     };
 
@@ -356,7 +356,7 @@ angular.module('friendfinderApp')
          maximum   : 700,
          minFont   : 12,
          maxFont   : 150,
-         fontRatio : 12
+         fontRatio : 14
         });
       }, 1);
     };
@@ -487,7 +487,7 @@ angular.module('friendfinderApp')
          maximum   : 700,
          minFont   : 12,
          maxFont   : 150,
-         fontRatio : 12
+         fontRatio : 14
         });
       }, 1);
     });
