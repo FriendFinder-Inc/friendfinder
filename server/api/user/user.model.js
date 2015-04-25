@@ -228,7 +228,7 @@ User.findByFilters = function(user, params, cb) {
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
-        var query = "select @rid, name, location, profile.intro, birthday, facebookId count(*) from ("+
+        var query = "select @rid, name, location, profile.intro, birthday, facebookId, count(*) from ("+
                       "select expand( "+dir+"('"+edge+"')."+dir+"('"+edge+"').removeAll(@this)) from "+user['@rid']+
                         ") where @class = 'RegisteredUser' ";
 
@@ -259,7 +259,7 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  // console.log('FINAL QUERY', query);
+  console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (users) {
     cb(users);
