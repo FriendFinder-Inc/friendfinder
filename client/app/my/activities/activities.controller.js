@@ -45,9 +45,7 @@ angular.module('friendfinderApp')
     };
 
     $scope.removeActivity = function(rid){
-      $scope.activities = $scope.activities.filter(function(item){
-        return item['@rid'] != rid;
-      });
+      $scope.$parent.$parent.removeActivity(rid);
     };
 
     $scope.isMobile = function(){
