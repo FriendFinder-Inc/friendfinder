@@ -1,7 +1,3 @@
-/**
- * Main application file
- */
-
 'use strict';
 
 // Set default node environment to development
@@ -11,11 +7,25 @@ require('newrelic');
 
 var express = require('express');
 var oriento = require('oriento');
-// var cloudinary = require('cloudinary');
 var config = require('./config/environment');
 
-// Setup server
 var app = express();
+
+var https_redirect = function(req, res, next) {
+    if (process.env.NODE_ENV === 'production') {
+        if (req.headers['x-forwarded-proto'] != 'https') {
+            return res.redirect('https://' + req.headers.host + req.url);
+        } else {
+            return next();
+        }
+    } else {
+        return next();
+    }
+};
+
+app.use(https_redirect);
+
+
 var server = require('http').createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
