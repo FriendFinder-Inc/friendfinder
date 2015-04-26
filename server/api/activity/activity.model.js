@@ -41,7 +41,13 @@ var Activity = function(params) {
   this.props.creatorFbId = params.creatorFbId;
   this.props.views =       0;
   // optional props
-  if(params.date) { this.props.date = new Date(params.date); }
+  if(params.date) {
+    this.props.date = new Date(params.date);
+    //TODO: workaround for prod bug
+    if(config.env === 'production'){
+      this.props.date.setDate(this.props.date.getDate()+1);
+    }
+  }
   if(params.url) { this.props.url = params.url; }
   if(params.img) { this.props.img = params.img; }
 };
