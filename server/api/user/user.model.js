@@ -1,5 +1,7 @@
 'use strict';
 
+var moment = require('moment');
+
 // Schema for user model
 var User = function(params) {
   params = params || {};
@@ -170,12 +172,18 @@ User.findByFilters = function(user, params, cb) {
     }
     return str;
   }
-  // console.log('FILTERS:   ', params)
+  // console.log('FILTERS:   ', params);
   var buildQuery = function(){
     if(params.details){
       params.details = JSON.parse(params.details);
     }
-
+    if(params.ageRange){
+      params.ageRange = JSON.parse(params.ageRange);
+      var minAge = moment().subtract(parseInt(params.ageRange.min), 'years');
+      var maxAge = moment().subtract(parseInt(params.ageRange.max), 'years');
+      var bdStart = maxAge.format('YYYY-MM-DD 00:00:00');
+      var bdEnd = minAge.format('YYYY-MM-DD 00:00:00');
+    }
     if(params.sort === 'distance'){
       if(!params.details.distance){
         params.details.distance = ['anywhere'];
@@ -213,6 +221,9 @@ User.findByFilters = function(user, params, cb) {
           }
         }
       }
+      if(params.ageRange){
+        query += " and birthday between '"+bdStart+"' and '"+bdEnd+"'";
+      }
       query += ' ) order by distance';
       query += " skip "+params.page*PAGE_SIZE;
       query += ' limit '+PAGE_SIZE;
@@ -230,7 +241,7 @@ User.findByFilters = function(user, params, cb) {
       } else {
         var query = "select @rid, name, location, profile.intro, birthday, facebookId, count(*) from ("+
                       "select expand( "+dir+"('"+edge+"')."+dir+"('"+edge+"').removeAll(@this)) from "+user['@rid']+
-                        ") where @class = 'RegisteredUser' ";
+                        ") where @class = 'RegisteredUser'";
 
         // handle all the profile detail filters
         if(Object.keys(params.details).length){
@@ -247,6 +258,9 @@ User.findByFilters = function(user, params, cb) {
             query += " and '"+params.tags[i]+"' in out('likes').name"
           }
         }
+        if(params.ageRange){
+          query += " and birthday between '"+bdStart+"' and '"+bdEnd+"'";
+        }
         if(params.details.distance && params.details.distance[0] != 'anywhere'){
           query += " and distance(lat, long, "+user.lat+', '+user.long+") < "+milesToKm[params.details.distance[0]];
         }
@@ -259,7 +273,7 @@ User.findByFilters = function(user, params, cb) {
   };
 
   var query = buildQuery();
-  console.log('FINAL QUERY', query);
+  // console.log('FINAL QUERY', query);
   db.query(query)
   .then(function (users) {
     cb(users);

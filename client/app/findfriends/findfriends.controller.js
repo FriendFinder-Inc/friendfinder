@@ -54,6 +54,9 @@ angular.module('friendfinderApp')
     $scope.tags = {};
     $scope.tags.list = [];
     $scope.showTags = true;
+    $scope.ageRange = {};
+    $scope.ageRange.val = '';
+    $scope.showAgeRange = false;
 
     $scope.orderby = [{'key':'orderby', 'options':['distance',
                       'shared interests', 'mutual friends', 'mutual meetups']}];
@@ -219,6 +222,16 @@ angular.module('friendfinderApp')
       if($scope.tags.list.length){
         findFilters['tags'] = $scope.tags.list.toString();
       }
+      if($scope.ageRange.val.length){
+        findFilters.ageRange = {};
+        findFilters.ageRange.min = $scope.ageRange.val.split('-')[0];
+        findFilters.ageRange.max = $scope.ageRange.val.split('-')[1];
+        if(!findFilters.ageRange.min || !findFilters.ageRange.max){
+          alert('invalid syntax for age range filter');
+          $('.ui.find.button').removeClass('loading');
+          return;
+        }
+      }
       angular.forEach($scope.orderby[0].options, function(item){
         if(item.value === true){
           findFilters['sort'] = item.key;
@@ -257,6 +270,7 @@ angular.module('friendfinderApp')
         $scope.filterNames.push(filter.key);
       }
     });
+    $scope.filterNames.push('age range');
     $scope.filterNames.sort();
 
     $scope.chooseFilter = false;
@@ -273,9 +287,23 @@ angular.module('friendfinderApp')
       $scope.filterNames.push('keywords');
     };
 
+    $scope.hideAgeRange = function(){
+      $scope.showAgeRange = false;
+      $('#age-range-input').val('');
+      $scope.ageRange = '';
+      $scope.filterNames.push('age range');
+    };
+
     $scope.addFilter = function(name){
       if(name === 'keywords'){
         $scope.showTags = true;
+        var index = $scope.filterNames.indexOf(name);
+        $scope.filterNames.splice(index, 1);
+        $scope.chooseFilter = !$scope.chooseFilter;
+        return;
+      }
+      if(name === 'age range'){
+        $scope.showAgeRange = true;
         var index = $scope.filterNames.indexOf(name);
         $scope.filterNames.splice(index, 1);
         $scope.chooseFilter = !$scope.chooseFilter;
