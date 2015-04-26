@@ -78,6 +78,18 @@
       <input id='keywords-input' type='text' ng-list ng-model='$parent.tags.list' placeholder="comma-separated list" autocomplete='off'>
     </div>
   </div>
+  <!-- age range -->
+  <div ng-class='{disabled: chooseFilter}' class="title" ng-if="$parent.showAgeRange">
+    <i class="dropdown icon"></i>
+      age range
+    <i class="ui large close icon link icon" style='float:right;'
+       ng-click="$parent.hideAgeRange()"></i>
+  </div>
+  <div class="content" ng-if="$parent.showAgeRange">
+    <div class='ui input'>
+      <input id='age-range-input' type='text' ng-model='$parent.ageRange.val' placeholder="enter range like 22-35" autocomplete='off'>
+    </div>
+  </div>
 </div>
 
 <!-- order by -->

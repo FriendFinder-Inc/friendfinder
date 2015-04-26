@@ -19,6 +19,7 @@
     "jsonwebtoken": "^0.3.0",
     "lodash": "~2.4.1",
     "method-override": "~1.0.0",
+    "moment": "^2.10.2",
     "morgan": "~1.0.0",
     "newrelic": "^1.18.1",
     "oriento": "^1.1.3",
