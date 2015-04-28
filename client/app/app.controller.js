@@ -70,6 +70,9 @@ angular.module('friendfinderApp')
       $scope.showMutualFriends = true;
       $scope.showMutualInterests = true;
 
+      $scope.loadingMutualFriends = true;
+      $scope.loadingMutualInterests = true;
+
       $scope.mutualFriends = [];
       $scope.mutualInterests = [];
 
@@ -90,6 +93,7 @@ angular.module('friendfinderApp')
         Profile.getMutualInterests(function(mutualInterests){
           $scope.mutualInterests = mutualInterests;
           setTimeout(function(){
+            $scope.loadingMutualInterests = false;
             $scope.$apply(function(){});
           }, 1);
         });
@@ -102,6 +106,7 @@ angular.module('friendfinderApp')
             $scope.connectionPath = res;
           }
           setTimeout(function(){
+            $scope.loadingMutualFriends = false;
             $scope.$apply(function(){});
           }, 1);
         });
