@@ -59,7 +59,7 @@ angular.module('friendfinderApp')
     $scope.showAgeRange = false;
 
     $scope.orderby = [{'key':'orderby', 'options':['distance',
-                      'shared interests', 'mutual friends', 'mutual meetups']}];
+                      'mutual interests', 'mutual friends', 'mutual meetups']}];
 
     $scope.filterChoices =
      [{'key':'gender',           'options':['male', 'female', 'other']},

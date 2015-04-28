@@ -17,7 +17,7 @@
           </div>
           mutual friends ({{ $parent.mutualFriends.length }})
         </h5>
-        <div class='ui bottom attached segment' ng-show="$parent.showMutualFriends">
+        <div class='ui bottom attached segment' ng-class="{loading: loadingMutualFriends}" ng-show="$parent.showMutualFriends">
           <div class='scroll-box'>
             <div id='friend-container' ng-repeat='friend in $parent.mutualFriends'>
               <div class='friend'>
@@ -39,7 +39,7 @@
           <p ng-show="connectionPath.length">connection path ({{ connectionPath.length-1 }} degrees)</p>
           <p ng-show="!connectionPath.length">connection path (unknown)</p>
         </h5>
-        <div class='ui bottom attached segment' ng-show="showConnectionPath">
+        <div class='ui bottom attached segment' ng-class="{loading: loadingMutualFriends}" ng-show="showConnectionPath">
           <div id='connection-path-box'>
             <div id='node-container' ng-repeat='node in connectionPath'>
               <div class='node'>
@@ -62,8 +62,8 @@
           </div>
           mutual interests ({{ $parent.mutualInterests.pages.length + $parent.mutualInterests.tags.length + mutualMeetups.length }})
         </h5>
-        <div class='ui bottom attached segment' ng-show="$parent.showMutualInterests">
-          <div class='scroll-box'>
+        <div class='ui bottom attached segment' ng-class="{loading: loadingMutualInterests}" ng-show="$parent.showMutualInterests">
+          <div id='mutual-friends-box' class='scroll-box'>
             <div id='page-container' ng-repeat='page in $parent.mutualInterests.pages'>
               <div class='page'>
                 <a ng-href="{{page.link}}" target="_blank">

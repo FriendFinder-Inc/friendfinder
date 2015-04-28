@@ -116,7 +116,7 @@ User.getEdge = function(edge, rid, cb) {
 };
 
 User.getConnectionPath = function(ridFrom, ridTo, cb) {
-  db.query("select expand(path) from (select shortestPath( "+ridFrom+" , "+ridTo+", 'BOTH') as path)")
+  db.query("select expand(path) from (select shortestFriendsPath( "+ridFrom+" , "+ridTo+", 'BOTH') as path)")
   .then(function (path) {
     var users = [];
     var len = 0;
@@ -188,7 +188,7 @@ User.findByFilters = function(user, params, cb) {
       if(!params.details.distance){
         params.details.distance = ['anywhere'];
       }
-      var query = "select from ( select @rid, name, location, profile.intro, birthday, facebookId, $distance from RegisteredUser where "
+      var query = "select from ( select @rid, name, location, profile, birthday, facebookId, $distance from RegisteredUser where "
         +"[lat, long, $spatial] near ["
         +user.lat+', '+user.long+", {'maxDistance': "+milesToKm[params.details.distance[0]]+'}] ) ';
         query += ' where rid <> '+user['@rid'];
@@ -239,7 +239,7 @@ User.findByFilters = function(user, params, cb) {
       if(edge === 'friends' && params.excludeFriends){
         //TODO
       } else {
-        var query = "select @rid, name, location, profile.intro, birthday, facebookId, count(*) from ("+
+        var query = "select @rid, name, location, profile, birthday, facebookId, count(*) from ("+
                       "select expand( "+dir+"('"+edge+"')."+dir+"('"+edge+"').removeAll(@this)) from "+user['@rid']+
                         ") where @class = 'RegisteredUser'";
 
