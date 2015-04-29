@@ -3,11 +3,15 @@
   <div class='centered-content' ng-if="!isMobile()">
 
     <img src='assets/images/friendfinderLogoGIF.gif'>
+
+    <div class="auto-resizable-iframe">
+      <div>
+        <iframe frameborder="0" allowfullscreen=""  id='intro-video' width="640" height="390" src="https://www.youtube.com/embed/v8zu_4HdDQI" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
     <div class="ui blue button" ng-click='fbLogin()'>
       <i class="icon facebook"></i>login with facebook
-    </div>
-    <div id='video-link-container'>
-      <a id='modal-link' ng-click="showModal()">what is friendfinder?</a>
     </div>
 
   </div>
@@ -15,25 +19,18 @@
   <div class='centered-content-mobile' ng-if="isMobile()">
 
     <img src='assets/images/friendfinderLogoGIFMobile.gif'>
+
+    <div class="auto-resizable-iframe">
+      <div>
+        <iframe frameborder="0" allowfullscreen=""  id='intro-video' width="640" height="390" src="https://www.youtube.com/embed/v8zu_4HdDQI" frameborder="0" allowfullscreen></iframe>
+      </div>
+    </div>
+
     <div class="ui blue button" ng-click='fbLogin()'>
       <i class="icon facebook"></i>login with facebook
-    </div>
-    <div id='video-link-container'>
-      <a id='modal-link' ng-click="showModal()">what is friendfinder?</a>
     </div>
 
   </div>
 
 
 </div>
-
-  <div class='ui modal video-intro'>
-    <i class="white close icon" ng-if='!isMobile()'></i>
-    <div class='center aligned content'>
-      <div class="auto-resizable-iframe">
-        <div>
-          <iframe frameborder="0" allowfullscreen=""  id='intro-video' width="640" height="390" src="https://www.youtube.com/embed/QRBt0LQO5KA" frameborder="0" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-  </div>

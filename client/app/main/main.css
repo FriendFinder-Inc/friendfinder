@@ -9,7 +9,7 @@
   height: 340px;
   position:absolute;
   margin: auto;
-  margin-top: 80px;
+  margin-top: 0px;
   top: 0; left: 0; bottom: 0; right: 0;
 }
 
@@ -26,10 +26,6 @@
   cursor: pointer;
 }
 
-#video-link-container{
-  margin-top: 8px;
-}
-
 .ui.modal.video-intro{
   text-align: center;
 }
@@ -37,6 +33,7 @@
 .auto-resizable-iframe {
   max-width: 640px;
   margin: 0px auto;
+  margin-bottom: 16px;
 }
 
 .auto-resizable-iframe > div {
