@@ -23,6 +23,11 @@
 
       <div id='right' ng-class='{full: !showSideDiv, twoThirds: showSideDiv}' ng-show='showRightSide()'>
         <div id='grid-container'>
+
+          <div id='find-prompt' class='ui segment' ng-if="!$parent.users.length">
+            click 'find' to search for users
+          </div>
+
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
               ng-repeat="user in $parent.users | offset:startIndex | limitTo:30" on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">
