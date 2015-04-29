@@ -77,6 +77,7 @@ angular.module('friendfinderApp')
       $scope.mutualInterests = [];
       $scope.connectionPath = [];
       $scope.usersActivities = [];
+      $scope.mutualMeetups = [];
 
       Profile.getUser(rid, function(user){
         $scope.selectedUser = user;
