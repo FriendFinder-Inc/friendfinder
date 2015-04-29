@@ -23,6 +23,11 @@
 
       <div id='right' ng-class='{full: !showSideDiv, twoThirds: showSideDiv}' ng-show='showRightSide()'>
         <div id='grid-container'>
+
+          <div id='find-prompt' class='ui segment' ng-if="!$parent.activities.length">
+            click 'find' to search for activities
+          </div>
+
           <div class="ui grid">
             <div class="doubling two column row" ng-show='(isTooSmall() || showSideDiv) && isDouble($index)'
               ng-repeat='activity in $parent.activities | offset:startIndex | limitTo:30' on-last-repeat ng-class="{workaround: '(isTooSmall() || showSideDiv) && isDouble($index)'}">

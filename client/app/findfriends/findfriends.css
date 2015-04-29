@@ -10,6 +10,13 @@
   padding-top: 0rem;
 }
 
+#find-prompt{
+  width: 300px;
+  text-align: center;
+  margin: auto;
+  margin-top: 16px;
+}
+
 #show-sidediv-btn{
   position: absolute;
   top: 0;

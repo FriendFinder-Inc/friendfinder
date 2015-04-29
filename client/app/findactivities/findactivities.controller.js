@@ -322,23 +322,9 @@ angular.module('friendfinderApp')
     $scope.toggleSideDiv = function(){
       $scope.$parent.showSideDiv = !$scope.$parent.showSideDiv;
       setTimeout(function(){
-        // hacky, for line 28 of findfriends.html TODO
-        $('.intro-wrapper').trunk8({lines:4, tooltip:false});
+        $('.activity-title').textfill({});
+        $('.activity-location').textfill({maxFontPixels: 12});
         $scope.$apply(function(){});
-        $('.intro-wrapper').flowtype({
-         minimum   : 250,
-         maximum   : 800,
-         minFont   : 10,
-         maxFont   : 72,
-         fontRatio : 25
-        });
-        $('.middle').flowtype({
-         minimum   : 80,
-         maximum   : 700,
-         minFont   : 12,
-         maxFont   : 150,
-         fontRatio : 12
-        });
       }, 1);
     };
 
