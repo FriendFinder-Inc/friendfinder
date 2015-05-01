@@ -154,13 +154,11 @@ var createEdge = function(from, to, type){
   .then(function (edge) {
   })
   .catch(function(err){
-    var msg = 'ORIENTDB ERRO: failed to create edge, '+err.message;
+    var msg = 'ORIENTDB ERROR: failed to create edge, '+err.message;
     console.log(msg);
   });
 };
 
-// TODO: before April 30th 2015 this will need to be refactored
-// as we will no longer have access to non registered users
 exports.connectFriends = function(user, nrUser){
   FB.get('/me/friends', function (err, res) {
     if(err) {
@@ -170,28 +168,6 @@ exports.connectFriends = function(user, nrUser){
     var recurse = function(res){
       for(var i =0; i < res.data.length; i++){
         var friend = res.data[i];
-        (function(friend){
-          NrUser.findOne({facebookId: friend.id}, function(foundFriend){
-            if(!foundFriend){
-              var newFriend = new NrUser({
-                name: friend.name,
-                facebookId: friend.id
-              });
-              newFriend.create(function(createdFriend){
-                createEdge(user, createdFriend, 'friends');
-                createEdge(createdFriend, user, 'friends');
-                createEdge(nrUser, createdFriend, 'friends');
-                createEdge(createdFriend, nrUser, 'friends');
-              });
-            } else{
-              createEdge(user, foundFriend, 'friends');
-              createEdge(foundFriend, user, 'friends');
-              createEdge(nrUser, foundFriend, 'friends');
-              createEdge(foundFriend, nrUser, 'friends');
-            }
-          });
-        })(friend);
-        // link to RegisteredUsers as well
         (function(friend){
           User.findOne({facebookId: friend.id}, function(foundFriend){
             if(foundFriend){
