@@ -137,8 +137,8 @@ User.getMutual = function(edge, ridA, ridB, cb) {
   //TODO: after 30th how do we handle this???
   if(edge === 'friends'){
     var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
-                "let $userA = (select from ( select expand(out('"+edge+"')) from "+ridA+" ) where @class = 'NonregisteredUser'), "+
-                    "$userB = (select from ( select expand(out('"+edge+"')) from "+ridB+" ) where @class = 'NonregisteredUser'))";
+                "let $userA = (select from ( select expand(out('"+edge+"')) from "+ridA+" ) where @class = 'RegisteredUser'), "+
+                    "$userB = (select from ( select expand(out('"+edge+"')) from "+ridB+" ) where @class = 'RegisteredUser'))";
   } else {
     var query = "select expand(mutual) from (select intersect( $userA, $userB ) as mutual "+
                 "let $userA = ( select expand(out('"+edge+"')) from "+ridA+" ), "+

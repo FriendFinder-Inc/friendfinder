@@ -50,7 +50,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ user.count > 1 ? user.count/2 : user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -83,7 +83,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+1].count > 1 ? users[$index+startIndex+1].count/2 : users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -120,7 +120,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ user.count > 1 ? user.count/2 : user.count || kmToMiles(user.$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -153,7 +153,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+1].count > 1 ? users[$index+startIndex+1].count/2 : users[$index+startIndex+1].count || kmToMiles(users[$index+startIndex+1].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
@@ -186,7 +186,7 @@
                         </div>
                         <div id='right-side'>
                           <div class="ui blue button top-right-button">
-                            {{ users[$index+startIndex+2].count || kmToMiles(users[$index+startIndex+2].$distance) }}{{user.count ? '' : 'mi'}}
+                            {{ users[$index+startIndex+2].count > 1 ? users[$index+startIndex+2].count/2 : users[$index+startIndex+2].count || kmToMiles(users[$index+startIndex+2].$distance) }}{{user.count ? '' : 'mi'}}
                           </div>
                         </div>
                       </div>
