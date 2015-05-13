@@ -23,7 +23,7 @@ var https_redirect = function(req, res, next) {
     }
 };
 
-app.use(https_redirect);
+// app.use(https_redirect);
 
 
 var server = require('http').createServer(app);
